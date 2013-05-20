@@ -11,9 +11,6 @@ class PayService extends ServerDBChooser
 {
 
     private $ratio = 10;
-    private $paysource = array(
-        0 => '内部充值'
-    );
 
     function PayService(){
         $this -> table_player = $this->prefix_1.'user';
@@ -33,7 +30,10 @@ class PayService extends ServerDBChooser
            foreach($list  as &$obj){
                $obj->servername = $condition->server->name;
                $obj->money = '￥'.($obj->yuanbao/$this->ratio);
-               $obj->paysource = $this->paysource[empty($obj->id2) ? 0 : $obj->id2];
+               $obj->paysource = '内部充值';
+               if(strpos($obj->str2,'REWARD') === FALSE){
+                   $obj->paysource = '外部充值';
+               }
            }
            return $list;
     }

@@ -44,15 +44,15 @@ class UserStayDataService extends Service
         $servers = $tempDB -> query($sql) -> result_objects();
 
         foreach($list as &$obj){
-            $obj -> day1percent = number_format($obj->day1num/$obj->createnum,2)*100 . '%';
-            $obj -> day2percent = number_format($obj->day2num/$obj->createnum,2)*100 . '%';
-            $obj -> day3percent = number_format($obj->day3num/$obj->createnum,2)*100 . '%';
-            $obj -> day4percent = number_format($obj->day4num/$obj->createnum,2)*100 . '%';
-            $obj -> day5percent = number_format($obj->day5num/$obj->createnum,2)*100 . '%';
-            $obj -> day6percent = number_format($obj->day6num/$obj->createnum,2)*100 . '%';
-            $obj -> day7percent = number_format($obj->day7num/$obj->createnum,2)*100 . '%';
-            $obj -> day14percent = number_format($obj->day14num/$obj->createnum,2)*100 . '%';
-            $obj -> day30percent = number_format($obj->day30num/$obj->createnum,2)*100 . '%';
+            $obj -> day1percent = empty($obj->createnum) ? 'N/A' : number_format($obj->day1num/$obj->createnum,2)*100 . '%';
+            $obj -> day2percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day2num/$obj->createnum,2)*100 . '%';
+            $obj -> day3percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day3num/$obj->createnum,2)*100 . '%';
+            $obj -> day4percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day4num/$obj->createnum,2)*100 . '%';
+            $obj -> day5percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day5num/$obj->createnum,2)*100 . '%';
+            $obj -> day6percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day6num/$obj->createnum,2)*100 . '%';
+            $obj -> day7percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day7num/$obj->createnum,2)*100 . '%';
+            $obj -> day14percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day14num/$obj->createnum,2)*100 . '%';
+            $obj -> day30percent = empty($obj->createnum) ? 'N/A' :number_format($obj->day30num/$obj->createnum,2)*100 . '%';
             foreach($servers as $server){
                 if($server->id == $obj->sid){
                     $obj->server = $server->name;

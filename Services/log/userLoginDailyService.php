@@ -2,36 +2,61 @@
 /**
  * Created by JetBrains PhpStorm.
  * User: zyy
- * Date: 13-5-3
- * Time: 上午9:31
+ * Date: 13-4-23
+ * Time: 上午11:38
  * To change this template use File | Settings | File Templates.
- *提升星级
- */
-class StarDailyService extends ServerDBChooser{
+ * 登陆日志
+*/
+class UserLoginDailyService extends ServerDBChooser{
+    private $item_loginid='90000013';//当id为9000013时 表示用户登陆v
+    function UserLoginDailyService(){
 
-    function StarDailyService(){
-        include BASEPATH.'/Common/event.php';
-        $list=array();
-        $length=170;
-        for($i=0;$i<=$length;$i++){
-            if(isset($gameevent[$i])){
-                if(preg_match('/星级/',$gameevent[$i])){
-                    array_push($list,$i);
-                }
-            }
-        }
-        $this->gameevent = $gameevent;
-        $this->arr_str=implode(',',$list);
-        $this->table_record='fr2_record';
-        $this->table_user='fr_user';
+        $this->lgrecord_table='fr2_record';
+        $this->lguser_table='fr_user';
 
     }
+   public function lists($page,$condition){
+       $server=$condition->server;
+       $list=array();
+       if(!empty($server)){
+           $this->dbConnect($server,$server->dynamic_dbname);
+           $consql=$this->getCondition($condition);
+           $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
+                 a.id1 as userid,a.str as ip,a.param4,a.type,a.param2,
+                CONVERT(varchar(20),  a.time, 120)
+                as time,b.id,b.account_name,b.name,b.levels,d.name as loginname
+                from  $this->lgrecord_table as a left join  $this->lguser_table as b on a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item d on a.param1=d.id $consql) as t
+                where t.rownumber > $page->start and t.rownumber <= $page->limit";
+       }
+
+       $list=$this->db->query($sql)->result_objects();
+       require BASEPATH.'/Common/event.php';
+       foreach($list as &$obj){
+           $obj->detail = empty($gameevent[$obj->param4]) ? '未知' : $gameevent[$obj->param4];
+
+           if($obj->type==1){
+               $obj->typename = '消耗';
+               $obj->userchange =$obj->loginname.' -'.$obj->param2;
+           }
+           else {
+               $obj->typename = '获取';
+               $obj->userchange = $obj->loginname.' +'.$obj->param2;
+           }
+
+           $obj->servername = $server->name;
+       }
+       return $list;
+
+
+
+   }
     public function num_rows($condition){
-        $server = $condition->server;
-        $consql = $this->getCondition($condition);
-        $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id $consql";
+        $server=$condition->server;
+        $consql=$this->getCondition($condition);
+        $this->dbConnect($server,$server->dynamic_dbname);
+        $sql="select count(a.id1) as num  from $this->lgrecord_table a left join $this->lguser_table b on  a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item d on a.param1=d.id $consql";
         return $this->db->query($sql)->result_object()->num;
+
 
     }
     public function getCondition($condition){
@@ -124,31 +149,17 @@ class StarDailyService extends ServerDBChooser{
             }
         }
 
-
-        if(empty($sql))
-            return " where a.param4 in ($this->arr_str) and a.type = 1";
-        return $sql = " where a.param4 in ($this->arr_str) and a.type = 1 and ".$sql;
-
-    }
-    public function lists($page,$condition){
-        $server=$condition->server;
-        if(!empty($server)){
-            $this -> dbConnect($server,$server->dynamic_dbname);
-            $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,b.xingji,c.name as itemname from  $this->table_record a left join   $this->table_user b on a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item as c on c.id=a.param1 $consql)
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            $list = $this->db->query($sql)->result_objects();
-            foreach($list as &$obj){
-                $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
-                $obj->typename = '消耗';
-                $obj->itemname .= ' - '.$obj->param2;
-                $obj->servername = $server->name;
-            }
+        if(!empty($sql)){
+            return " where a.param1 = $this->item_loginid";
         }
+        return $sql = " where a.param1 = $this->item_loginid  ".$sql;
 
-             return $list;
+
+
+
+
+
 
     }
 }
+

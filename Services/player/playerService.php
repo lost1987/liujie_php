@@ -131,20 +131,22 @@ class PlayerService extends ServerDBChooser
 
         if(!empty($account_or_name)){
             if(empty($condition_sql)){
-                 $condition_sql .= "  (account_name like '$account_or_name%' or name like '$account_or_name%') ";
+                 $condition_sql .= "  (account_name like '$account_or_name%' or name like '$account_or_name%') and state = 0";
             }else{
-                $condition_sql .= "and  (account_name like '$account_or_name%' or name like '$account_or_name%') ";
+                $condition_sql .= "and  (account_name like '$account_or_name%' or name like '$account_or_name%') and state = 0";
             }
         }
 
         if(!empty($condition_sql))
         $condition_sql = ' where '.$condition_sql;
+        else
+           $condition_sql = ' where state = 0';
         return $condition_sql;
     }
 
     private  function getOrder($order){
         switch($order){
-            case 0: $orderSql = "order by account_id desc";
+            case 0: $orderSql = "order by levels desc";
                     break;
             case 1: $orderSql = "order by levels desc";
                     break;
@@ -153,6 +155,7 @@ class PlayerService extends ServerDBChooser
             case 3: $orderSql = "order by money desc";
                     break;
         }
+        error_log($orderSql);
         return $orderSql;
     }
 
@@ -252,12 +255,32 @@ class PlayerService extends ServerDBChooser
                 $aids[] = $player -> account_id;
             }
             $aids = implode(',',$aids);
-            $sql = "update $this->table_base set state = 1 where aountid in ($aids)";
-            error_log($sql);
-            if($this->db->query($sql)->queryState){
+            $this-> db -> query("begin tran t1");
+            $sql1 = "update $this->table_base set state = 1 where aountid in ($aids)";
+
+
+            $db = new Mssql();
+            $db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
+            $db -> select_db($server->dynamic_dbname);
+            $db -> query("begin tran t2");
+            $sql2 = "update $this->table_player set state = 1 where account_id in ($aids)";
+
+
+            if(!$this->db->query($sql1)->queryState || !$db -> query($sql2) -> queryState){
+                $this -> db -> query("rollback tran t1");
+                $db -> query("rollback tran t2");
+                $this -> db -> close();
+                $db -> close();
+                return FALSE;
+            }else{
+                $this -> db -> query("commit tran t1");
+                $db -> query("commit tran t2");
+                $this -> db -> close();
+                $db -> close();
                 return TRUE;
             }
-            return FALSE;
+
+
         }
     }
 

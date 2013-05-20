@@ -1,37 +1,18 @@
 <?php
 /**
  * Created by JetBrains PhpStorm.
- * User: zyy
- * Date: 13-5-3
- * Time: 上午9:31
+ * User: Administrator
+ * Date: 13-5-17
+ * Time: 上午11:06
  * To change this template use File | Settings | File Templates.
- *提升星级
+ * 升级
  */
-class StarDailyService extends ServerDBChooser{
+class ShengjiDailyService extends ServerDBChooser{
+    private $sjid='90000010';
 
-    function StarDailyService(){
-        include BASEPATH.'/Common/event.php';
-        $list=array();
-        $length=170;
-        for($i=0;$i<=$length;$i++){
-            if(isset($gameevent[$i])){
-                if(preg_match('/星级/',$gameevent[$i])){
-                    array_push($list,$i);
-                }
-            }
-        }
-        $this->gameevent = $gameevent;
-        $this->arr_str=implode(',',$list);
+    function ShengjiDailyService(){
         $this->table_record='fr2_record';
         $this->table_user='fr_user';
-
-    }
-    public function num_rows($condition){
-        $server = $condition->server;
-        $consql = $this->getCondition($condition);
-        $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id $consql";
-        return $this->db->query($sql)->result_object()->num;
 
     }
     public function getCondition($condition){
@@ -126,29 +107,53 @@ class StarDailyService extends ServerDBChooser{
 
 
         if(empty($sql))
-            return " where a.param4 in ($this->arr_str) and a.type = 1";
-        return $sql = " where a.param4 in ($this->arr_str) and a.type = 1 and ".$sql;
+            return " where a.param1 = $this->sjid";
+        return $sql = " where a.param1 = $this->sjid and ".$sql;
 
     }
     public function lists($page,$condition){
         $server=$condition->server;
+        $list = array();
         if(!empty($server)){
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,b.xingji,c.name as itemname from  $this->table_record a left join   $this->table_user b on a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item as c on c.id=a.param1 $consql)
+            $sql = "select * from (select row_number() over (order by a.time desc) as rownumber,
+                     a.id1,a.type,a.str as action,a.param2,a.param4,a.param3,c.name as shengjiname, CONVERT(varchar(20),  a.time, 120) as time,b.id,b.account_name,b.name,b.levels,b.exp from  $this->table_record a left join   $this->table_user b on a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1=c.id   $consql )
                     as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+
             $list = $this->db->query($sql)->result_objects();
+
+            include BASEPATH.'/Common/event.php';
+
+
             foreach($list as &$obj){
-                $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
-                $obj->typename = '消耗';
-                $obj->itemname .= ' - '.$obj->param2;
+
+                $obj->detail = empty($gameevent[$obj->param4]) ? '未知' : $gameevent[$obj->param4];
+
+                if($obj->type==0){
+                    $obj->typename = '增加';
+                    $obj->shengjichange = $obj->shengjiname.$obj->param2;
+                }
+                else {
+                    $obj->typename = '获取';
+                    $obj->reikchange = $obj->shengjiname.$obj->param2;
+                }
+
+
                 $obj->servername = $server->name;
             }
-        }
 
-             return $list;
+        }
+        return $list;
+
+
+    }
+    public function num_rows($condition){
+        $server = $condition->server;
+        $consql = $this->getCondition($condition);
+        $this -> dbConnect($server,$server->dynamic_dbname);
+        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1=c.id $consql";
+        return $this->db->query($sql)->result_object()->num;
 
     }
 }

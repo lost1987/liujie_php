@@ -24,11 +24,11 @@ class RechargeDataService extends Service
         $sql = '';
         switch($timediff){
             //所有
-            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,rechargeperson,newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition";
+            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,rechargeperson,newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition order by date asc";
                 break;
             //24小时
             case 2: $sql = "select CONVERT(varchar(10), cast(date as datetime), 120) as date,sum(rechargeperson) as rechargeperson,sum(newrechargeperson) as newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition
-                            group by CONVERT(varchar(10), cast(date as datetime), 120)";
+                            group by CONVERT(varchar(10), cast(date as datetime), 120) order by date asc";
         }
 
         $list = $this -> db -> query($sql) -> result_objects();

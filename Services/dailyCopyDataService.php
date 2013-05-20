@@ -27,7 +27,7 @@ class DailyCopyDataService extends Service
         $sql = "select * from (select row_number() over (order by copyname asc) as rownumber,
                 copyname,copylevel,sum(loginlevel) as loginlevel,sum(jioncopyperson) as jioncopyperson,
                 sum(jioncopynum) as jioncopynum,sum(completecopynum) as completecopynum
-                 from $this->table_dailycopy where sid in ($server_ids) and $timecondition group by copyname,copylevel) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+                 from $this->table_dailycopy where sid in ($server_ids) and $timecondition group by copyname,copylevel) as t";
 
 
         $list = $this -> db -> query($sql) -> result_objects();

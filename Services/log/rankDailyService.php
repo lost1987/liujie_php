@@ -10,7 +10,7 @@
  *
  */
 class RankDailyService extends ServerDBChooser{
-    private $rankid='90000011';//军衔id
+    private $rankid='90000012';//军衔id
 
     function RankDailyService(){
         $this->rank_record_table= $this->prefix_2.'record';
@@ -32,9 +32,9 @@ class RankDailyService extends ServerDBChooser{
             $consql=$this->getCondition($condition);
             $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
  a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,b.yuanbao,p.rankid, k.name as rankname from fr2_record a
-left join fr_user b on a.id1=b.id LEFT JOIN fr2_playerrank as p
- on p.pid=a.id1 left join MMO2D_StaticLJZM.dbo.fr2_rank k on k.rankid=p.rankid) as t where t.rownumber > $page->start and t.rownumber <= $page->limit ";
+as time,b.id,b.account_name,b.name,b.levels,b.yuanbao,p.rankid, k.name as rankname from $this->rank_record_table a
+left join $this->rank_user_table b on a.id1=b.id LEFT JOIN $this->rank_rankid_table as p
+ on p.pid=a.id1 left join MMO2D_StaticLJZM.dbo.fr2_rank k on k.rankid=p.rankid $consql) as t where t.rownumber > $page->start and t.rownumber <= $page->limit ";
         }
         $list = $this->db->query($sql)->result_objects();
 

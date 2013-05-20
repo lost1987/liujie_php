@@ -25,11 +25,11 @@ class CreateDataService extends Service
         $sql = '';
         switch($timediff){
             //所有
-            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,registernum,createnum from $this->table_createData where sid in ($server_ids) and $timecondition";
+            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,registernum,createnum from $this->table_createData where sid in ($server_ids) and $timecondition order by date asc";
                     break;
             //24小时
             case 2: $sql = "select CONVERT(varchar(10), cast(date as datetime), 120) as date,sum(registernum) as registernum,sum(createnum) as createnum from $this->table_createData where sid in ($server_ids) and $timecondition
-                            group by CONVERT(varchar(10), cast(date as datetime), 120)";
+                            group by CONVERT(varchar(10), cast(date as datetime), 120) order by date asc";
         }
 
         $list = $this -> db -> query($sql) -> result_objects();

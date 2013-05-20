@@ -23,6 +23,7 @@ class XiuweiService extends  ServerDBChooser
             $this -> dbConnect($server,$server->dynamic_dbname);
             $sql = "select layer1 as smxw,layer2 as wgxw,layer3 as fgxw from $this->table_userxiuwei where pid=$pid";
             $xw = $this -> db -> query($sql) -> result_object();
+            if(empty($xw))return null;
 
             $xwlevel = Datacache::getXwlevel($this->db);
 

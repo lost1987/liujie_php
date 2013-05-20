@@ -77,9 +77,9 @@ class Syslog extends Service
         return $log;
     }
 
-    public function getlogByRefer($referVal,$referName){
+    public function getlogByRefer($referVal,$referName,$server_id){
         $this -> db -> select_db(DB_NAME);
-        $sql = "select * from ljzm_syslog where refer_id = '$referVal' and refer_name = '$referName'";
+        $sql = "select * from ljzm_syslog where refer_id = '$referVal' and refer_name = '$referName' and server_id=$server_id";
         $log = $this-> db -> query($sql) -> result_object();
         return $log;
     }

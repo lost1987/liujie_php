@@ -16,8 +16,8 @@ class SingleArpuService extends ServerDBChooser
 
     public function lists($page,$condition){
         $servers = $condition -> servers;
-        $starttime = $condition -> starttime;
-        $endtime = $condition -> endtime;
+        $starttime = $condition -> starttime.' 00:00:00';
+        $endtime = $condition -> endtime.' 23:59:59';
 
         if(count($servers) > 0){
             $slist = array();
@@ -25,12 +25,12 @@ class SingleArpuService extends ServerDBChooser
             $rechargenum = 0;//总充值人数
             foreach($servers as $server){
                 $this->dbConnect($server,$server->dynamic_dbname);
-                $sql = "select param4 as eventtype,count(param4) as offernum,sum(param2) as offer,str from $this->table_record where type=1 and param1 = 90000001 and time > '$starttime' and time < '$endtime' group by param4,str";
+                $sql = "select param4 as eventtype,count(param4) as offernum,sum(param2) as offer,str from $this->table_record where type=1 and param1 = 90000001 and time > '$starttime' and time < '$endtime'  group by param4,str";
                 $sarpu_list = $this->db->query($sql)->result_objects();
                 $slist[] = $sarpu_list;
 
                 //查询时间段内 该服务器所有的充值人数
-                $sql = "select count(id) as rechargenum from $this->table_record where param4=44 and  time > '$starttime' and time < '$endtime'";
+                $sql = "select count(distinct(id1)) as rechargenum from $this->table_record where param4=44 and  time > '$starttime' and time < '$endtime' and left(str2,6) <> 'REWARD'";
                 $rechargenum += $this->db->query($sql)->result_object()->rechargenum;
             }
 

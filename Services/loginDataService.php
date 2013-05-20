@@ -5,7 +5,7 @@
  * Date: 13-3-21
  * Time: 上午11:05
  * To change this template use File | Settings | File Templates.
- * 充值图表
+ * 登录在线
  */
 class LoginDataService extends Service{
     function LoginDataService(){
@@ -24,11 +24,11 @@ class LoginDataService extends Service{
         $sql = '';
         switch($timediff){
             //所有
-            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,loginnum,maxonline,aveonline from $this->table_loginData where sid in ($server_ids) and $timecondition";
+            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,loginnum,maxonline,aveonline from $this->table_loginData where sid in ($server_ids) and $timecondition order by date asc";
                 break;
             //24小时
-            case 2: $sql = "select CONVERT(varchar(10), cast(date as datetime), 120) as date,sum(loginnum) as loginnum,sum(maxonline) as maxonline,sum(aveonline) as aveonline from $this->table_loginData where sid in ($server_ids) and $timecondition
-                            group by CONVERT(varchar(10), cast(date as datetime), 120)";
+            case 2: $sql = "select CONVERT(varchar(10), cast(date as datetime), 120) as date,sum(loginnum) as loginnum,max(maxonline) as maxonline,max(aveonline) as aveonline from $this->table_loginData where sid in ($server_ids) and $timecondition
+                            group by CONVERT(varchar(10), cast(date as datetime), 120) order by date asc ";
         }
 
         $list = $this -> db -> query($sql) -> result_objects();

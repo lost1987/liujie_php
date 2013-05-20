@@ -2,20 +2,19 @@
 /**
  * Created by JetBrains PhpStorm.
  * User: zyy
- * Date: 13-5-3
- * Time: 上午9:31
+ * Date: 13-5-6
+ * Time: 上午10:17
  * To change this template use File | Settings | File Templates.
- *提升星级
+ * 装备继承
  */
-class StarDailyService extends ServerDBChooser{
-
-    function StarDailyService(){
+class ZbjcDailyService extends ServerDBChooser{
+    function ZbjcDailyService(){
         include BASEPATH.'/Common/event.php';
         $list=array();
         $length=170;
-        for($i=0;$i<=$length;$i++){
+        for ($i=0;$i<= $length;$i++){
             if(isset($gameevent[$i])){
-                if(preg_match('/星级/',$gameevent[$i])){
+                if(preg_match('/装备继承/',$gameevent[$i])){
                     array_push($list,$i);
                 }
             }
@@ -30,7 +29,8 @@ class StarDailyService extends ServerDBChooser{
         $server = $condition->server;
         $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id $consql";
+        $sql = "select count(a.id1) as num  from $this->table_record a left join  $this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1=c.id
+ $consql";
         return $this->db->query($sql)->result_object()->num;
 
     }
@@ -124,10 +124,10 @@ class StarDailyService extends ServerDBChooser{
             }
         }
 
-
         if(empty($sql))
-            return " where a.param4 in ($this->arr_str) and a.type = 1";
-        return $sql = " where a.param4 in ($this->arr_str) and a.type = 1 and ".$sql;
+
+            return " where a.param4 in ($this->arr_str) and  a.param1>='20000000' and a.param1<'30000000' and c.id in (select itemid from fr_dynamicitem where a.param1=itemid)";
+        return $sql = " where a.param4 in ($this->arr_str) and and  a.param1>='20000000' and a.param1<'30000000' and c.id in (select itemid from fr_dynamicitem where a.param1=itemid ".$sql;
 
     }
     public function lists($page,$condition){
@@ -136,19 +136,27 @@ class StarDailyService extends ServerDBChooser{
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
             $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,b.xingji,c.name as itemname from  $this->table_record a left join   $this->table_user b on a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item as c on c.id=a.param1 $consql)
+a.id1,a.type,a.str as action,a.param2,a.param1,a.param3,a.param4,CONVERT(varchar(20),  a.time, 120)
+as time,b.id,b.account_name,b.name,b.levels,c.name as zbname from $this->table_record a left join  $this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1 = c.id $consql)
                     as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
             $list = $this->db->query($sql)->result_objects();
             foreach($list as &$obj){
                 $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
-                $obj->typename = '消耗';
-                $obj->itemname .= ' - '.$obj->param2;
+
+                if($obj->type==1){
+                    $obj->typename = '损失';
+                    $obj->zbjcchange = '-'.$obj->param2;
+                }
+                else {
+                    $obj->typename = '收益';
+                    $obj->zbjcchange = '+'.$obj->param2;
+                }
+
                 $obj->servername = $server->name;
             }
         }
 
-             return $list;
+        return $list;
 
     }
 }

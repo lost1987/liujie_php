@@ -27,7 +27,7 @@ class NoticeService extends ServerDBChooser
                      if($flag >= $page->start && $flag <= $page -> limit){
                          $obj->servername = $server -> name;
                          $log = new Syslog();
-                         $slog = $log -> getlogByRefer($obj->id,'id');
+                         $slog = $log -> getlogByRefer($obj->id,'id',$server->id);
                          $obj->flagname = empty($slog->flagname) ? '' : $slog->flagname;
                          $list[] = $obj;
                      }
