@@ -32,6 +32,16 @@ class RechargeDataService extends Service
         }
 
         $list = $this -> db -> query($sql) -> result_objects();
+
+        if($timediff == 1){//因flex端无法识别 YYYY-MM-DD HH:NN:SS的格式所以这里做下处理
+            foreach($list as &$obj){
+                $dateCollection = explode(' ',$obj->date);
+                $date = explode('-',$dateCollection[0]);
+                $time = explode(':',$dateCollection[1]);
+                $obj->date = implode('|',array($date[0],$date[1],$date[2],$time[0],$time[1],$time[2]));
+            }
+        }
+
         return $list;
     }
 }

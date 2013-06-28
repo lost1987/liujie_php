@@ -13,8 +13,6 @@ class SyslogService extends Service
         parent::__construct();
         $this->table_player = 'fr_user';
         $this ->  db -> select_db('MMO2D_admin');
-
-        require BASEPATH.'/Common/common.php';
     }
 
 

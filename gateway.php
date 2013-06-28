@@ -19,10 +19,11 @@ ini_set('memcache.chunk_size',1024*1024*2);//2M
 /**
 *  includes
 *  */
-require_once BASEPATH . '/ClassLoader.php';
-require_once BASEPATH . '/Conf/db.inc.php';
-require_once BASEPATH . '/Conf/config.inc.php';
-require_once BASEPATH . '/Lib/autoload.class.php';
+require BASEPATH . '/ClassLoader.php';
+require BASEPATH . '/Conf/db.inc.php';
+require BASEPATH . '/Conf/config.inc.php';
+require BASEPATH . '/Lib/autoload.class.php';
+require BASEPATH . '/Common/common.php';
 
 spl_autoload_register(array('Autoload','_autoload'));
 

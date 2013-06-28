@@ -24,7 +24,7 @@ class LoginDataService extends Service{
         $sql = '';
         switch($timediff){
             //所有
-            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,loginnum,maxonline,aveonline from $this->table_loginData where sid in ($server_ids) and $timecondition order by date asc";
+            case 1: $sql = "select CONVERT(varchar(20), cast(date as datetime), 120) as date,loginnum,maxonline,aveonline from $this->table_loginData where sid in ($server_ids) and $timecondition order by date asc";
                 break;
             //24小时
             case 2: $sql = "select CONVERT(varchar(10), cast(date as datetime), 120) as date,sum(loginnum) as loginnum,max(maxonline) as maxonline,max(aveonline) as aveonline from $this->table_loginData where sid in ($server_ids) and $timecondition
@@ -32,6 +32,16 @@ class LoginDataService extends Service{
         }
 
         $list = $this -> db -> query($sql) -> result_objects();
+
+        if($timediff == 1){//因flex端无法识别 YYYY-MM-DD HH:NN:SS的格式所以这里做下处理
+            foreach($list as &$obj){
+                $dateCollection = explode(' ',$obj->date);
+                $date = explode('-',$dateCollection[0]);
+                $time = explode(':',$dateCollection[1]);
+                $obj->date = implode('|',array($date[0],$date[1],$date[2],$time[0],$time[1],$time[2]));
+            }
+        }
+
         return $list;
     }
 

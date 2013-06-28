@@ -64,7 +64,6 @@ class ActivecodeService extends  ServerDBChooser
 
     public function save($activecode){
         set_time_limit(0);
-        require BASEPATH.'/Common/common.php';
         require BASEPATH.'/Common/log.php';
         //通过生成时间和服务器ID关联操作人
         $servers = $activecode -> servers;

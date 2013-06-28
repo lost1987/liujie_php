@@ -39,4 +39,10 @@ function fetch_object_by_key($key,$value,$object_array){
         return $return;
 }
 
+function isNan($param){
+     if(empty($param) || $param == 'N/A')
+     return TRUE;
+     return FALSE;
+}
+
 ?>

@@ -25,91 +25,91 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="bangpaiDailyService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/log/bangpaiDailyService.php">
+      <file leaf-file-name="excel_gateway.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/excel_gateway.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="146" column="73" selection-start="4938" selection-end="4938" vertical-scroll-proportion="-0.9166667">
+            <state line="19" column="38" selection-start="551" selection-end="551" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="giftbagDailyService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/log/giftbagDailyService.php">
+      <file leaf-file-name="config.excel.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Conf/config.excel.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="129" column="39" selection-start="4257" selection-end="4270" vertical-scroll-proportion="0.0">
+            <state line="7" column="3" selection-start="160" selection-end="160" vertical-scroll-proportion="0.03362832">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="datacache.class.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Lib/datacache.class.php">
+      <file leaf-file-name="input.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Excel/input.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="43" selection-start="1427" selection-end="1427" vertical-scroll-proportion="-13.75">
+            <state line="76" column="0" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="loginDataService.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Services/loginDataService.php">
+      <file leaf-file-name="security.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Excel/security.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="9" selection-start="1418" selection-end="1418" vertical-scroll-proportion="0.44604316">
+            <state line="158" column="26" selection-start="3699" selection-end="3699" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="userStayDataService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/userStayDataService.php">
+      <file leaf-file-name="utf8.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Excel/utf8.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="67" selection-start="2633" selection-end="2633" vertical-scroll-proportion="-9.166667">
+            <state line="18" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dailyCopyDataService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/dailyCopyDataService.php">
+      <file leaf-file-name="excelmaker.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Excel/excelmaker.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="56" selection-start="1071" selection-end="1071" vertical-scroll-proportion="-7.3333335">
+            <state line="124" column="37" selection-start="4483" selection-end="4483" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="memcaches.class.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Lib/memcaches.class.php">
+      <file leaf-file-name="contentconfig.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Common/contentconfig.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="1" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="qiankundaiDailyService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/log/qiankundaiDailyService.php">
+      <file leaf-file-name="common.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Common/common.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="60" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.0">
+            <state line="23" column="27" selection-start="692" selection-end="711" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="userLoginDailyService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/log/userLoginDailyService.php">
+      <file leaf-file-name="Autoloader.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Excel/PHPExcel/Autoloader.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="70" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0">
+            <state line="48" column="39" selection-start="1732" selection-end="1732" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mailDailyService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/log/mailDailyService.php">
+      <file leaf-file-name="complexDataService.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/complexDataService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="84" selection-start="3879" selection-end="3879" vertical-scroll-proportion="0.0">
+            <state line="100" column="14" selection-start="4851" selection-end="4851" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -125,29 +125,29 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Services/log/huobanDailyService.php" />
-        <option value="$PROJECT_DIR$/Conf/db.inc.php" />
-        <option value="$PROJECT_DIR$/Services/createDataService.php" />
-        <option value="$PROJECT_DIR$/Services/rechargeDataService.php" />
-        <option value="$PROJECT_DIR$/Services/log/xinggeDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/workDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/sys/mailService.php" />
-        <option value="$PROJECT_DIR$/Services/log/xunbaoDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/xuyuanDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/shengjiDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/mailDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/bangpaiDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/qiankundaiDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/userLoginDailyService.php" />
-        <option value="$PROJECT_DIR$/Services/userStayDataService.php" />
-        <option value="$PROJECT_DIR$/Services/loginDataService.php" />
+        <option value="$PROJECT_DIR$/Services/complexDataService.php" />
+        <option value="$PROJECT_DIR$/Services/log/syslogService.php" />
+        <option value="$PROJECT_DIR$/Services/sys/activecodeService.php" />
+        <option value="$PROJECT_DIR$/Services/player/bagService.php" />
+        <option value="$PROJECT_DIR$/../test1.php" />
+        <option value="$PROJECT_DIR$/Lib/excelmaker.class.php" />
+        <option value="$PROJECT_DIR$/gateway.php" />
+        <option value="$PROJECT_DIR$/Lib/input.class.php" />
+        <option value="$PROJECT_DIR$/Conf/config.excel.php" />
+        <option value="$PROJECT_DIR$/Excel/condition.class.php" />
+        <option value="$PROJECT_DIR$/Excel/Utf8.php" />
+        <option value="$PROJECT_DIR$/Excel/utf8.class.php" />
+        <option value="$PROJECT_DIR$/Excel/security.class.php" />
+        <option value="$PROJECT_DIR$/Excel/input.class.php" />
+        <option value="$PROJECT_DIR$/excel_gateway.php" />
+        <option value="$PROJECT_DIR$/Excel/excelmaker.class.php" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="29" />
-    <option name="y" value="42" />
+    <option name="x" value="21" />
+    <option name="y" value="71" />
     <option name="width" value="1390" />
     <option name="height" value="763" />
   </component>
@@ -177,7 +177,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -206,12 +205,69 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
+              <option name="myItemId" value="Lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Excel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DB" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Conf" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Common" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -226,10 +282,12 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Excel" />
       <recent name="$PROJECT_DIR$/Services/log" />
       <recent name="$PROJECT_DIR$/Lib" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Excel" />
       <recent name="$PROJECT_DIR$/Lib" />
       <recent name="$PROJECT_DIR$/Common" />
       <recent name="$PROJECT_DIR$/Services" />
@@ -291,14 +349,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="29" y="42" width="1390" height="763" extended-state="0" />
+    <frame x="21" y="71" width="1390" height="763" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298585" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23666416" sideWeight="0.6725544" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2001488" sideWeight="0.6728972" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23660715" sideWeight="0.6725544" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24776785" sideWeight="0.6713396" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3271028" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -368,110 +426,102 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Services/sys/mailService.php">
+    <entry file="file://$PROJECT_DIR$/Lib/service.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="45" selection-start="8046" selection-end="8046" vertical-scroll-proportion="-11.0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/workDailyService.php">
+    <entry file="file://$PROJECT_DIR$/Services/singleArpuService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="38" selection-start="556" selection-end="587" vertical-scroll-proportion="-8.25" />
+        <state line="26" column="48" selection-start="733" selection-end="740" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/xunbaoDailyService.php">
+    <entry file="file://$PROJECT_DIR$/gateway.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="38" selection-start="4878" selection-end="4890" vertical-scroll-proportion="0.0">
+        <state line="23" column="42" selection-start="448" selection-end="448" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Excel/PHPExcel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="2" selection-start="1246" selection-end="1246" vertical-scroll-proportion="-0.6785714" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gzmy/system/core/Input.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gzmy/system/helpers/string_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="2" selection-start="97" selection-end="97" vertical-scroll-proportion="-9.892393" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Excel/utf8.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="13" selection-start="455" selection-end="455" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/xuyuanDailyService.php">
+    <entry file="file://$PROJECT_DIR$/Excel/security.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="38" selection-start="5036" selection-end="5048" vertical-scroll-proportion="0.0">
+        <state line="158" column="26" selection-start="3699" selection-end="3699" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/shengjiDailyService.php">
+    <entry file="file://$PROJECT_DIR$/Excel/PHPExcel/Autoloader.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="89" selection-start="3827" selection-end="3827" vertical-scroll-proportion="0.0">
+        <state line="48" column="39" selection-start="1732" selection-end="1732" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/mailDailyService.php">
+    <entry file="file://$PROJECT_DIR$/Common/common.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="84" selection-start="3879" selection-end="3879" vertical-scroll-proportion="0.0">
+        <state line="23" column="27" selection-start="692" selection-end="711" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/userLoginDailyService.php">
+    <entry file="file://$PROJECT_DIR$/Services/complexDataService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="70" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0">
+        <state line="100" column="14" selection-start="4851" selection-end="4851" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/qiankundaiDailyService.php">
+    <entry file="file://$PROJECT_DIR$/Common/contentconfig.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="60" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/bangpaiDailyService.php">
+    <entry file="file://$PROJECT_DIR$/excel_gateway.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="73" selection-start="4938" selection-end="4938" vertical-scroll-proportion="-0.9166667">
+        <state line="19" column="38" selection-start="551" selection-end="551" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/giftbagDailyService.php">
+    <entry file="file://$PROJECT_DIR$/Excel/input.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="39" selection-start="4257" selection-end="4270" vertical-scroll-proportion="0.0">
+        <state line="76" column="0" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/memcaches.class.php">
+    <entry file="file://$PROJECT_DIR$/Excel/excelmaker.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="1" selection-start="235" selection-end="235" vertical-scroll-proportion="0.0">
+        <state line="124" column="37" selection-start="4483" selection-end="4483" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/datacache.class.php">
+    <entry file="file://$PROJECT_DIR$/Conf/config.excel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="43" selection-start="1427" selection-end="1427" vertical-scroll-proportion="-13.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Common/event.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="25" selection-start="2091" selection-end="2091" vertical-scroll-proportion="0.50087875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/userStayDataService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="67" selection-start="2633" selection-end="2633" vertical-scroll-proportion="-9.166667">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/dailyCopyDataService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="56" selection-start="1071" selection-end="1071" vertical-scroll-proportion="-7.3333335">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/loginDataService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="9" selection-start="1418" selection-end="1418" vertical-scroll-proportion="0.44604316">
+        <state line="7" column="3" selection-start="160" selection-end="160" vertical-scroll-proportion="0.03362832">
           <folding />
         </state>
       </provider>

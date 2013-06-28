@@ -17,8 +17,6 @@ class BagService extends ServerDBChooser
         $this->table_fabao = $this->prefix_2.'fabao';
         $this->table_qiankun = $this->prefix_1.'usercj';
         $this->db_static = 'MMO2D_StaticLJZM';
-
-        require BASEPATH.'/Common/common.php';
     }
 
     public function detail($pid,$server,$type){
