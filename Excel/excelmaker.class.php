@@ -18,8 +18,13 @@ class ExcelMaker extends Input
         'U','V','W','X','Y','Z'
     );
 
+    private $table_servers;
+    private $dbname;
+
     private function ExcelMaker(){
         parent::__construct();
+        $this -> table_servers =  DB_PREFIX.'servers';
+        $this -> dbname = 'MMO2D_admin';//管理服务器等信息的后台数据库名
     }
 
 
@@ -31,14 +36,14 @@ class ExcelMaker extends Input
     }
 
     public static function register_auto_load(){
-         spl_autoload_register(array(__CLASS__,'_autoload'));
+        spl_autoload_register(array(__CLASS__,'_autoload'));
     }
 
     public static function _autoload($className){
         $classname = lcfirst($className);
         $folders = $GLOBALS['autoload_folders'];
         foreach($folders as $foldername){
-            if($foldername == 'Services')
+            if(strpos($foldername,'Services') > -1)
                 $classfile = $classname.'.php';
             else
                 $classfile = $classname.'.class.php';
@@ -55,6 +60,7 @@ class ExcelMaker extends Input
         $this->params = array();
         $excel_module = $GLOBALS['excel_keys'][$this->post('module_key')];
         list($this->params['service'],$this->params['method'],$this->params['type']) = explode('|',$excel_module);
+        if(empty($this->params['service']) || empty($this->params['method']))throw new Exception('服务和方法不能为空');
         $this->params['start_time'] = $this->post('start_time');
         $this->params['end_time'] = $this->post('end_time');
         $this->params['server_id'] = $this->post('server_id');
@@ -65,24 +71,56 @@ class ExcelMaker extends Input
     }
 
     private function callMethod(){
+        $condition = new stdClass();
+        $condition -> starttime = $this->params['start_time'];
+        $condition -> endtime = $this->params['end_time'];
+        $condition -> server_ids = $this->params['server_id'];
+
+        $page = new stdClass();
+        $page -> start = 0;
+        $page -> limit = 99999;
+
+        $service = new $this->params['service']();
+
         switch($this->params['type']){
             case 0:
-                $condition = new stdClass();
-                $condition -> starttime = $this->params['start_time'];
-                $condition -> endtime = $this->params['end_time'];
-                $condition -> server_ids = $this->params['server_id'];
-
-                $page = new stdClass();
-                $page -> start = 0;
-                $page -> limit = 9999;
-
-                $service = new $this->params['service']();
                 $this -> results = call_user_func(array($service,$this->params['method']),$page,$condition);
-
                 break;
             case 1:
+                //查询服务器 组成数组
+                $mssql =  new Mssql();
+                $mssql -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+                $mssql -> select_db($this->dbname);
+                $servers = $mssql -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
+                $condition->servers = $servers;
+                $this -> results = call_user_func(array($service,$this->params['method']),$page,$condition);
+                break;
+            case 2:
+                $mssql =  new Mssql();
+                $mssql -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+                $mssql -> select_db($this->dbname);
+                $servers = $mssql -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
+                $condition->servers = $servers;
+                $this -> results = call_user_func(array($service,$this->params['method']),$condition);
+                break;
+            case 3:
+                $this -> results = call_user_func(array($service,$this->params['method']),$condition);
+                break;
+            case 4:
+                $mssql = new Mssql();
+                $mssql -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+                $mssql -> select_db($this->dbname);
+                $server = $mssql -> query("select * from $this->table_servers where id = $condition->server_ids")->result_object();
+                $condition -> server = $server;
+                $condition -> account_name = $this->post('account_name');
+                $condition -> level_start = $this->post('level_start');
+                $condition -> level_limit = $this->post('level_limit');
+                $condition -> vip_start = $this->post('vip_start');
+                $condition -> vip_limit = $this->post('vip_limit');
+                $condition -> type = $this->post('type');
+                $condition -> child_type = $this->post('child_type');
 
-
+                $this->results = call_user_func(array($service,$this->params['method']),$page,$condition);
                 break;
         }
     }
@@ -112,6 +150,7 @@ class ExcelMaker extends Input
             $activeSheet -> getStyle($this->cellNamesChar[$i].'1') -> getFill() -> setFillType(PHPExcel_Style_Fill::FILL_SOLID);
             $activeSheet -> getStyle($this->cellNamesChar[$i].'1') -> getFill() -> getStartColor() -> setARGB(PHPExcel_Style_Color::COLOR_GREEN);
             $activeSheet -> getColumnDimension($this->cellNamesChar[$i]) -> setWidth(30);
+            $activeSheet -> getStyle($this->cellNamesChar[$i].'1') -> getAlignment() -> setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
 
         //设置值
@@ -127,6 +166,8 @@ class ExcelMaker extends Input
                         break 1;
                     }
                     $activeSheet -> setCellValue($this->cellNamesChar[$k].$index,$object->{$columns_keys[$k]});
+                    //设置文字水平居中
+                    $activeSheet -> getStyle($this->cellNamesChar[$k].$index) ->getAlignment() ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 }
 
             }
