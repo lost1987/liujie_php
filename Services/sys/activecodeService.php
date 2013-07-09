@@ -98,22 +98,36 @@ class ActivecodeService extends  ServerDBChooser
                 $this -> db -> select_db($this->db_activecode);
                 $nums = $activecode->nums;
                 $sql = "insert into $this->table_activecode (acode,name,astate,ctime,amask,itemid0,nums0,itemid1,nums1,itemid2,nums2,itemid3,nums3,itemid4,nums4,itemid5,nums5,itemid6,nums6,itemid7,nums7,aid,sid )  ";
-
+                $pernum = 100;//每次插入100条
+                $cur = 1;//游标
                 for($i =0 ; $i < $nums;$i++){
                         $acode  =  date('YmdHis').make_rand_str();
-                       /* $sql .= "select '$acode','$activecode->name',$activecode->astate,'$ctime',
-                        $activecode->amask,$activecode->id1,$activecode->num1,$activecode->id2,
-                        $activecode->num2,$activecode->id3,$activecode->num3,$activecode->id4,
-                        $activecode->num4,$activecode->id5,$activecode->num5,$activecode->id6,
-                        $activecode->num6, $activecode->id7,$activecode->num7,$activecode->id8,
-                        $activecode->num8 ,0, $server->id union all ";*/
-                        $makesql = $sql. " values ('$acode','$activecode->name',$activecode->astate,'$ctime',
-                        $activecode->amask,$activecode->id1,$activecode->num1,$activecode->id2,
-                        $activecode->num2,$activecode->id3,$activecode->num3,$activecode->id4,
-                        $activecode->num4,$activecode->id5,$activecode->num5,$activecode->id6,
-                        $activecode->num6, $activecode->id7,$activecode->num7,$activecode->id8,
-                        $activecode->num8 ,0, $server->id)";
-                        $this -> db -> query($makesql);
+                        if($cur%$pernum == 0){
+                            $this->db->query($sql);
+                            $sql = "insert into $this->table_activecode (acode,name,astate,ctime,amask,itemid0,nums0,itemid1,nums1,itemid2,nums2,itemid3,nums3,itemid4,nums4,itemid5,nums5,itemid6,nums6,itemid7,nums7,aid,sid )  ";
+                        }else if($cur%$pernum == 1){
+                            $sql .=  " select '$acode','$activecode->name',$activecode->astate,'$ctime',
+                                    $activecode->amask,$activecode->id1,$activecode->num1,$activecode->id2,
+                                    $activecode->num2,$activecode->id3,$activecode->num3,$activecode->id4,
+                                    $activecode->num4,$activecode->id5,$activecode->num5,$activecode->id6,
+                                    $activecode->num6, $activecode->id7,$activecode->num7,$activecode->id8,
+                                    $activecode->num8 ,0, $server->id ";
+                        }
+                        else{
+                            $sql .= " union all select '$acode','$activecode->name',$activecode->astate,'$ctime',
+                                    $activecode->amask,$activecode->id1,$activecode->num1,$activecode->id2,
+                                    $activecode->num2,$activecode->id3,$activecode->num3,$activecode->id4,
+                                    $activecode->num4,$activecode->id5,$activecode->num5,$activecode->id6,
+                                    $activecode->num6, $activecode->id7,$activecode->num7,$activecode->id8,
+                                    $activecode->num8 ,0, $server->id ";
+                        }
+
+
+                        if($cur == $nums && $cur%$pernum!=0){
+                            $this->db->query($sql);
+                        }
+
+                        $cur++;
                 }
                 $this -> dbClose();
 

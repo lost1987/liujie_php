@@ -87,7 +87,7 @@ class Syslog extends Service
     /**
     当类型为邮件日志的时候,调用save完成后,记录收取该邮件的玩家
      */
-    public function saveMailPlayers($players){
+   /* public function saveMailPlayers($players){
         $lid = $this->db->insert_id('ljzm_syslog');
 
         if(count($players) > 0){
@@ -97,6 +97,39 @@ class Syslog extends Service
                 $this -> db -> query($sql);
             }
 
+            return TRUE;
+        }
+
+        return FALSE;
+    }*/
+
+    public function saveMailPlayers($players){
+        $lid = $this->db->insert_id('ljzm_syslog');
+
+        if(count($players) > 0){
+
+            $pernum = 100;//每次插入100条
+            $cur = 1;//游标
+            $total = count($players);
+            $sql = "insert into ljzm_mail_records (lid,playername,playerid) ";
+
+            foreach($players as $player){
+               if($cur%$pernum == 0){
+                   $this->db->query($sql);
+                   $sql = "insert into ljzm_mail_records (lid,playername,playerid) ";
+               }else if($cur%$pernum == 1){
+                   $sql .=  " select $lid,'$player->name','$player->id' ";
+               }
+               else{
+                   $sql .= " union all select $lid,'$player->name','$player->id' ";
+               }
+
+               if($total == $cur && $cur%$pernum !=0 ){
+                    $this->db->query($sql);
+               }
+
+               $cur++;
+            }
             return TRUE;
         }
 

@@ -25,7 +25,7 @@ define('DB_TYPE','Mssql');
 define('DB_PORT','10893');
 define('DB_PREFIX','ljzm_');
 
-define('MEMCACHED_HOST','115.238.101.156');//内部测试
-//define('MEMCACHED_HOST','127.0.0.1');
+define('MEMCACHED_HOST','115.238.101.156');
+//define('MEMCACHED_HOST','127.0.0.1');//内部测试
 define('MEMCACHED_PORT','11211');
 define('MEMCACHED_TIMEOUT',60*60*12);//12小时

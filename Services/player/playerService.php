@@ -284,4 +284,29 @@ class PlayerService extends ServerDBChooser
         }
     }
 
+
+    public function playerSearch($servers,$condition){
+           $list = array();
+           $playername_or_id = $condition->playername_or_id;
+           $online = $condition->online;
+
+           $cond = " name like '%$playername_or_id%'";
+           if(is_numeric($playername_or_id))$cond = " id = $playername_or_id";
+
+           $condonline = '';
+           if($online)$condonline = ' and defencecap = 1 and state=0';
+           foreach ($servers as $server){
+               $this->dbConnect($server,$server->dynamic_dbname);
+               $sql = "select id,name from $this->table_player where $cond $condonline";
+               $results = $this->db->query($sql)->result_objects();
+               foreach($results as $result){
+                   $result  -> name .= '___'.$server->name;
+                   $result  -> server = $server;
+                   $list[] = $result;
+               }
+               $this->dbClose();
+           }
+           return $list;
+    }
+
 }

@@ -16,7 +16,6 @@ class MailService extends ServerDBChooser
            $this -> table_item = $this->prefix_1.'item';
            $this -> table_syslog = 'ljzm_syslog';
            $this -> table_mail_record = 'ljzm_mail_records';
-
            $this -> db_static = 'MMO2D_StaticLJZM';
      }
 
@@ -29,7 +28,7 @@ class MailService extends ServerDBChooser
                     $db = new Mssql();//连接分发数据库
                     $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
                     $db -> select_db('MMO2D_admin');
-                    $sql =  "select *,CONVERT(varchar(20), donetime, 120) as dtime from $this->table_syslog where server_id=$server->id and type=2 order by donetime desc";
+                    $sql =  "select *,CONVERT(varchar(20), donetime, 120) as dtime from $this->table_syslog where server_id=$server->id and (type=2 or type=10) order by donetime desc";
                     $loglist = $db->query($sql)->result_objects();
                     $db -> close();
                     unset($db);
@@ -111,12 +110,29 @@ class MailService extends ServerDBChooser
 
                 $this -> db -> select_db($server->dynamic_dbname);
                 //查询此服所有玩家pid
-                $sql = "select id from $this->table_user";
+                $sql = "select id,name from $this->table_user";
                 $players = $this->db->query($sql)->result_objects();
+                $pernum = 100;//每次插入100条
+                $cur = 1;//游标
+                $total = count($players);
+                $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
+
                 foreach($players as $player){
-                    $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) values
-                      ($player->id,$item_id,$item_num,'$mail->title','$mail->context',$code)";
-                    $this->db->query($sql);
+                        if($cur%$pernum == 0){
+                            $this->db->query($sql);
+                            $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
+                        }else if($cur%$pernum == 1){
+                            $sql .=  " select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                        }
+                        else{
+                            $sql .= " union all select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                        }
+
+                        if($total == $cur && $cur%$pernum !=0 ){
+                            $this->db->query($sql);
+                        }
+
+                        $cur++;
                 }
                 $this->dbClose();
 
@@ -125,8 +141,8 @@ class MailService extends ServerDBChooser
                     $log -> aid = $mail -> admin -> id;
                     $log -> admin = $mail -> admin -> admin;
                     $log -> flagname = $mail -> admin -> flagname;
-                    $log -> type = 2;
-                    $log -> typename = $log_action_type[2];
+                    $log -> type = 10;
+                    $log -> typename = $log_action_type[10];
                     $log -> donetime = date('Y-m-d H:i:s');
                     $log -> server_id = $server->id;
                     $log -> server_name = $server->name;
@@ -232,15 +248,17 @@ class MailService extends ServerDBChooser
     }
 
     public function mailPlayers($server,$lid){
-             $list= array();
-            if(!empty($server)){
-                $db = new Mssql();//连接分发数据库
-                $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-                $db -> select_db('MMO2D_admin');
+        $list= array();
+        if(!empty($server)){
+            $db = new Mssql();//连接分发数据库
+            $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+            $db -> select_db('MMO2D_admin');
 
-                $list = $db -> query("select playername from $this->table_mail_record where lid=$lid") -> result_objects();
-                $db -> close();
-            }
-            return $list;
+            $list = $db -> query("select playername from $this->table_mail_record where lid=$lid") -> result_objects();
+            error_log("select playername from $this->table_mail_record where lid=$lid");
+            $db -> close();
+        }
+        return $list;
     }
+
 }
