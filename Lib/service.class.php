@@ -9,7 +9,7 @@
 class Service
 {
 
-     protected  $db;
+     public  $db;
 
      function service(){
          //初始化DB

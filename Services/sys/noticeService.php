@@ -61,6 +61,7 @@ class NoticeService extends ServerDBChooser
     public function getCondition($condition){}
 
     public function save($notice){
+        set_time_limit(0);
         //通过id关联操作人
         require BASEPATH.'/Common/log.php';
         $servers = $notice -> servers;
@@ -80,16 +81,35 @@ class NoticeService extends ServerDBChooser
             $time = $notice -> time;
         }
 
-        if(!empty($servers)){
-            foreach($servers as $server){
-                $this->dbConnect($server,$server->dynamic_dbname);
+        //已执行过的事务DB数组
+        $executed_dbs = array();
+        //日志数据库连接
+        $logdbs = array();
+
+        //创建多个数据库连接
+        $db_flag  = 0;
+        $dbs = array();
+        foreach($servers as $server){
+            $dbs[$db_flag]['db'] = new Mssql();
+            $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
+            $dbs[$db_flag]['dynamic_dbname'] = $server->dynamic_dbname;
+            $db_flag++;
+        }
+
+        try{
+
+            for($t = 0 ; $t < count($dbs) ; $t++){
+                $db = $dbs[$t]['db'];
+                $dynamic_dbname=$dbs[$t]['dynamic_dbname'];
+                $db -> select_db($dynamic_dbname);
                 $sql = "select max(id) as mid from $this->table_notice";
-                $res = $this->db -> query($sql) -> result_object();
+                $res = $db -> query($sql) -> result_object();
                 $id = intval($res->mid) + 1;
+                $db -> query("begin tran");
+                $executed_dbs[] = $db;
                 $sql = "insert into $this->table_notice (id,context,time,starttime,endtime,starthour,startmin,endhour,endmin)
-                values ($id,'$context',$time,'$starttime','$endtime',$starthour,$startmin,$endhour,$endmin)";
-                $this-> db -> query($sql);
-                $this-> dbClose();
+                    values ($id,'$context',$time,'$starttime','$endtime',$starthour,$startmin,$endhour,$endmin)";
+                $db -> query($sql);
 
                 $log = new stdClass();
                 $log -> aid = $notice -> admin -> id;
@@ -98,17 +118,43 @@ class NoticeService extends ServerDBChooser
                 $log -> type = 3;
                 $log -> typename = $log_action_type[3];
                 $log -> donetime = date('Y-m-d H:i:s');
-                $log -> server_id = $server->id;
-                $log -> server_name = $server->name;
+                $log -> server_id = $servers[$t]->id;
+                $log -> server_name = $servers[$t]->name;
                 $log -> refer_id = $id;
                 $log -> refer_name = 'id';
 
                 $slog = new Syslog();
-                $slog -> setlog($log) -> save();
+                $log_db = new Mssql();
+                $logdbs[] = $log_db;
+                $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
+                $log_db -> select_db(DB_NAME);
+                $log_db -> query("begin tran");
+                $slog -> setlog($log) -> tran_save($log_db);
+            }
+
+            //执行完成 提交
+            for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                $executed_dbs[$i] -> query("commit tran");
+                $executed_dbs[$i] -> close();
+            }
+
+            for($i = 0 ; $i < count($logdbs) ; $i++){
+                $logdbs[$i] -> query("commit tran");
+                $logdbs[$i] -> close();
+            }
+            return TRUE;
+        }catch (Exception $e){
+            for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                $executed_dbs[$i] -> query("rollback tran");
+                $executed_dbs[$i] -> close();
+            }
+
+            for($i = 0 ; $i < count($logdbs) ; $i++){
+                $logdbs[$i] -> query("rollback tran");
+                $logdbs[$i] -> close();
             }
         }
-
-        return true;
+        return FALSE;
     }
 
     public function del($notices){

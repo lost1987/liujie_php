@@ -74,15 +74,29 @@ class ActivecodeService extends  ServerDBChooser
             $activecode->{'num'.$i} = empty($activecode->{'num'.$i}) ? 0 : $activecode->{'num'.$i};
         }
         $id1 = empty($activecode->id1) ? '' : $activecode->id1;
-        if(count($servers) > 0){
-            foreach($servers as $server){
-                $this -> dbConnect($server,$this->db_static);
+        //已执行过的事务DB数组
+        $executed_dbs = array();
+        //日志数据库连接
+        $logdbs = array();
 
+        //创建多个数据库连接
+        $db_flag  = 0;
+        $dbs = array();
+        foreach($servers as $server){
+            $dbs[$db_flag]['db'] = new Mssql();
+            $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
+            $db_flag++;
+        }
+
+        try{
+            for($t = 0 ; $t < count($dbs) ; $t++){
+                $db = $dbs[$t]['db'];
+                $db -> select_db($this->db_static);
                 //验证物品列表ID正确性
-                $items = $this->db->query("select id from $this->table_item")->result_objects();
+                $items = $db->query("select id from $this->table_item")->result_objects();
                 $item_arr = array();
                 foreach($items as $item){
-                   $item_arr[] =  $item -> id;
+                    $item_arr[] =  $item -> id;
                 }
 
                 $errorcode = 0;
@@ -95,41 +109,42 @@ class ActivecodeService extends  ServerDBChooser
 
                 if($errorcode > 0)return $errorcode;
 
-                $this -> db -> select_db($this->db_activecode);
+                $db -> select_db($this->db_activecode);
+                $db -> query("begin tran");
+                $executed_dbs[] = $db;
                 $nums = $activecode->nums;
                 $sql = "insert into $this->table_activecode (acode,name,astate,ctime,amask,itemid0,nums0,itemid1,nums1,itemid2,nums2,itemid3,nums3,itemid4,nums4,itemid5,nums5,itemid6,nums6,itemid7,nums7,aid,sid )  ";
                 $pernum = 100;//每次插入100条
                 $cur = 1;//游标
                 for($i =0 ; $i < $nums;$i++){
-                        $acode  =  date('YmdHis').make_rand_str();
-                        if($cur%$pernum == 0){
-                            $this->db->query($sql);
-                            $sql = "insert into $this->table_activecode (acode,name,astate,ctime,amask,itemid0,nums0,itemid1,nums1,itemid2,nums2,itemid3,nums3,itemid4,nums4,itemid5,nums5,itemid6,nums6,itemid7,nums7,aid,sid )  ";
-                        }else if($cur%$pernum == 1){
-                            $sql .=  " select '$acode','$activecode->name',$activecode->astate,'$ctime',
+                    $acode  =  date('YmdHis').make_rand_str();
+                    if($cur%$pernum == 0){
+                        $db->query($sql);
+                        $sql = "insert into $this->table_activecode (acode,name,astate,ctime,amask,itemid0,nums0,itemid1,nums1,itemid2,nums2,itemid3,nums3,itemid4,nums4,itemid5,nums5,itemid6,nums6,itemid7,nums7,aid,sid )  ";
+                    }else if($cur%$pernum == 1){
+                        $sql .=  " select '$acode','$activecode->name',$activecode->astate,'$ctime',
                                     $activecode->amask,$activecode->id1,$activecode->num1,$activecode->id2,
                                     $activecode->num2,$activecode->id3,$activecode->num3,$activecode->id4,
                                     $activecode->num4,$activecode->id5,$activecode->num5,$activecode->id6,
                                     $activecode->num6, $activecode->id7,$activecode->num7,$activecode->id8,
-                                    $activecode->num8 ,0, $server->id ";
-                        }
-                        else{
-                            $sql .= " union all select '$acode','$activecode->name',$activecode->astate,'$ctime',
+                                    $activecode->num8 ,0, {$servers[$t]->id} ";
+                    }
+                    else{
+                        $sql .= " union all select '$acode','$activecode->name',$activecode->astate,'$ctime',
                                     $activecode->amask,$activecode->id1,$activecode->num1,$activecode->id2,
                                     $activecode->num2,$activecode->id3,$activecode->num3,$activecode->id4,
                                     $activecode->num4,$activecode->id5,$activecode->num5,$activecode->id6,
                                     $activecode->num6, $activecode->id7,$activecode->num7,$activecode->id8,
-                                    $activecode->num8 ,0, $server->id ";
-                        }
+                                    $activecode->num8 ,0, {$servers[$t]->id} ";
+                    }
 
 
-                        if($cur == $nums && $cur%$pernum!=0){
-                            $this->db->query($sql);
-                        }
+                    if($cur == $nums && $cur%$pernum!=0){
+                        $db->query($sql);
+                    }
 
-                        $cur++;
+                    $cur++;
                 }
-                $this -> dbClose();
 
                 $log = new stdClass();
                 $log -> aid = $activecode -> admin -> id;
@@ -138,16 +153,44 @@ class ActivecodeService extends  ServerDBChooser
                 $log -> type = 4;
                 $log -> typename = $log_action_type[4];
                 $log -> donetime = $ctime;
-                $log -> server_id = $server->id;
-                $log -> server_name = $server->name;
+                $log -> server_id = $servers[$t]->id;
+                $log -> server_name = $servers[$t]->name;
                 $log -> refer_id = 0;
                 $log -> refer_name = '';
 
                 $slog = new Syslog();
-                $slog -> setlog($log) -> save();
+                $log_db = new Mssql();
+                $logdbs[] = $log_db;
+                $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
+                $log_db -> select_db(DB_NAME);
+                $log_db -> query("begin tran");
+                $slog -> setlog($log) -> tran_save($log_db);
             }
+
+            //执行完成 提交
+            for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                $executed_dbs[$i] -> query("commit tran");
+                $executed_dbs[$i] -> close();
+            }
+
+            for($i = 0 ; $i < count($logdbs) ; $i++){
+                $logdbs[$i] -> query("commit tran");
+                $logdbs[$i] -> close();
+            }
+
             return 0;
+        }catch (Exception $e){
+            for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                $executed_dbs[$i] -> query("rollback tran");
+                $executed_dbs[$i] -> close();
+            }
+
+            for($i = 0 ; $i < count($logdbs) ; $i++){
+                $logdbs[$i] -> query("rollback tran");
+                $logdbs[$i] -> close();
+            }
         }
+        return -1;
     }
 
     public function getCondition($condition){}

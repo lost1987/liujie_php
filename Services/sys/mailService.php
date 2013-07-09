@@ -88,95 +88,170 @@ class MailService extends ServerDBChooser
      public function getCondition($condition){}
 
      public function sendMailsWithServers($mail){
+         set_time_limit(0);
          //通过随机验证码关联操作人
         require BASEPATH.'/Common/log.php';
         $servers = $mail -> servers;
         $item_id = empty($mail->item_id) ? 0 : $mail->item_id;
         $item_num = empty($mail->item_num) ? 0 : $mail->item_num;
-        if(!empty($servers)){
-            foreach($servers as $server){
-                $code = time();
-                $this -> dbConnect($server,$this->db_static);
-                //验证当前附件ID的正确性
-                $items = $this->db->query("select id,name from $this->table_item")->result_objects();
-                $item_arr = array();
-                foreach($items as $item){
-                    $item_arr[] =  $item -> id;
-                }
 
-                if(!in_array($item_id,$item_arr) && $item_id != 0){
-                    return 1;//附件ID错误
-                }
+         //已执行过的事务DB数组
+         $executed_dbs = array();
+         //日志数据库连接
+         $logdbs = array();
 
-                $this -> db -> select_db($server->dynamic_dbname);
-                //查询此服所有玩家pid
-                $sql = "select id,name from $this->table_user";
-                $players = $this->db->query($sql)->result_objects();
-                $pernum = 100;//每次插入100条
-                $cur = 1;//游标
-                $total = count($players);
-                $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
+         if(count($servers) < 1) return 2;
 
-                foreach($players as $player){
-                        if($cur%$pernum == 0){
-                            $this->db->query($sql);
-                            $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
-                        }else if($cur%$pernum == 1){
-                            $sql .=  " select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
-                        }
-                        else{
-                            $sql .= " union all select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
-                        }
 
-                        if($total == $cur && $cur%$pernum !=0 ){
-                            $this->db->query($sql);
-                        }
+         //创建多个数据库连接
+         $db_flag  = 0;
+         $dbs = array();
+         foreach($servers as $server){
+             $dbs[$db_flag]['db'] = new Mssql();
+             $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
+             $dbs[$db_flag]['dynamic_dbname'] = $server->dynamic_dbname;
+             $db_flag++;
+         }
 
-                        $cur++;
-                }
-                $this->dbClose();
+         try{
 
-                if(count($players) > 0){
-                    $log = new stdClass();
-                    $log -> aid = $mail -> admin -> id;
-                    $log -> admin = $mail -> admin -> admin;
-                    $log -> flagname = $mail -> admin -> flagname;
-                    $log -> type = 10;
-                    $log -> typename = $log_action_type[10];
-                    $log -> donetime = date('Y-m-d H:i:s');
-                    $log -> server_id = $server->id;
-                    $log -> server_name = $server->name;
-                    $log -> refer_id = $code;
-                    $log -> refer_name = 'code';
-                    $log -> item_id = $item_id;
-                    $log -> item_num = $item_num;
-                    $log -> content = $mail->context;
-                    $log -> title = $mail->title;
+             for($t = 0 ; $t < count($dbs) ; $t++){
+                 $db = $dbs[$t]['db'];
+                 $dynamic_dbname=$dbs[$t]['dynamic_dbname'];
+                 $code = time();//每个服务器一个时间标识
 
-                    $slog = new Syslog();
-                    $slog -> setlog($log) -> save() -> saveMailPlayers($players);
-                }
-            }
-            return TRUE;
-        }
-        return FALSE;
+                 $db -> select_db($this->db_static);
+                 //验证当前附件ID的正确性
+                 $items = $db->query("select id,name from $this->table_item")->result_objects();
+                 $item_arr = array();
+                 foreach($items as $item){
+                     $item_arr[] =  $item -> id;
+                 }
+
+                 if(!in_array($item_id,$item_arr) && $item_id != 0){
+                     return 1;//附件ID错误
+                 }
+
+                 $db -> select_db($dynamic_dbname);
+                 //查询此服所有玩家pid
+                 $sql = "select id,name from $this->table_user";
+                 $players = $db->query($sql)->result_objects();
+
+                 if(count($players) > 0){
+                     //开启事务
+                     $db -> query("begin tran");
+                     $executed_dbs[] = $db;
+
+                     $pernum = 100;//每次插入100条
+                     $cur = 1;//游标
+                     $total = count($players);
+                     $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
+
+                     foreach($players as $player){
+                         if($cur%$pernum == 0){
+                             $db->query($sql);
+                             $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
+                         }else if($cur%$pernum == 1){
+                             $sql .=  " select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                         }
+                         else{
+                             $sql .= " union all select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                         }
+
+                         if($total == $cur && $cur%$pernum !=0 ){
+                             $db->query($sql);
+                         }
+
+                         $cur++;
+                     }
+
+                     $log = new stdClass();
+                     $log -> aid = $mail -> admin -> id;
+                     $log -> admin = $mail -> admin -> admin;
+                     $log -> flagname = $mail -> admin -> flagname;
+                     $log -> type = 10;
+                     $log -> typename = $log_action_type[10];
+                     $log -> donetime = date('Y-m-d H:i:s');
+                     $log -> server_id = $servers[$t]->id;
+                     $log -> server_name = $servers[$t]->name;
+                     $log -> refer_id = $code;
+                     $log -> refer_name = 'code';
+                     $log -> item_id = $item_id;
+                     $log -> item_num = $item_num;
+                     $log -> content = $mail->context;
+                     $log -> title = $mail->title;
+
+                     $slog = new Syslog();
+                     $log_db = new Mssql();
+                     $logdbs[] = $log_db;
+                     $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
+                     $log_db -> select_db(DB_NAME);
+                     $log_db -> query("begin tran");
+                     $slog -> setlog($log) -> tran_save($log_db) -> tran_saveMailPlayers($players,$log_db);
+                 }
+             }
+
+             //执行完成 提交
+             for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                 $executed_dbs[$i] -> query("commit tran");
+                 $executed_dbs[$i] -> close();
+             }
+
+             for($i = 0 ; $i < count($logdbs) ; $i++){
+                 $logdbs[$i] -> query("commit tran");
+                 $logdbs[$i] -> close();
+             }
+             return TRUE;
+         }catch (Exception $e){
+             for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                 $executed_dbs[$i] -> query("rollback tran");
+                 $executed_dbs[$i] -> close();
+             }
+
+             for($i = 0 ; $i < count($logdbs) ; $i++){
+                 $logdbs[$i] -> query("rollback tran");
+                 $logdbs[$i] -> close();
+             }
+         }
+         return FALSE;
      }
 
     public function sendMailsWithPlayers($mail){
+        set_time_limit(0);
         //通过随机验证码关联操作人
         require BASEPATH.'/Common/log.php';
         $players = $mail -> players;
         $servers = $mail -> servers;
         $item_id = empty($mail->item_id) ? 0 : $mail->item_id;
         $item_num = empty($mail->item_num) ? 0 : $mail->item_num;
+        //已执行过的事务DB数组
+        $executed_dbs = array();
+        //日志数据库连接
+        $logdbs = array();
 
-        //分析players的server 并吧它按server分组
-        if(!empty($servers)){
-            foreach($servers as $server){
+        if(count($servers) < 1) return 2;
+
+
+        //创建多个数据库连接
+        $db_flag  = 0;
+        $dbs = array();
+        foreach($servers as $server){
+            $dbs[$db_flag]['db'] = new Mssql();
+            $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
+            $dbs[$db_flag]['dynamic_dbname'] = $server->dynamic_dbname;
+            $db_flag++;
+        }
+
+        try{
+            for($t=0; $t < count($dbs) ; $t++){
+                $db = $dbs[$t]['db'];
+                $dynamic_dbname=$dbs[$t]['dynamic_dbname'];
                 $code = time();//每个服务器一个时间标识
-                $this -> dbConnect($server,$this->db_static);
+
+                $db -> select_db($this->db_static);
+
                 //验证当前附件ID的正确性
-                $items = $this->db->query("select id from $this->table_item")->result_objects();
+                $items = $db->query("select id from $this->table_item")->result_objects();
                 $item_arr = array();
                 foreach($items as $item){
                     $item_arr[] =  $item -> id;
@@ -195,39 +270,83 @@ class MailService extends ServerDBChooser
                 }
 
                 if(count($plist) > 0){
-                    $this ->db->select_db($server->dynamic_dbname);
+                    $db->select_db($dynamic_dbname);
+                    //开启事务
+                    $db -> query("begin tran");
+                    $executed_dbs[] = $db;
                     $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
+                    $pernum = 100;//每次插入100条
+                    $cur = 1;//游标
+                    $total = count($players);
                     foreach($plist as $player){
-                        $sql .= " select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code union all ";
+                        if($cur%$pernum == 0){
+                            if(!$db->query($sql)){
+                                break;
+                            }
+                            $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
+                        }else if($cur%$pernum == 1){
+                            $sql .=  " select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                        }
+                        else{
+                            $sql .= " union all select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                        }
+
+                        if($total == $cur && $cur%$pernum !=0 ){
+                            if(!$db->query($sql)){
+                                break;
+                            }
+                        }
+
+                        $cur++;
                     }
-                    $sql = substr($sql,0,strlen($sql) - 10);
-                    $this->db->query($sql);
-                    $this->dbClose();
                 }
 
-                if(count($plist) > 0){
-                    $log = new stdClass();
-                    $log -> aid = $mail -> admin -> id;
-                    $log -> admin = $mail -> admin -> admin;
-                    $log -> flagname = $mail -> admin -> flagname;
-                    $log -> type = 2;
-                    $log -> typename = $log_action_type[2];
-                    $log -> donetime = date('Y-m-d H:i:s');
-                    $log -> server_id = $server->id;
-                    $log -> server_name = $server->name;
-                    $log -> refer_id = $code;
-                    $log -> refer_name = 'code';
-                    $log -> item_id = $item_id;
-                    $log -> item_num = $item_num;
-                    $log -> content = $mail->context;
-                    $log -> title = $mail->title;
-
-                    $slog = new Syslog();
-                    $slog -> setlog($log) -> save() -> saveMailPlayers($plist);
-                }
-
+                $log = new stdClass();
+                $log -> aid = $mail -> admin -> id;
+                $log -> admin = $mail -> admin -> admin;
+                $log -> flagname = $mail -> admin -> flagname;
+                $log -> type = 2;
+                $log -> typename = $log_action_type[2];
+                $log -> donetime = date('Y-m-d H:i:s');
+                $log -> server_id = $servers[$t]->id;
+                $log -> server_name = $servers[$t]->name;
+                $log -> refer_id = $code;
+                $log -> refer_name = 'code';
+                $log -> item_id = $item_id;
+                $log -> item_num = $item_num;
+                $log -> content = $mail->context;
+                $log -> title = $mail->title;
+                $slog = new Syslog();
+                $log_db = new Mssql();
+                $logdbs[] = $log_db;
+                $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
+                $log_db -> select_db(DB_NAME);
+                $log_db -> query("begin tran");
+                $slog -> setlog($log) -> tran_save($log_db) -> tran_saveMailPlayers($plist,$log_db);
             }
+
+            //执行完成 提交
+            for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                $executed_dbs[$i] -> query("commit tran");
+                $executed_dbs[$i] -> close();
+            }
+
+            for($i = 0 ; $i < count($logdbs) ; $i++){
+                $logdbs[$i] -> query("commit tran");
+                $logdbs[$i] -> close();
+            }
+
             return 0;
+        }catch (Exception $e){
+            for($i = 0 ; $i < count($executed_dbs) ; $i++){
+                $executed_dbs[$i] -> query("rollback tran");
+                $executed_dbs[$i] -> close();
+            }
+
+            for($i = 0 ; $i < count($logdbs) ; $i++){
+                $logdbs[$i] -> query("rollback tran");
+                $logdbs[$i] -> close();
+            }
         }
         return -1;
     }
@@ -255,7 +374,6 @@ class MailService extends ServerDBChooser
             $db -> select_db('MMO2D_admin');
 
             $list = $db -> query("select playername from $this->table_mail_record where lid=$lid") -> result_objects();
-            error_log("select playername from $this->table_mail_record where lid=$lid");
             $db -> close();
         }
         return $list;

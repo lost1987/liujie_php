@@ -31,6 +31,7 @@ class Syslog extends Service
     function Syslog(){
         parent::__construct();
         require_once BASEPATH.'/Common/log.php';
+        $this -> db -> select_db(DB_NAME);
     }
 
     public function setlog($log){
@@ -58,16 +59,48 @@ class Syslog extends Service
         return $this;
     }
 
-    public function save(){
-        $this -> db -> select_db(DB_NAME);
+    /**
+     * 配合事务使用
+     */
+    public function tran_save($db){
         $sql = "insert into ljzm_syslog (aid,admin,flagname,type,typename,donetime,server_id,server_name,refer_id,refer_name,itemid,itemnum,content,title,state,optime) values
         ($this->aid,'$this->admin','$this->flagname',$this->type,'$this->typename','$this->donetime',$this->server_id,'$this->server_name',$this->refer_id,'$this->refer_name',$this->item_id,$this->item_num,'$this->content','$this->title',$this->state,$this->optime)";
-        if($this -> db -> query($sql) -> queryState){
+        if($db -> query($sql) -> queryState){
             return $this;
         }
-        $this -> db -> close();
-        error_log('系统日志保存失败@'.date('Y-m-d H:i:s'));
-        return FALSE;
+    }
+
+    /**
+    当类型为邮件日志的时候,调用save完成后,记录收取该邮件的玩家
+     * 配合日志使用
+     */
+    public function tran_saveMailPlayers($players,$db){
+        $lid = $db->insert_id('ljzm_syslog');
+        if(count($players) > 0){
+
+            $pernum = 100;//每次插入100条
+            $cur = 1;//游标
+            $total = count($players);
+            $sql = "insert into ljzm_mail_records (lid,playername,playerid) ";
+
+            foreach($players as $player){
+                if($cur%$pernum == 0){
+                    $db->query($sql);
+                    $sql = "insert into ljzm_mail_records (lid,playername,playerid) ";
+                }else if($cur%$pernum == 1){
+                    $sql .=  " select $lid,'$player->name','$player->id' ";
+                }
+                else{
+                    $sql .= " union all select $lid,'$player->name','$player->id' ";
+                }
+
+                if($total == $cur && $cur%$pernum !=0 ){
+                    $db->query($sql);
+                }
+
+                $cur++;
+            }
+        }
     }
 
     public function getlogByTime($time,$server_id){
@@ -84,57 +117,6 @@ class Syslog extends Service
         return $log;
     }
 
-    /**
-    当类型为邮件日志的时候,调用save完成后,记录收取该邮件的玩家
-     */
-   /* public function saveMailPlayers($players){
-        $lid = $this->db->insert_id('ljzm_syslog');
-
-        if(count($players) > 0){
-            foreach($players as $player){
-                $sql = "insert into ljzm_mail_records (lid,playername,playerid) values
-                        ($lid,'$player->name','$player->id')";
-                $this -> db -> query($sql);
-            }
-
-            return TRUE;
-        }
-
-        return FALSE;
-    }*/
-
-    public function saveMailPlayers($players){
-        $lid = $this->db->insert_id('ljzm_syslog');
-
-        if(count($players) > 0){
-
-            $pernum = 100;//每次插入100条
-            $cur = 1;//游标
-            $total = count($players);
-            $sql = "insert into ljzm_mail_records (lid,playername,playerid) ";
-
-            foreach($players as $player){
-               if($cur%$pernum == 0){
-                   $this->db->query($sql);
-                   $sql = "insert into ljzm_mail_records (lid,playername,playerid) ";
-               }else if($cur%$pernum == 1){
-                   $sql .=  " select $lid,'$player->name','$player->id' ";
-               }
-               else{
-                   $sql .= " union all select $lid,'$player->name','$player->id' ";
-               }
-
-               if($total == $cur && $cur%$pernum !=0 ){
-                    $this->db->query($sql);
-               }
-
-               $cur++;
-            }
-            return TRUE;
-        }
-
-        return FALSE;
-    }
 
     /**
     当类型奖励申请的时候,调用save完成后,记录收取该奖励的玩家
@@ -147,4 +129,5 @@ class Syslog extends Service
         return TRUE;
         return FALSE;
     }
+
 }
