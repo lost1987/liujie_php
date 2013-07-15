@@ -121,11 +121,11 @@ class Syslog extends Service
     /**
     当类型奖励申请的时候,调用save完成后,记录收取该奖励的玩家
      */
-    public function saveRewardPlayers($player){
-        $lid = $this->db->insert_id('ljzm_syslog');
+    public function tran_saveRewardPlayers($player,$db){
+        $lid = $db->insert_id('ljzm_syslog');
         $sql = "insert into ljzm_reward_records (lid,playername,playerid) values
                 ($lid,'$player->name','$player->id')";
-        if($this -> db -> query($sql)->queryState)
+        if($db -> query($sql)->queryState)
         return TRUE;
         return FALSE;
     }

@@ -13,7 +13,7 @@ Class complexDataService extends  Service {
     function complexDataService(){
         parent::__construct();
         $this -> table_complex = 'ComplexData';
-        $this -> db -> select_db('MMO2D_RecordLJZM');
+        $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
@@ -21,18 +21,29 @@ Class complexDataService extends  Service {
         $starttime = $condition->starttime;
         $endtime = $condition->endtime;
 
+        $date = $this->db->cast('date');
         if($starttime == $endtime){
-            $timecondition = " cast(date as datetime)='$starttime' ";
+            $timecondition = " $date='$starttime' ";
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+            $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         }
 
-        $sql = "select * from (select row_number() over (order by date desc) as rownumber, date ,sum(overyuanbao72) as overyuanbao72,
-         sum(registernum) as registernum,sum(createnum) as createnum,sum(loginnum) as loginnum,sum(maxonline) as maxonline,sum(aveonline) as aveonline,sum(recharge) as recharge,
-         sum(rechargeperson) as rechargeperson,sum(rechargenum) as rechargenum,sum(newrecharge) as newrecharge,sum(newrechargeperson) as newrechargeperson,sum(oldlogin) as oldlogin,
-         sum(oldrecharge) as oldrecharge,sum(consumption) as consumption,sum(overyuanbao) as overyuanbao,sum(arpu) as arpu,sum(newarpu) as newarpu,sum(rechargeratio) as rechargeratio
-         from $this->table_complex where sid in ($server_ids) and $timecondition group by date) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-        $list = $this -> db -> query($sql) -> result_objects();
+        $list = $this->db->select("date ,sum(overyuanbao72) as overyuanbao72,
+         sum(registernum) as registernum,sum(createnum) as createnum,
+         sum(loginnum) as loginnum,sum(maxonline) as maxonline,
+         sum(aveonline) as aveonline,sum(recharge) as recharge,
+         sum(rechargeperson) as rechargeperson,sum(rechargenum) as rechargenum,
+         sum(newrecharge) as newrecharge,sum(newrechargeperson) as newrechargeperson,sum(oldlogin) as oldlogin,
+         sum(oldrecharge) as oldrecharge,sum(consumption) as consumption,
+         sum(overyuanbao) as overyuanbao,sum(arpu) as arpu,sum(newarpu) as newarpu,
+         sum(rechargeratio) as rechargeratio")
+            ->from("$this->table_complex")
+            ->where("sid in ($server_ids) and $timecondition")
+            ->group_by("date")
+            ->limit($page->start,$page->limit,'date desc')
+            ->order_by('date desc')
+            ->get()
+            ->result_objects();
 
         foreach($list as &$obj){
               foreach($obj as $k => $v){
@@ -56,10 +67,11 @@ Class complexDataService extends  Service {
         $starttime = $condition->starttime;
         $endtime = $condition->endtime;
 
+        $date = $this->db->cast('date');
         if($starttime == $endtime){
-            $timecondition = " cast(date as datetime)='$starttime' ";
+            $timecondition = " $date='$starttime' ";
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+            $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         }
 
         $sql = "select count(distinct(date)) as num from $this->table_complex where sid in ($server_ids) and $timecondition";
@@ -72,10 +84,11 @@ Class complexDataService extends  Service {
         $endtime = $condition->endtime;
         $avecount = (strtotime($endtime) - strtotime($starttime)) / (3600*24);
 
+        $date = $this->db->cast('date');
         if($starttime == $endtime){
-            $timecondition = " cast(date as datetime)='$starttime' ";
+            $timecondition = " $date='$starttime' ";
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+            $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         }
 
         $sql = "select
@@ -89,7 +102,7 @@ Class complexDataService extends  Service {
              if(empty($v))$v = 'N/A';
          }
 
-        $sql = "select overyuanbao72,overyuanbao from $this->table_complex where cast(date as datetime) = '$endtime'";
+        $sql = "select overyuanbao72,overyuanbao from $this->table_complex where $date = '$endtime'";
         $temp = $this->db->query($sql)->result_object();
 
         $obj->overyuanbao72 =  isNan($temp -> overyuanbao72) ? 'N/A' : $temp->overyuanbao72;

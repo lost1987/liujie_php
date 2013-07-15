@@ -16,11 +16,12 @@ class RankDailyService extends ServerDBChooser{
         $this->rank_record_table= $this->prefix_2.'record';
         $this->rank_user_table=$this -> prefix_1.'user';
         $this->rank_rankid_table=$this->prefix_2.'playerrank';
+        $this->rank_static_table = $this->prefix_2.'rank';
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
+        $consql = $this->getCondition($condition);
         $sql = "select count(a.id1) as num  from $this->rank_record_table a left join $this->rank_user_table b on  a.id1=b.id left join  $this->rank_rankid_table p on a.id1=p.pid $consql";
         return $this->db->query($sql)->result_object()->num;
     }
@@ -30,17 +31,30 @@ class RankDailyService extends ServerDBChooser{
         if(!empty($server)){
             $this->dbConnect($server,$server->dynamic_dbname);
             $consql=$this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
- a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,b.yuanbao,p.rankid, k.name as rankname from $this->rank_record_table a
-left join $this->rank_user_table b on a.id1=b.id LEFT JOIN $this->rank_rankid_table as p
- on p.pid=a.id1 left join MMO2D_StaticLJZM.dbo.fr2_rank k on k.rankid=p.rankid $consql) as t where t.rownumber > $page->start and t.rownumber <= $page->limit ";
+            $time = $this->db->datetime('a.time');
+
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param2,a.param4,$time
+                        as time,b.id,b.account_name,b.name,b.levels,b.yuanbao,p.rankid")
+                        ->from("$this->rank_record_table a left join $this->rank_user_table b on a.id1=b.id LEFT JOIN $this->rank_rankid_table as p")
+                        -> on("p.pid=a.id1")
+                        -> where($consql)
+                        -> limit($page->start,$page->limit,'a.time desc')
+                        -> order_by('a.time desc')
+                        -> get() -> result_objects();
         }
-        $list = $this->db->query($sql)->result_objects();
+
+        //查询静态表
+        $this -> db -> select_db('mmo2d_staticljzm');
+        $static_ranks = $this -> db -> select("rankid,name") -> from($this->rank_static_table) -> get() -> result_objects();
 
         include BASEPATH . '/Common/event.php';
 
         foreach($list as &$obj){
+
+            $rank_obj = fetch_object_by_key('rankid',$obj->rankid,$static_ranks);
+
+            $obj->rankname = $rank_obj -> name;
+
             $obj->detail = empty($gameevent[$obj->param4]) ? '未知' : $gameevent[$obj->param4];
 
             if($obj->type==1){
@@ -72,8 +86,8 @@ left join $this->rank_user_table b on a.id1=b.id LEFT JOIN $this->rank_rankid_ta
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){

@@ -13,7 +13,7 @@ class UserStayDataService extends Service
         parent::__construct();
         $this -> table_userStay = 'UserStay';
         $this -> table_servers = DB_PREFIX.'servers';
-        $this -> db -> select_db('MMO2D_RecordLJZM');
+        $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
@@ -23,23 +23,24 @@ class UserStayDataService extends Service
 
         $list = array();
 
+        $date = $this->db->cast('date');
         if($starttime == $endtime){
-            $timecondition = " cast(date as datetime)='$starttime' ";
+            $timecondition = " $date='$starttime' ";
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+            $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         }
 
-        $sql = "select * from (select row_number() over (order by date desc) as rownumber, *
-                 from $this->table_userStay where sid in ($server_ids) and $timecondition ) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-
-
-        $list = $this -> db -> query($sql) -> result_objects();
+        $list = $this -> db -> select("*") -> from($this->table_userStay)
+                 ->where("sid in ($server_ids) and $timecondition")
+                 ->order_by("date desc")
+                 ->limit($page->start,$page->limit,'date desc')
+                 -> get() -> result_objects();
 
         $this -> db -> close();
 
-        $tempDB = new Mssql();
+        $tempDB = new DB();
         $tempDB -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-        $tempDB -> select_db('MMO2D_admin');
+        $tempDB -> select_db('mmo2d_admin');
         $sql = "select id,name from $this->table_servers where id in ($server_ids)";
         $servers = $tempDB -> query($sql) -> result_objects();
 
@@ -70,10 +71,11 @@ class UserStayDataService extends Service
         $starttime = $condition->starttime;
         $endtime = $condition->endtime;
 
+        $date = $this->db->cast('date');
         if($starttime == $endtime){
-            $timecondition = " cast(date as datetime)='$starttime' ";
+            $timecondition = " $date='$starttime' ";
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+            $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         }
         $sql = "select count(date) as num from $this->table_userStay where sid in ($server_ids) and $timecondition ";
         $obj = $this -> db -> query($sql) -> result_object();
@@ -85,10 +87,11 @@ class UserStayDataService extends Service
         $starttime = $condition->starttime;
         $endtime = $condition->endtime;
 
+        $date = $this->db->cast('date');
         if($starttime == $endtime){
-            $timecondition = " cast(date as datetime)='$starttime' ";
+            $timecondition = " $date='$starttime' ";
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+            $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         }
 
         $sql = "select

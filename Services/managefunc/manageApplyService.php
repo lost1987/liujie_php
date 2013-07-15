@@ -20,8 +20,13 @@ class ManageApplyService extends Service
 
     public function lists($page){
         require BASEPATH.'/Common/contentconfig.php';
-        $sql = "select * from (select row_number() over (order by a.applytime desc) as rownumber, a.* from  $this->table_manage_apply a ) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-        $res = $this->db->query($sql)->result_objects();
+
+        $res = $this -> db -> select("a.*")
+               -> from("$this->table_manage_apply a")
+               -> limit($page->start,$page->limit,'a.applytime desc')
+               -> get()
+               -> result_objects();
+
         foreach($res as &$apply){
             $apply->stateName = $state[$apply->state];
             $apply->applytime = date('Y-m-d H:i:s',$apply->applytime);

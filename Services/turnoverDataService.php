@@ -12,7 +12,7 @@ class TurnoverDataService extends Service
     function TurnoverDataService(){
         parent::__construct();
         $this -> table_turnover = 'TurnoverData';
-        $this -> db -> select_db('MMO2D_RecordLJZM');
+        $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
@@ -21,13 +21,15 @@ class TurnoverDataService extends Service
         $endtime = $condition->endtime.' 23:59:59';
 
         $list = array();
+        $date = $this->db->cast('date');
+        $datetime = $this->db->datetime('date',10,120);
         if(substr($starttime,0,10) == substr($endtime,0,10)){
             $date_time_array = $this -> getDayTime($starttime);
 
-            $sql = "select * from (select row_number() over (order by u.turnover24 asc) as rownumber,* from ( ";
-
+            $sql = '';
+            $this->db->select("*");
             foreach($date_time_array as $datetime){
-                $timecondition =   "(cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$datetime')";
+                $timecondition =   "$date >= '$starttime' and $date <= '$datetime')";
                 $sql .= "select
                      sum(turnover24) as turnover24,avg(turnover24percent) as turnover24percent,
                      sum(turnover72) as turnover72,avg(turnover72percent) as turnover72percent,
@@ -35,17 +37,24 @@ class TurnoverDataService extends Service
                      from $this->table_turnover where sid in ($server_ids) and $timecondition union all ";
             }
             $sql = substr($sql,0,strlen($sql) - 11);
-            $sql .= "  ) as u ) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+            $this->db->from( "($sql) as u" )
+                ->order_by('u.turnover24 asc')
+                ->limit($page->start,$page->limit,'u.turnover24 asc');
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
-            $sql = "select * from (select row_number() over (order by CONVERT(varchar(10), cast(date as datetime), 120) desc) as rownumber, CONVERT(varchar(10), cast(date as datetime), 120) as date ,
-                     sum(turnover24) as turnover24,avg(turnover24percent) as turnover24percent,
-                     sum(turnover72) as turnover72,avg(turnover72percent) as turnover72percent,
-                     sum(turnover168) as turnover168,avg(turnover168percent) as turnover168percent
-                     from $this->table_turnover where sid in ($server_ids) and $timecondition group by CONVERT(varchar(10), cast(date as datetime), 120) ) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+            $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
+            $this->db->select("$datetime as date ,sum(turnover24) as turnover24,
+                                avg(turnover24percent) as turnover24percent,
+                                 sum(turnover72) as turnover72,avg(turnover72percent) as turnover72percent,
+                                    sum(turnover168) as turnover168,
+                                    avg(turnover168percent) as turnover168percent")
+                ->from($this->table_turnover)
+                ->where("sid in ($server_ids) and $timecondition")
+                ->group_by($datetime)
+                ->order_by("$datetime desc")
+                ->limit($page->start,$page->limit,"$datetime desc");
         }
 
-        $list = $this -> db -> query($sql) -> result_objects();
+        $list = $this -> db -> get() -> result_objects();
 
         $flag = $page->start;
         foreach($list as &$obj){
@@ -75,8 +84,10 @@ class TurnoverDataService extends Service
         if(substr($starttime,0,10) == substr($endtime,0,10)){
             return count($this -> getDayTime($starttime));
         }else{
-            $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
-            $sql = "select count(  distinct   (CONVERT(varchar(10), cast(date as datetime), 120)  )   ) as num from $this->table_turnover where sid in ($server_ids) and $timecondition group by CONVERT(varchar(10), cast(date as datetime), 120)";
+            $date = $this->db->cast('date');
+            $datetime = $this->db->datetime($date,10,120);
+            $timecondition = " $date  >= '$starttime' and $date <= '$endtime' ";
+            $sql = "select count(  distinct   ($datetime )   ) as num from $this->table_turnover where sid in ($server_ids) and $timecondition group by $datetime";
             $obj = $this -> db -> query($sql) -> result_object();
             if(!empty($obj))
             return $obj -> num;

@@ -22,15 +22,19 @@ class DailyActivityDataService extends Service
 
         $list = array();
 
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db->cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
-        $sql = "select * from (select row_number() over (order by activityname asc) as rownumber, activityname,
+        $list = $this->db->select("activityname,
                 activitylevel,sum(loginlevel) as loginlevel,sum(jionactivityperson) as jionactivityperson,
-                sum(jionactivitynum) as jionactivitynum,sum(completeactivitynum) as completeactivitynum
-                 from $this->table_dailyactivity where sid in ($server_ids) and $timecondition group by activityname,activitylevel) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+                sum(jionactivitynum) as jionactivitynum,sum(completeactivitynum) as completeactivitynum")
+               -> from($this->table_dailyactivity)
+               -> where("sid in ($server_ids) and $timecondition" )
+               -> group_by("activityname,activitylevel")
+               -> limit($page->start,$page->limit,'activityname asc')
+               -> get()
+               -> result_objects();
 
-
-        $list = $this -> db -> query($sql) -> result_objects();
 
         foreach($list as &$obj){
             $obj -> completeactivitypercent = $obj->jionactivitynum == 0 ? '0%' :  number_format($obj->completeactivitynum/$obj->jionactivitynum,4)*100 . '%';
@@ -46,7 +50,8 @@ class DailyActivityDataService extends Service
         $starttime = $condition->starttime.' 00:00:00';
         $endtime = $condition->endtime.' 23:59:59';
 
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db->cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = "select activityname  from $this->table_dailyactivity where sid in ($server_ids) and $timecondition group by activityname";
         $obj = $this -> db -> query($sql) -> result_objects();
         return count($obj);

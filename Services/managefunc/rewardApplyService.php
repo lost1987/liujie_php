@@ -16,7 +16,7 @@ class RewardApplyService extends ServerDBChooser
         $this -> table_syslog = 'ljzm_syslog';
         $this -> table_reward_record = 'ljzm_reward_records';
 
-        $this -> db_static = 'MMO2D_StaticLJZM';
+        $this -> db_static = 'mmo2d_staticljzm';
 
         require BASEPATH.'/Common/contentconfig.php';
         $this -> state = $state;
@@ -30,19 +30,23 @@ class RewardApplyService extends ServerDBChooser
         $flag = 0;
         if(count($servers) > 0){
             foreach($servers as $server){
-                $db = new Mssql();//连接分发数据库
+                $db = new DB();//连接分发数据库
                 $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-                $db -> select_db('MMO2D_admin');
-                $sql =  "select a.*,CONVERT(varchar(20), donetime, 120) as dtime,b.playername,b.playerid  from $this->table_syslog a left join $this->table_reward_record b on a.id = b.lid where server_id=$server->id and type=9 $cond order by donetime desc";
-                $loglist = $db->query($sql)->result_objects();
+                $db -> select_db(DB_NAME);
+
+                $donetime = $db->datetime("donetime");
+                $loglist = $db->select("a.*,$donetime as dtime,b.playername,b.playerid")
+                           -> from("$this->table_syslog a left join $this->table_reward_record b")
+                           -> on("a.id=b.lid")
+                           -> where("server_id=$server->id and type=9")
+                           -> where($cond)
+                           -> order_by("donetime desc")
+                           -> get()->result_objects();
+
                 $db -> close();
                 unset($db);
 
                 //获取物品列表
-            /*    $this->dbConnect($server,$this->db_static);
-                $sql = "select id,name from $this->table_item";
-                $items = $this->db->query($sql)->result_objects();
-                $this->dbClose();*/
                 $this->dbConnect($server);
                 $items = Datacache::getStaticItems($this->db);
 
@@ -85,9 +89,9 @@ class RewardApplyService extends ServerDBChooser
         $servers = $condition->servers;
         $nums = 0;
         if(!empty($servers)){
-            $db = new Mssql();//连接分发数据库
+            $db = new DB();//连接分发数据库
             $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-            $db -> select_db('MMO2D_admin');
+            $db -> select_db('mmo2d_admin');
             foreach($servers as $server){
                 $sql = "select count(id) as num from $this->table_syslog where server_id=$server->id and type=9 ";
                 $num = $db -> query($sql) -> result_object() -> num;
@@ -110,12 +114,14 @@ class RewardApplyService extends ServerDBChooser
         $server = $reward -> server;
         $item_num = empty($reward->item_num) ? 0 : $reward->item_num;
 
+        try{
         //分析players的server 并吧它按server分组
         if(!empty($server)){
                 $code = time();//每个服务器一个时间标识
 
                 //验证当前的角色是否存在
                 $this->dbConnect($server,$server->dynamic_dbname);
+                $this->db->trans_begin();
                 $sql = "select id , name from $this->table_user where name = '$playername'";
                 $res = $this->db ->query($sql)->result_object();
 
@@ -138,13 +144,21 @@ class RewardApplyService extends ServerDBChooser
                     $log -> state = 0;
 
                     $slog = new Syslog();
-                    $slog -> setlog($log) -> save() -> saveRewardPlayers($res);
-                    return 0;
+                    $logdb = new DB();
+                    $logdb -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
+                    $logdb -> select_db(DB_NAME);
+                    $slog -> setlog($log) -> tran_save($logdb) -> tran_saveRewardPlayers($res,$logdb);
                 }
+            }
 
-                return -1;
+            $this->db->commit();
+            $logdb->commit();
+            return 0;
+        }catch(Exception $e){
+            $this->db->rollback();
+            $logdb->rollback();
         }
-        return 1;
+        return -1;
     }
 
     private function getItemByID($id,$items){
@@ -165,9 +179,9 @@ class RewardApplyService extends ServerDBChooser
     public function rewardPlayers($server,$lid){
         $list= array();
         if(!empty($server)){
-            $db = new Mssql();//连接分发数据库
+            $db = new DB();//连接分发数据库
             $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-            $db -> select_db('MMO2D_admin');
+            $db -> select_db('mmo2d_admin');
 
             $list = $db -> query("select playername from $this->table_reward_record where lid=$lid") -> result_objects();
             $db -> close();

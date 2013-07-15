@@ -13,8 +13,24 @@ class Mssql
 
         public $queryState;
 
-        function Mssql(){
+        private $_sql;
 
+        private $_limit_pre;
+
+        private $_limit_after;
+
+        private $_table;
+
+        private $_condition;
+
+        private $_on_condition;
+
+        private $_order_by;
+
+        private $_group_by;
+
+        function Mssql(){
+                $this -> flush();
         }
 
         public function connect($DB_HOST,$DB_USER,$DBPWD,$NEWLINK=FALSE){
@@ -63,5 +79,114 @@ class Mssql
 
        public function close(){
            mssql_close($this->link);
+       }
+
+        /**
+         * @addonal 扩展方法
+         */
+
+       public function select($sql){
+           $this -> _sql = 'select '.$sql;
+           return $this;
+       }
+
+       public function from($table){
+           $this -> _table = ' from '.$table;
+           return $this;
+       }
+
+       public function limit($start,$limit,$order='id asc'){
+           if(strpos($order,'order') > -1)$order = str_replace('order','',$order);
+           if(strpos($order,'by') > -1)$order = str_replace('by','',$order);
+           $this->_limit_pre = "select * from (select row_number() over (order by $order) as rownumber,  ";
+           $this->_limit_after = " ) as t where t.rownumber > $start and t.rownumber <= $limit";
+           $this->_sql = str_replace('select',' ',$this->_sql);
+           return $this;
+       }
+
+        public function where($condition){
+            if(empty($condition))return $this;
+
+            if(strpos($condition,'where') > -1)
+                $condition = str_replace('where','',$condition);
+            if(strpos($this->_condition,'where') > -1)
+                $this -> _condition = str_replace('where','',$this->_condition);
+
+            $this -> _condition = " where $this->_condition $condition ";
+            return $this;
+        }
+
+        public function on($on_condition){
+            if(empty($on_condition))return $this;
+            $this -> _on_condition = " on $on_condition ";
+            return $this;
+        }
+
+        public function order_by($order){
+            if(strpos($order,'order') > -1)$order = str_replace('order','',$order);
+            if(strpos($order,'by') > -1)$order = str_replace('by','',$order);
+            $this -> _order_by = ' order by '.$order;
+            return $this;
+        }
+
+        public function group_by($group_by){
+            $this -> _group_by = ' group by '.$group_by;
+            return $this;
+        }
+
+       public function get(){
+           error_log($this->_limit_pre.
+               $this->_sql.
+               $this->_table.
+               $this->_on_condition.
+               $this->_condition.
+               $this->_group_by.
+               $this->_limit_after.
+               $this->_order_by);
+           $this->queryState = mssql_query(
+                $this->_limit_pre.
+                $this->_sql.
+                $this->_table.
+                $this->_on_condition.
+                $this->_condition.
+                $this->_group_by.
+                $this->_limit_after.
+                $this->_order_by
+               ,$this->link);
+
+            $this->flush();
+            return $this;
+       }
+
+       private function flush(){
+           $this -> _sql = '';
+           $this -> _limit_pre = '';
+           $this -> _limit_after = '';
+           $this -> _table = '';
+           $this -> _condition = '';
+           $this -> _on_condition = '';
+           $this -> _order_by = '';
+           $this -> _group_by = '';
+       }
+
+       public function datetime($columnName,$limit=20,$total=120){
+            return "CONVERT(varchar($limit), $columnName, $total)";
+       }
+
+
+       public function cast($columnName){
+           return "cast($columnName as datetime)";
+       }
+
+       public function trans_begin(){
+           mssql_query('begin tran',$this->link);
+       }
+
+       public function commit(){
+           mssql_query('commit tran',$this->link);
+       }
+
+       public function rollback(){
+           mssql_query('rollback tran',$this->link);
        }
 }

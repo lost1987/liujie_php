@@ -20,8 +20,14 @@ class AdminApplyManageService extends Service
     public function lists($page,$condition){
             require BASEPATH.'/Common/contentconfig.php';
             $cond = $this->getCondition($condition);
-            $sql = "select * from (select row_number() over (order by a.applytime desc) as rownumber, a.* from  $this->table_admin_apply a $cond) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            $list = $this->db->query($sql)->result_objects();
+
+            $list = $this->db->select("a.*")
+                    ->from("$this->table_admin_apply a")
+                    ->where($cond)
+                    ->limit($page->start,$page->limit,'a.applytime desc')
+                    -> get()
+                    -> result_objects();
+
             foreach($list as &$apply){
                 $apply->permission = $apply_permissions[$apply->permission];
                 $apply->stateName = $state[$apply->state];

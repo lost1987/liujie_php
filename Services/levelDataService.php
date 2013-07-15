@@ -11,7 +11,7 @@ class LevelDataService extends Service
     function LevelDataService(){
         parent::__construct();
         $this -> table_level = 'LevelData';
-        $this -> db -> select_db('MMO2D_RecordLJZM');
+        $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($condition){

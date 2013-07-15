@@ -12,7 +12,7 @@ class userTurnOverDataService extends  Service
      function userTurnOverDataService(){
           parent::__construct();
           $this -> table_userTurnOver = 'UserTurnOver';
-          $this -> db -> select_db('MMO2D_RecordLJZM');
+          $this -> db -> select_db('mmo2d_recordljzm');
      }
 
     public function lists($page,$condition){
@@ -22,13 +22,16 @@ class userTurnOverDataService extends  Service
 
         $list = array();
 
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db -> cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
-        $sql = "select * from (select row_number() over (order by date asc) as rownumber, *
-                 from $this->table_userTurnOver where sid in ($server_ids) and $timecondition ) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-
-
-        $list = $this -> db -> query($sql) -> result_objects();
+        $list = $this->db->select("*")
+                ->from("$this->table_userTurnOver")
+                ->where("sid in ($server_ids) and $timecondition")
+                ->order_by("date asc")
+                ->limit($page->start,$page->limit,'date asc')
+                ->get()
+                ->result_objects();
 
         foreach($list as &$obj){
             $obj -> firstloadpercent = number_format($obj->firstloadpercent,2)*100 . '%';
@@ -47,7 +50,8 @@ class userTurnOverDataService extends  Service
         $starttime = $condition->starttime.' 00:00:00';
         $endtime = $condition->endtime.' 23:59:59';
 
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db->cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = "select count(date) as num from $this->table_userTurnOver where sid in ($server_ids) and $timecondition ";
         $obj = $this -> db -> query($sql) -> result_object();
         return $obj->num;
@@ -57,7 +61,8 @@ class userTurnOverDataService extends  Service
         $server_ids = $condition -> server_ids;
         $starttime = $condition->starttime.' 00:00:00';
         $endtime = $condition->endtime.' 23:59:59';
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db->cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
         $sql = "select
          sum(jumpnum) as jumpnum,sum(willcreatenum) as willcreatenum,sum(loginnum) as loginnum,sum(createnum) as createnum,sum(firsttasknum) as firsttasknum,sum(completetasknum) as completetasknum

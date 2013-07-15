@@ -11,7 +11,7 @@ class RechargeDataService extends Service
     function RechargeDataService(){
         parent::__construct();
         $this -> table_rechargeData = 'RechargeData';
-        $this -> db -> select_db('MMO2D_RecordLJZM');
+        $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($condition){
@@ -20,15 +20,18 @@ class RechargeDataService extends Service
         $endtime = $condition->endtime.' 23:59:59';
         $timediff = $condition->timediff;
 
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db->cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = '';
         switch($timediff){
             //所有
-            case 1: $sql = "select CONVERT(varchar(30), cast(date as datetime), 120) as date,rechargeperson,newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition order by date asc";
-                break;
+            case 1: $datetime = $this->db->datetime($date,30,120);
+                    $sql = "select $datetime as date,rechargeperson,newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition order by date asc";
+                    break;
             //24小时
-            case 2: $sql = "select CONVERT(varchar(10), cast(date as datetime), 120) as date,sum(rechargeperson) as rechargeperson,sum(newrechargeperson) as newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition
-                            group by CONVERT(varchar(10), cast(date as datetime), 120) order by date asc";
+            case 2: $datetime = $this->db->datetime($date,10,120);
+                    $sql = "select $datetime as date,sum(rechargeperson) as rechargeperson,sum(newrechargeperson) as newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition
+                            group by $datetime order by date asc";
         }
 
         $list = $this -> db -> query($sql) -> result_objects();

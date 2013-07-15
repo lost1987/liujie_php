@@ -27,6 +27,7 @@ require BASEPATH . '/Common/common.php';
 
 spl_autoload_register(array('Autoload','_autoload'));
 
+Engine::createDBClass();
 /**
  * config
  */

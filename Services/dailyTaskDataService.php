@@ -12,7 +12,7 @@ class DailyTaskDataService extends Service
     function DailyTaskDataService(){
         parent::__construct();
         $this -> table_dailytask = 'DailyTask';
-        $this -> db -> select_db('MMO2D_RecordLJZM');
+        $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
@@ -22,14 +22,17 @@ class DailyTaskDataService extends Service
 
         $list = array();
 
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db->cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
-        $sql = "select * from (select row_number() over (order by taskname asc) as rownumber,taskname, sum(jiontasknum) as jiontasknum,
-                sum(accepttasknum) as accepttasknum,sum(completetasknum) as completetasknum, tasklevel,sum(loginlevel) as loginlevel
-                 from $this->table_dailytask where sid in ($server_ids) and $timecondition group by taskname,tasklevel) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-
-
-        $list = $this -> db -> query($sql) -> result_objects();
+        $list = $this->db->select("taskname, sum(jiontasknum) as jiontasknum,
+                sum(accepttasknum) as accepttasknum,sum(completetasknum) as completetasknum,
+                 tasklevel,sum(loginlevel) as loginlevel")
+                 ->from($this->table_dailytask)
+                 ->where("sid in ($server_ids) and $timecondition")
+                 ->group_by('taskname,tasklevel')
+                 ->limit($page->start,$page->limit,'taskname asc')
+                 ->order_by('taskname asc')->get()->result_objects();
 
         foreach($list as &$obj){
             //$obj -> completetaskpercent = number_format($obj->completetaskpercent,2)*100 . '%';
@@ -47,7 +50,8 @@ class DailyTaskDataService extends Service
         $starttime = $condition->starttime.' 00:00:00';
         $endtime = $condition->endtime.' 23:59:59';
 
-        $timecondition = " cast(date as datetime) >= '$starttime' and cast(date as datetime) <= '$endtime' ";
+        $date = $this->db->cast('date');
+        $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = "select taskname as num from $this->table_dailytask where sid in ($server_ids) and $timecondition group by taskname,tasklevel";
         $obj = $this -> db -> query($sql) -> result_objects();
         return count($obj);

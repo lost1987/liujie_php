@@ -27,9 +27,9 @@ class PeiyangDailyService extends ServerDBChooser{
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id LEFT JOIN fr_useritem c on c.pid=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item d on a.param1=d.id $consql";
+        $consql = $this->getCondition($condition);
+        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id  $consql";
         return $this->db->query($sql)->result_object()->num;
 
     }
@@ -48,8 +48,8 @@ class PeiyangDailyService extends ServerDBChooser{
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){
@@ -128,19 +128,33 @@ class PeiyangDailyService extends ServerDBChooser{
         return $sql = " where a.param4 in ($this->arr_str) and ".$sql;
 
     }
+
+
     public function lists($page,$condition){
         $server=$condition->server;
         if(!empty($server)){
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,d.name as pyname from  $this->table_record a left join   $this->table_user b on a.id1=b.id LEFT JOIN fr_useritem c on c.pid=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item d on a.param1=d.id $consql)
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+            $time = $this->db->datetime('a.time');
 
-            $list = $this->db->query($sql)->result_objects();
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param1,a.param2,a.param4,$time
+                                        as time,b.id,b.account_name,b.name,b.levels")
+                             ->from("$this->table_record a left join   $this->table_user b")
+                             ->on('a.id1=b.id')
+                             ->where($consql)
+                             ->order_by('a.time desc')
+                             ->limit($page->start,$page->limit,'a.time desc')
+                             ->get()->result_objects();
+
+            $items = Datacache::getStaticItems($this->db);
+
+            $this->db->close();
+
 
             foreach($list as &$obj){
+
+                $obj->pyname = fetch_object_by_key('id',$obj->param1,$items) -> name;
+
                 $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
 
                 if($obj->type==1){

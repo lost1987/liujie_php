@@ -23,14 +23,15 @@ class SoulDailyService extends ServerDBChooser{
         $this->arr_str=implode(',',$list);
         $this->table_record= $this->prefix_2.'record';
         $this->table_user= $this->prefix_1.'user';
+        $this->table_item = $this->prefix_1.'item';
 
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id LEFT JOIN fr_useritem c on c.pid=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item d on a.param1=d.id $consql";
-        return $this->db->query($sql)->result_object()->num;
+        $consql = $this->getCondition($condition);
+        $sql = "select id1  from $this->table_record a left join $this->table_user b on  a.id1=b.id  $consql group by a.time,a.id1";
+        return count($this->db->query($sql)->result_objects());
 
     }
     public function getCondition($condition){
@@ -48,8 +49,8 @@ class SoulDailyService extends ServerDBChooser{
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){
@@ -134,12 +135,25 @@ class SoulDailyService extends ServerDBChooser{
         if(!empty($server)){
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,d.name as soulname from  $this->table_record a left join   $this->table_user b on a.id1=b.id LEFT JOIN fr_useritem c on c.pid=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item d on a.param1=d.id $consql)
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            $list = $this->db->query($sql)->result_objects();
+            $time = $this->db->datetime('a.time');
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param2,a.param4,a.param1,$time
+                                   as time,b.id,b.account_name,b.name,b.levels")
+                                ->from("$this->table_record a left join   $this->table_user b on a.id1=b.id")
+                                ->where($consql)
+                                ->limit($page->start,$page->limit,'a.time desc')
+                                ->group_by('a.time,a.id1')
+                                ->order_by('a.time desc')
+                                ->get() -> result_objects();
+
+//            $this->db->select_db('mmo2d_staticljzm');
+//            $items = $this->db->select("name , id")->from($this->table_item)->get()->result_objects();
+            $items = Datacache::getStaticItems($this->db);
+            $this->db->close();
+
             foreach($list as &$obj){
+
+                $obj->soulname = fetch_object_by_key('id',$obj->param1,$items) -> name;
+
                 $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
 
                 if($obj->type==1){

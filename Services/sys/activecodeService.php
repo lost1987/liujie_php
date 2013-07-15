@@ -13,8 +13,8 @@ class ActivecodeService extends  ServerDBChooser
         $this -> table_activecode = $this->prefix_2.'activecode';
         $this -> table_item = $this->prefix_1.'item';
 
-        $this -> db_activecode = 'MMO2D_BaseLJZM';
-        $this -> db_static = 'MMO2D_StaticLJZM';
+        $this -> db_activecode = 'mmo2d_baseljzm';
+        $this -> db_static = 'mmo2d_staticljzm';
     }
 
     public function lists($page,$condition){
@@ -23,8 +23,9 @@ class ActivecodeService extends  ServerDBChooser
             $flag = 0;
             foreach($servers as $server){
                 $this -> dbConnect($server,$this->db_activecode);
+                $ctime = $this->db->datetime('ctime');
                 $sql = "select
-                count(id) as nums , name,CONVERT(varchar(20), ctime, 120) as ctime from $this->table_activecode where sid = $server->id  group by
+                count(id) as nums , name,$ctime as ctime from $this->table_activecode where sid = $server->id  group by
                 name,ctime order by ctime desc";
                 $templist = $this -> db -> query($sql) -> result_objects();
                 if(is_array($templist)){
@@ -83,7 +84,7 @@ class ActivecodeService extends  ServerDBChooser
         $db_flag  = 0;
         $dbs = array();
         foreach($servers as $server){
-            $dbs[$db_flag]['db'] = new Mssql();
+            $dbs[$db_flag]['db'] = new DB();
             $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
             $db_flag++;
         }
@@ -110,7 +111,7 @@ class ActivecodeService extends  ServerDBChooser
                 if($errorcode > 0)return $errorcode;
 
                 $db -> select_db($this->db_activecode);
-                $db -> query("begin tran");
+                $db -> trans_begin();
                 $executed_dbs[] = $db;
                 $nums = $activecode->nums;
                 $sql = "insert into $this->table_activecode (acode,name,astate,ctime,amask,itemid0,nums0,itemid1,nums1,itemid2,nums2,itemid3,nums3,itemid4,nums4,itemid5,nums5,itemid6,nums6,itemid7,nums7,aid,sid )  ";
@@ -159,34 +160,34 @@ class ActivecodeService extends  ServerDBChooser
                 $log -> refer_name = '';
 
                 $slog = new Syslog();
-                $log_db = new Mssql();
+                $log_db = new DB();
                 $logdbs[] = $log_db;
                 $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                 $log_db -> select_db(DB_NAME);
-                $log_db -> query("begin tran");
+                $log_db -> trans_begin();
                 $slog -> setlog($log) -> tran_save($log_db);
             }
 
             //执行完成 提交
             for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                $executed_dbs[$i] -> query("commit tran");
+                $executed_dbs[$i] -> commit();
                 $executed_dbs[$i] -> close();
             }
 
             for($i = 0 ; $i < count($logdbs) ; $i++){
-                $logdbs[$i] -> query("commit tran");
+                $logdbs[$i] -> commit();
                 $logdbs[$i] -> close();
             }
 
             return 0;
         }catch (Exception $e){
             for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                $executed_dbs[$i] -> query("rollback tran");
+                $executed_dbs[$i] -> rollback();
                 $executed_dbs[$i] -> close();
             }
 
             for($i = 0 ; $i < count($logdbs) ; $i++){
-                $logdbs[$i] -> query("rollback tran");
+                $logdbs[$i] -> rollback();
                 $logdbs[$i] -> close();
             }
         }

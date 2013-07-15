@@ -21,7 +21,9 @@ class NoticeService extends ServerDBChooser
          if(!empty($servers)){
              foreach($servers as $server){
                  $this->dbConnect($server,$server->dynamic_dbname);
-                 $sql = "select id,CONVERT(varchar(20),  starttime, 120) as starttime,CONVERT(varchar(20),  endtime, 120) as endtime,time,context from  $this->table_notice order by endtime desc";
+                 $starttime = $this->db->datetime('starttime');
+                 $endtime = $this->db->datetime('endtime');
+                 $sql = "select id,$starttime as starttime,$endtime as endtime,time,context from  $this->table_notice order by endtime desc";
                  $templist = $this -> db -> query($sql) -> result_objects();
                  foreach($templist as $obj){
                      if($flag >= $page->start && $flag <= $page -> limit){
@@ -90,7 +92,7 @@ class NoticeService extends ServerDBChooser
         $db_flag  = 0;
         $dbs = array();
         foreach($servers as $server){
-            $dbs[$db_flag]['db'] = new Mssql();
+            $dbs[$db_flag]['db'] = new DB();
             $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
             $dbs[$db_flag]['dynamic_dbname'] = $server->dynamic_dbname;
             $db_flag++;
@@ -105,7 +107,7 @@ class NoticeService extends ServerDBChooser
                 $sql = "select max(id) as mid from $this->table_notice";
                 $res = $db -> query($sql) -> result_object();
                 $id = intval($res->mid) + 1;
-                $db -> query("begin tran");
+                $db -> trans_begin();
                 $executed_dbs[] = $db;
                 $sql = "insert into $this->table_notice (id,context,time,starttime,endtime,starthour,startmin,endhour,endmin)
                     values ($id,'$context',$time,'$starttime','$endtime',$starthour,$startmin,$endhour,$endmin)";
@@ -124,33 +126,33 @@ class NoticeService extends ServerDBChooser
                 $log -> refer_name = 'id';
 
                 $slog = new Syslog();
-                $log_db = new Mssql();
+                $log_db = new DB();
                 $logdbs[] = $log_db;
                 $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                 $log_db -> select_db(DB_NAME);
-                $log_db -> query("begin tran");
+                $log_db -> trans_begin();
                 $slog -> setlog($log) -> tran_save($log_db);
             }
 
             //执行完成 提交
             for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                $executed_dbs[$i] -> query("commit tran");
+                $executed_dbs[$i] -> commit();
                 $executed_dbs[$i] -> close();
             }
 
             for($i = 0 ; $i < count($logdbs) ; $i++){
-                $logdbs[$i] -> query("commit tran");
+                $logdbs[$i] -> commit();
                 $logdbs[$i] -> close();
             }
             return TRUE;
         }catch (Exception $e){
             for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                $executed_dbs[$i] -> query("rollback tran");
+                $executed_dbs[$i] -> rollback();
                 $executed_dbs[$i] -> close();
             }
 
             for($i = 0 ; $i < count($logdbs) ; $i++){
-                $logdbs[$i] -> query("rollback tran");
+                $logdbs[$i] -> rollback();
                 $logdbs[$i] -> close();
             }
         }

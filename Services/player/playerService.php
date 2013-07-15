@@ -88,18 +88,23 @@ class PlayerService extends ServerDBChooser
             $this -> table_userother = $this->prefix_1.'userothervalue';
             $this -> table_map = $this->prefix_1.'map';
 
-            $this -> db_base = 'MMO2D_BaseLJZM';
-            $this -> db_static = 'MMO2D_StaticLJZM';
+            $this -> db_base = 'mmo2d_baseljzm';
+            $this -> db_static = 'mmo2d_staticljzm';
      }
 
      public function lists($page,$condition){
            $this -> dbConnect($condition->server,$condition->server->dynamic_dbname);
            $condition_sql = $this -> getCondition($condition);
            $orderSql = $this->getOrder($condition->order);
-           $sql = "select  account_id,account_name,id,name,profession,levels,money,yuanbao,camp,partyname,server
-                 from (select row_number() over ($orderSql) as rownumber, *
-                 from $this->table_player $condition_sql) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-           $list = $this -> db -> query($sql) -> result_objects();
+
+           $list = $this -> db -> select("account_id,account_name,id,name,profession,levels,money,yuanbao,camp,partyname,server")
+                               -> from($this->table_player)
+                               -> where($condition_sql)
+                               -> order_by($orderSql)
+                               -> limit($page->start,$page->limit,$orderSql)
+                               -> get()
+                               -> result_objects();
+
            foreach($list as &$obj){
                $obj -> servername = $condition->server->name;
                $obj -> profession = $this -> _profession[$obj->profession];
@@ -155,14 +160,16 @@ class PlayerService extends ServerDBChooser
             case 3: $orderSql = "order by money desc";
                     break;
         }
-        error_log($orderSql);
         return $orderSql;
     }
 
     public function detail($id,$server){
         $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select a.id,a.account_name,a.name,a.defencecap,a.state,CONVERT(varchar(20), a.createdate, 120) as createdate,CONVERT(varchar(20), a.last_login, 120) as last_login,a.last_ip,a.onlinetime,a.loginday,
-                CONVERT(varchar(20), a.last_logout, 120) as last_logout,a.camp,a.levels,a.profession,a.yuanbao,a.money,a.mask0,a.partyname,a.account_id,
+        $createdate = $this->db->datetime('a.createdate');
+        $lastlogin = $this->db->datetime('a.last_login');
+        $lastlogout = $this->db->datetime('a.last_logout');
+        $sql = "select a.id,a.account_name,a.name,a.defencecap,a.state,$createdate as createdate,$lastlogin as last_login,a.last_ip,a.onlinetime,a.loginday,
+                $lastlogout as last_logout,a.camp,a.levels,a.profession,a.yuanbao,a.money,a.mask0,a.partyname,a.account_id,
                 a.partyjob,a.banggong,a.rongyu,a.lingqi,a.mask18,a.recordmap_id,a.recordx,a.recordy,b.pvalue,c.rankid,c.rankpt
                 from $this->table_player a left join $this->table_userother b on a.id = b.id and b.pindex=0 left join
                 $this->table_playerrank c on a.id = c.pid where a.id = $id";
@@ -215,7 +222,7 @@ class PlayerService extends ServerDBChooser
         //查询IP地理位置
         $QQWry = new QQWry;
         $QQWry->QQWry($player->last_ip);
-        $player -> location = iconv('GBK','UTF-8',$QQWry->Country.$QQWry->Local);
+        $player -> location = DB_TYPE=='Mssql' ? iconv('GBK','UTF-8',$QQWry->Country.$QQWry->Local) : $QQWry->Country.$QQWry->Local;
 
        return $player;
     }
@@ -259,7 +266,7 @@ class PlayerService extends ServerDBChooser
             $sql1 = "update $this->table_base set state = 1 where aountid in ($aids)";
 
 
-            $db = new Mssql();
+            $db = new DB();
             $db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
             $db -> select_db($server->dynamic_dbname);
             $db -> query("begin tran t2");

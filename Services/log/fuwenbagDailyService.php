@@ -8,12 +8,11 @@
  * 符文宝箱日志
  */
 class FuwenbagDailyService extends ServerDBChooser{
-    private $fuwencondtion='%符文宝箱%';
     function FuwenbagDailyService(){
         $this->table_record = 'fr2_record';
         $this->table_user = 'fr_user';
         $this->table_item= 'fr_item';
-
+        $this->db_static = 'mmo2d_staticljzm';
     }
     public function getCondition($condition){
         $starttime = $condition->starttime;
@@ -30,8 +29,8 @@ class FuwenbagDailyService extends ServerDBChooser{
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){
@@ -107,27 +106,44 @@ class FuwenbagDailyService extends ServerDBChooser{
 
 
         if(empty($sql))
-            return " where c.name like  '$this->fuwencondtion'";
-        return $sql = " where c.name like  '$this->fuwencondtion' and ".$sql;
+        return '';
+        return " and ".$sql;
 
     }
     public function lists($page,$condition){
         $server = $condition->server;
         $list = array();
         if(!empty($server)){
+            $this -> dbConnect($server,$this->db_static);
+            $items = Datacache::getStaticItems($this->db);
+            $_items = array();
+            foreach($items as $item){
+                if(strpos($item->name,'符文宝箱') > -1){
+                    $_items[] = $item->id;
+                }
+            }
+            $_items_ids = implode(',',$_items);
+            if(empty($_items_ids))return $list;
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120) as time,b.id,b.account_name,b.name,b.levels,c.name as bagname from  $this->table_user b LEFT JOIN  $this->table_record a on b.id=a.id1 LEFT JOIN  MMO2D_StaticLJZM.dbo.$this->table_item c on c.id=a.param1 $consql)
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            error_log($sql);
-            $list = $this->db->query($sql)->result_objects();
+            $time = $this->db->datetime('a.time');
+            $list = $this->db->select("a.id as tid,a.id1,a.type,a.str as action,a.param1,a.param2,a.param3,a.param4,$time
+                                        as time,b.id,b.account_name,b.name,b.levels")
+                ->from("$this->table_record a left join   $this->table_user b on a.id1=b.id")
+                ->where("a.param1 in ($_items_ids)")
+                ->where($consql)
+                ->order_by('a.time desc')
+                ->limit($page->start,$page->limit,'a.time desc')
+                ->get()->result_objects();
+
+
+            $this->db->close();
             include BASEPATH.'/Common/event.php';
 
             foreach($list as &$obj){
                 $obj->detail = empty($gameevent[$obj->param4]) ? '未知' : $gameevent[$obj->param4];
                 $obj->servername = $server->name;
-
+                $obj->bagname = empty(fetch_object_by_key('id',$obj->param1,$items) -> name) ? '未知' : fetch_object_by_key('id',$obj->param1,$items) -> name;
                 if($obj->type==1){
                     $obj->typename = '消耗';
                     $obj->rongyuchange = '-'.$obj->param2;
@@ -143,11 +159,22 @@ a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
+        $this -> dbConnect($server,$this->db_static);
+        $items = Datacache::getStaticItems($this->db);
+        $_items = array();
+        foreach($items as $item){
+            if(strpos($item->name,'符文宝箱') > -1){
+                $_items[] = $item->id;
+            }
+        }
+        $_items_ids = implode(',',$_items);
+        if(empty($_items_ids))return 0;
         $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id LEFT JOIN  MMO2D_StaticLJZM.dbo.fr_item c on c.id=a.param1
- $consql";
-        return $this->db->query($sql)->result_object()->num;
-
+        $consql = $this->getCondition($condition);
+        return $this->db->select("count(a.id1) as num")
+               ->from("$this->table_record a left join $this->table_user b on a.id1 = b.id")
+               ->where("a.param1 in ($_items_ids)")
+               ->where($consql)
+               ->get()->result_object()->num;
     }
 }

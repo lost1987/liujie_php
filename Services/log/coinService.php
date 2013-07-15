@@ -5,7 +5,7 @@
  * Date: 13-4-9
  * Time: 上午10:19
  * To change this template use File | Settings | File Templates.
- * 元宝日志
+ * 银币日志
  */
 class CoinService extends ServerDBChooser
 {
@@ -25,11 +25,15 @@ class CoinService extends ServerDBChooser
 
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql = "select * from (select row_number() over (order by a.time desc) as rownumber,
-                     a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120) as time,b.id,b.account_name,b.name,b.levels,b.money from $this->table_record a left join $this->table_user b on a.id1=b.id $consql )
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+            $time = $this->db->datetime('a.time');
 
-            $list = $this->db->query($sql)->result_objects();
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param2,a.param4,$time as time,b.id,b.account_name,b.name,b.levels,b.money")
+                            -> from("$this->table_record a left join $this->table_user b")
+                            -> on("a.id1 = b.id")
+                            -> where($consql)
+                            -> limit($page->start,$page->limit,'a.time desc')
+                            -> order_by('a.time desc')
+                            -> get() -> result_objects();
 
             include BASEPATH.'/Common/event.php';
 
@@ -55,8 +59,8 @@ class CoinService extends ServerDBChooser
 
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
+        $consql = $this->getCondition($condition);
         $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id $consql";
         return $this->db->query($sql)->result_object()->num;
     }
@@ -77,8 +81,8 @@ class CoinService extends ServerDBChooser
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){

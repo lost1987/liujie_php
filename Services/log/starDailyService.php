@@ -24,12 +24,13 @@ class StarDailyService extends ServerDBChooser{
         $this->arr_str=implode(',',$list);
         $this->table_record='fr2_record';
         $this->table_user='fr_user';
+        $this->table_item="fr_item";
 
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
+        $consql = $this->getCondition($condition);
         $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id $consql";
         return $this->db->query($sql)->result_object()->num;
 
@@ -49,8 +50,8 @@ class StarDailyService extends ServerDBChooser{
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){
@@ -135,12 +136,22 @@ class StarDailyService extends ServerDBChooser{
         if(!empty($server)){
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,b.xingji,c.name as itemname from  $this->table_record a left join   $this->table_user b on a.id1=b.id LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item as c on c.id=a.param1 $consql)
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            $list = $this->db->query($sql)->result_objects();
+            $time = $this->db->datetime('a.time');
+
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param2,a.param4,$time
+                                as time,a.param1,b.id,b.account_name,b.name,b.levels,b.xingji")
+                             ->from("$this->table_record a left join   $this->table_user b")
+                             ->on("a.id1=b.id")
+                             ->where($consql)
+                             ->limit($page->start,$page->limit,'a.time desc')
+                             ->order_by('a.time desc')
+                             -> get() -> result_objects();
+
+            $this->db->select_db('mmo2d_staticljzm');
+            $star_statics = $this->db->select("name , id")-> from($this->table_item)->get()->result_objects();
+
             foreach($list as &$obj){
+                $obj->itemname  =  fetch_object_by_key('id',$obj->param1,$star_statics) -> name;
                 $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
                 $obj->typename = '消耗';
                 $obj->itemname .= ' - '.$obj->param2;

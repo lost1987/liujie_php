@@ -23,18 +23,21 @@ class FabaoDailyService extends ServerDBChooser{
         $this->arr_str=implode(',',$list);
         $this->table_record='fr2_record';
         $this->table_user='fr_user';
-        $this->table_fabao='MMO2D_StaticLJZM.dbo.fr2_fabao';
+        $this->table_fabao='fr2_fabao';
         $this->table_userlieming='fr2_userlieming';
-
+        $this->db_static = 'mmo2d_staticljzm';
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id  left join $this->table_userlieming d on d.pid=b.id LEFT JOIN  $this->table_fabao c
-on c.type=(d.lieming1 % 10000 / 100) $consql";
-        return $this->db->query($sql)->result_object()->num;
-
+        $consql = $this->getCondition($condition);
+        return $this->db->select("count(a.id1) as num")
+                        ->from("$this->table_record a left join $this->table_user b")
+                        ->on('a.id1=b.id')
+                        ->where("$consql")
+                        ->get()
+                        ->result_object()
+                        ->num;
     }
     public function getCondition($condition){
         $starttime = $condition->starttime;
@@ -51,8 +54,8 @@ on c.type=(d.lieming1 % 10000 / 100) $consql";
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){
@@ -128,22 +131,34 @@ on c.type=(d.lieming1 % 10000 / 100) $consql";
 
         if(empty($sql))
 
-            return " where  c.name is not null  and a.param4 in ($this->arr_str)";
-        return $sql = " where  c.name is not null  and a.param4 in ($this->arr_str) and ".$sql;
+            return " where  a.param4 in ($this->arr_str)";
+        return $sql = " where   a.param4 in ($this->arr_str) and ".$sql;
 
     }
+
     public function lists($page,$condition){
         $server=$condition->server;
         if(!empty($server)){
-            $this -> dbConnect($server,$server->dynamic_dbname);
+            $this -> dbConnect($server,$this->db_static);
+            //查找满足条件的lieming
+            $fabaos = $this->fetch_fabaos();
+
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,c.name as fabaoname from  fr2_record a left join fr_user b on a.id1=b.id left join $this->table_userlieming d on d.pid=b.id LEFT JOIN  $this->table_fabao c
-on c.type=(d.lieming1 % 10000 / 100)   $consql)
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            $list = $this->db->query($sql)->result_objects();
+            $time = $this->db->datetime('a.time');
+
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param1,a.param2,a.param4,$time
+                                        as time,b.id,b.account_name,b.name,b.levels,c.*")
+                            ->from("$this->table_record a left join $this->table_user b a.id1=b.id left join $this->table_userlieming c")
+                            ->on("b.id = c.pid")
+                            ->where("$consql")
+                            ->order_by('a.time desc')
+                            ->limit($page->start,$page->limit,'a.time desc')
+                            ->get()->result_objects();
+
+            $this->db->close();
+
             foreach($list as &$obj){
+
                 $obj->detail = empty($gameevent[$obj->param4]) ? '未知' : $gameevent[$obj->param4];
                 if($obj->type==1){
                     $obj->typename = '消耗';
@@ -158,6 +173,17 @@ on c.type=(d.lieming1 % 10000 / 100)   $consql)
 
         return $list;
 
+        }
     }
+//b.type=(a.lieming1 % 10000 / 100)
+    private function fetch_fabaos(){
+        //查找满足条件的lieming
+        $fabaos=$this -> db -> select("type,name,levels,color") -> from("$this->table_fabao")
+                       -> get() -> result_objects();
+        return $fabaos;
+    }
+
+    private function fetch_fabao_by_type_color(){
+
     }
 }

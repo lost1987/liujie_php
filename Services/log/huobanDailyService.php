@@ -27,10 +27,10 @@ class HuobanDailyService extends ServerDBChooser{
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
+        $consql = $this->getCondition($condition);
         $sql = "select count(a.id) as num from $this->table_record a left join
-$this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1 = c.id  $consql";
+$this->table_user b on a.id1=b.id  $consql";
         return $this->db->query($sql)->result_object()->num;
 
     }
@@ -49,8 +49,8 @@ $this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){
@@ -126,8 +126,8 @@ $this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a
 
         if(empty($sql))
 
-            return " where  a.param4 in ($this->arr_str) ";
-        return $sql = " where  a.param4 in ($this->arr_str) ".$sql;
+        return " where  a.param4 in ($this->arr_str) ";
+        return " where  a.param4 in ($this->arr_str) and ".$sql;
 
     }
     public function lists($page,$condition){
@@ -135,16 +135,20 @@ $this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a
         if(!empty($server)){
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,a.id as tid,
-a.id1,a.type,a.str as action,a.param2,a.param1,a.param3,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,c.name as hbname from $this->table_record a left join
-$this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1 = c.id
- $consql)as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            error_log($sql);
-            $list = $this->db->query($sql)->result_objects();
+            $time = $this->db->datetime('a.time');
+            $list = $this->db->select("a.id as tid,a.id1,a.type,a.str as action,a.param1,a.param2,a.param3,a.param4,$time
+                                        as time,b.id,b.account_name,b.name,b.levels")
+                -> from("$this->table_record a left join   $this->table_user b on a.id1=b.id")
+                ->where($consql)
+                ->order_by('a.time desc')
+                ->limit($page->start,$page->limit,'a.time desc')
+                ->get()->result_objects();
+
+            $items = Datacache::getStaticItems($this->db);
+            $this->db->close();
             foreach($list as &$obj){
                 $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
-
+                $obj->hbname = empty(fetch_object_by_key('id',$obj->param1,$items) -> name) ? '未知' : fetch_object_by_key('id',$obj->param1,$items) -> name;
                 if($obj->type==1){
                     $obj->typename = '损失';
                     $obj->zbjcchange = '-'.$obj->param2;

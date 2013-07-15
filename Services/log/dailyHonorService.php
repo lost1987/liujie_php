@@ -11,7 +11,6 @@ class DailyHonorService extends ServerDBChooser{
     private $honorid='90000002';//荣誉id
 
     function DailyHonorService(){
-        $this->honordb='MMO2D_UserLJZM2';
         $this->honor_record_table='fr2_record';
         $this->honor_user_rable='fr_user';
     }
@@ -22,11 +21,15 @@ class DailyHonorService extends ServerDBChooser{
         if(!empty($server)){
             $this->dbConnect($server,$server->dynamic_dbname);
             $consql=$this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-                     a.id1,a.type,a.str as action,a.param2,a.param4,CONVERT(varchar(20),  a.time, 120) as time,b.id,b.account_name,b.name,b.levels,b.rongyu from $this->honor_record_table a left join $this->honor_user_rable b on a.id1=b.id $consql )
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+            $time = $this->db->datetime('a.time');
 
-            $list = $this->db->query($sql)->result_objects();
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param2,a.param4,$time as time,b.id,b.account_name,b.name,b.levels,b.rongyu")
+                             -> from("$this->honor_record_table a left join $this->honor_user_rable b")
+                             -> on('a.id1 = b.id')
+                             -> where($consql)
+                             -> limit($page->start,$page->limit,'a.time desc')
+                             -> order_by('a.time desc')
+                            -> get() -> result_objects();
 
             include BASEPATH.'/Common/event.php';
 
@@ -49,8 +52,8 @@ class DailyHonorService extends ServerDBChooser{
     }
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
+        $consql = $this->getCondition($condition);
         $sql = "select count(a.id1) as num  from $this->honor_record_table a left join $this->honor_user_rable b on  a.id1=b.id $consql";
         return $this->db->query($sql)->result_object()->num;
 
@@ -70,8 +73,8 @@ class DailyHonorService extends ServerDBChooser{
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){

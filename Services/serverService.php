@@ -20,8 +20,16 @@ class ServerService extends Service implements IService
     public function lists($page,$condition=null)
     {
         // TODO: Implement lists() method.
-        $sql = "select * from (select row_number() over (order by a.id desc) as rownumber, a.*,b.name as buissnesser from  $this->table_servers a,$this->table_buissnesser b where a.bid = b.id and a.stat=1 and b.stat=1) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-        $res = $this->db->query($sql)->result_objects();
+      /*  $sql = "select * from (select row_number() over (order by a.id desc) as rownumber, a.*,b.name as buissnesser from  $this->table_servers a,$this->table_buissnesser b where a.bid = b.id and a.stat=1 and b.stat=1) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
+        $res = $this->db->query($sql)->result_objects();*/
+
+        $res = $this -> db -> select(" a.*,b.name as buissnesser")
+               -> from("$this->table_servers a,$this->table_buissnesser b")
+               -> where("a.bid = b.id and a.stat=1 and b.stat=1")
+               -> limit($page->start,$page->limit,'a.id desc')
+               -> get()
+               -> result_objects();
+
         return $res;
     }
 

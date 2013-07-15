@@ -15,7 +15,7 @@ abstract class ServerDBChooser
     protected  $prefix_3 = 'ht_';
 
     protected  function dbConnect($server,$dbname='',$newlink=FALSE){
-        $this -> db = new Mssql();
+        $this -> db = new DB();
         $this -> db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,$newlink);
         if(!empty($dbname))
         $this -> db -> select_db($dbname);

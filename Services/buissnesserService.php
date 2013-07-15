@@ -19,8 +19,13 @@ class BuissnesserService extends Service implements IService
     public function lists($page,$condition=null)
     {
         // TODO: Implement lists() method.
-        $sql = "select * from (select row_number() over (order by a.id asc) as rownumber, a.id,a.name from  $this->table_buissnesser a where a.stat = 1) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-        $res = $this->db->query($sql)->result_objects();
+        $res = $this->db->select(" a.id,a.name" )
+               -> from($this->table_buissnesser.' a ')
+               -> where(" a.stat = 1 ")
+               -> limit($page->start,$page->limit,'a.id asc')
+               -> get()
+               -> result_objects();
+
         return $res;
     }
 

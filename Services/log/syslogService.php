@@ -12,7 +12,7 @@ class SyslogService extends Service
     function SyslogService(){
         parent::__construct();
         $this->table_player = 'fr_user';
-        $this ->  db -> select_db('MMO2D_admin');
+        $this ->  db -> select_db(DB_NAME);
     }
 
 
@@ -26,50 +26,60 @@ class SyslogService extends Service
      *
      */
     public function updateLogState($log,$state,$refername){
-           $logid = $log->id;
-           $optime = time();
-           $sql = "update ljzm_syslog set state = $state,refer_name='$refername',optime=$optime where id = $logid";
-           $res = $this -> db -> query($sql) -> queryState;
-           if($state == 2 && $res){
-                //如果批准的话 直接调用支付接口
-                $sid = $log -> server_id;
-                $sql = "select bid,ip,port,dbuser,dbpwd,dynamic_dbname from ljzm_servers where id = $sid";
-                $server = $this -> db -> query($sql) -> result_object();
+           try{
+               $logid = $log->id;
+               $optime = time();
+               $this->db->trans_begin();
+               $sql = "update ljzm_syslog set state = $state,refer_name='$refername',optime=$optime where id = $logid";
+               $res = $this -> db -> query($sql) -> queryState;
+               if($state == 2 && $res){//批准
+                   //如果批准的话 直接调用支付接口
+                   $sid = $log -> server_id;
+                   $sql = "select bid,ip,port,dbuser,dbpwd,dynamic_dbname from ljzm_servers where id = $sid";
+                   $server = $this -> db -> query($sql) -> result_object();
 
 
-                $db = new Mssql();
-                $db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
-                $db -> select_db($server->dynamic_dbname);
+                   $db = new DB();
+                   $db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
+                   $db -> select_db($server->dynamic_dbname);
 
-                $sql = "select account_name from $this->table_player where name = '$log->playername'";
-                $player = $db -> query($sql) -> result_object();
-                $db -> close();
-                unset($db);
+                   $sql = "select account_name from $this->table_player where name = '$log->playername'";
+                   $player = $db -> query($sql) -> result_object();
+                   $db -> close();
+                   unset($db);
 
-                $uname = $player -> account_name;
-                $utime = time();
-                $aid = $server -> bid;//运营商ID
-                $goldmoney = $log -> itemnum;
-                $eventid = 'REWARD'.date('YmdHis').make_rand_str(5);
-                $realServerId = $this -> getRealSid($aid,$sid);
-                $ukey = md5($uname.$utime.$goldmoney.$aid.$realServerId.$eventid.DEF_PLATFORM_KEY);
-                $payapi =  new Payapi(PAYHOST,$uname,$ukey,$utime,$aid,$realServerId,$goldmoney,$eventid);
-                $result = $payapi -> pay();
+                   $uname = $player -> account_name;
+                   $utime = time();
+                   $aid = $server -> bid;//运营商ID
+                   $goldmoney = $log -> itemnum;
+                   $eventid = 'REWARD'.date('YmdHis').make_rand_str(5);
+                   $realServerId = $this -> getRealSid($aid,$sid);
+                   $ukey = md5($uname.$utime.$goldmoney.$aid.$realServerId.$eventid.DEF_PLATFORM_KEY);
+                   $payapi =  new Payapi(PAYHOST,$uname,$ukey,$utime,$aid,$realServerId,$goldmoney,$eventid);
+                   $result = $payapi -> pay();
 
-                if($result == 1){
-                    return TRUE;
-                }else{
-                    $sql = "update ljzm_syslog set state = 0,refer_name='',optime=null where id = $logid";
-                    $this -> db -> query($sql);
-                }
+                   if($result == 1){//成功
+                       $this-> db ->commit();
+                       $this -> db -> close();
+                       return TRUE;
+                   }else{//失败
+                       $this -> db -> rollback();
+                       $this -> db -> close();
+                   }
 
-                $this -> db -> close();
+                   return FALSE;
+               }else if($res){//拒绝
+                   $this->db->commit();
+                   $this -> db -> close();
+                   return TRUE;
+               }
+
+               return FALSE;
+           }catch (Exception $e){
+                $this->db->rollback();
+                $this->db->close();
                 return FALSE;
-           }else if($res){
-               return TRUE;
            }
-
-        return FALSE;
     }
 
     //得到真实的服务器ID

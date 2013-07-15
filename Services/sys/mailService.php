@@ -25,10 +25,11 @@ class MailService extends ServerDBChooser
             $flag = 0;
             if(count($servers) > 0){
                 foreach($servers as $server){
-                    $db = new Mssql();//连接分发数据库
+                    $db = new DB();//连接分发数据库
                     $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
                     $db -> select_db('MMO2D_admin');
-                    $sql =  "select *,CONVERT(varchar(20), donetime, 120) as dtime from $this->table_syslog where server_id=$server->id and (type=2 or type=10) order by donetime desc";
+                    $dtime = $db -> datetime('donetime');
+                    $sql =  "select *,$dtime as dtime from $this->table_syslog where server_id=$server->id and (type=2 or type=10) order by donetime desc";
                     $loglist = $db->query($sql)->result_objects();
                     $db -> close();
                     unset($db);
@@ -70,7 +71,7 @@ class MailService extends ServerDBChooser
          $servers = $condition->servers;
          $nums = 0;
          if(!empty($servers)){
-             $db = new Mssql();//连接分发数据库
+             $db = new DB();//连接分发数据库
              $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
              $db -> select_db('MMO2D_admin');
              foreach($servers as $server){
@@ -107,7 +108,7 @@ class MailService extends ServerDBChooser
          $db_flag  = 0;
          $dbs = array();
          foreach($servers as $server){
-             $dbs[$db_flag]['db'] = new Mssql();
+             $dbs[$db_flag]['db'] = new DB();
              $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
              $dbs[$db_flag]['dynamic_dbname'] = $server->dynamic_dbname;
              $db_flag++;
@@ -139,7 +140,7 @@ class MailService extends ServerDBChooser
 
                  if(count($players) > 0){
                      //开启事务
-                     $db -> query("begin tran");
+                     $db -> trans_begin();
                      $executed_dbs[] = $db;
 
                      $pernum = 100;//每次插入100条
@@ -182,34 +183,34 @@ class MailService extends ServerDBChooser
                      $log -> title = $mail->title;
 
                      $slog = new Syslog();
-                     $log_db = new Mssql();
+                     $log_db = new DB();
                      $logdbs[] = $log_db;
                      $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                      $log_db -> select_db(DB_NAME);
-                     $log_db -> query("begin tran");
+                     $log_db -> trans_begin();
                      $slog -> setlog($log) -> tran_save($log_db) -> tran_saveMailPlayers($players,$log_db);
                  }
              }
 
              //执行完成 提交
              for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                 $executed_dbs[$i] -> query("commit tran");
+                 $executed_dbs[$i] -> commit();
                  $executed_dbs[$i] -> close();
              }
 
              for($i = 0 ; $i < count($logdbs) ; $i++){
-                 $logdbs[$i] -> query("commit tran");
+                 $logdbs[$i] -> commit();
                  $logdbs[$i] -> close();
              }
              return TRUE;
          }catch (Exception $e){
              for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                 $executed_dbs[$i] -> query("rollback tran");
+                 $executed_dbs[$i] -> rollback();
                  $executed_dbs[$i] -> close();
              }
 
              for($i = 0 ; $i < count($logdbs) ; $i++){
-                 $logdbs[$i] -> query("rollback tran");
+                 $logdbs[$i] -> rollback();
                  $logdbs[$i] -> close();
              }
          }
@@ -236,7 +237,7 @@ class MailService extends ServerDBChooser
         $db_flag  = 0;
         $dbs = array();
         foreach($servers as $server){
-            $dbs[$db_flag]['db'] = new Mssql();
+            $dbs[$db_flag]['db'] = new DB();
             $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
             $dbs[$db_flag]['dynamic_dbname'] = $server->dynamic_dbname;
             $db_flag++;
@@ -272,7 +273,7 @@ class MailService extends ServerDBChooser
                 if(count($plist) > 0){
                     $db->select_db($dynamic_dbname);
                     //开启事务
-                    $db -> query("begin tran");
+                    $db -> trans_begin();
                     $executed_dbs[] = $db;
                     $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
                     $pernum = 100;//每次插入100条
@@ -317,34 +318,34 @@ class MailService extends ServerDBChooser
                 $log -> content = $mail->context;
                 $log -> title = $mail->title;
                 $slog = new Syslog();
-                $log_db = new Mssql();
+                $log_db = new DB();
                 $logdbs[] = $log_db;
                 $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                 $log_db -> select_db(DB_NAME);
-                $log_db -> query("begin tran");
+                $log_db -> trans_begin();
                 $slog -> setlog($log) -> tran_save($log_db) -> tran_saveMailPlayers($plist,$log_db);
             }
 
             //执行完成 提交
             for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                $executed_dbs[$i] -> query("commit tran");
+                $executed_dbs[$i] -> commit();
                 $executed_dbs[$i] -> close();
             }
 
             for($i = 0 ; $i < count($logdbs) ; $i++){
-                $logdbs[$i] -> query("commit tran");
+                $logdbs[$i] -> commit();
                 $logdbs[$i] -> close();
             }
 
             return 0;
         }catch (Exception $e){
             for($i = 0 ; $i < count($executed_dbs) ; $i++){
-                $executed_dbs[$i] -> query("rollback tran");
+                $executed_dbs[$i] -> rollback();
                 $executed_dbs[$i] -> close();
             }
 
             for($i = 0 ; $i < count($logdbs) ; $i++){
-                $logdbs[$i] -> query("rollback tran");
+                $logdbs[$i] -> rollback();
                 $logdbs[$i] -> close();
             }
         }
@@ -369,9 +370,9 @@ class MailService extends ServerDBChooser
     public function mailPlayers($server,$lid){
         $list= array();
         if(!empty($server)){
-            $db = new Mssql();//连接分发数据库
+            $db = new DB();//连接分发数据库
             $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-            $db -> select_db('MMO2D_admin');
+            $db -> select_db('mmo2d_admin');
 
             $list = $db -> query("select playername from $this->table_mail_record where lid=$lid") -> result_objects();
             $db -> close();

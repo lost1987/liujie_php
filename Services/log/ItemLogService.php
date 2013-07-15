@@ -15,7 +15,7 @@ class ItemLogService extends ServerDBChooser
         $this -> table_player = $this->prefix_1.'user';
         $this -> table_item = $this->prefix_1.'item';
 
-        $this -> db_static = 'MMO2D_StaticLJZM';
+        $this -> db_static = 'mmo2d_staticljzm';
     }
 
     public function lists($page,$condition){
@@ -24,18 +24,21 @@ class ItemLogService extends ServerDBChooser
         if(!empty($server)){
             $this->dbConnect($server,$server->dynamic_dbname);
             $consql=$this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-                     a.id1,a.type,a.str as action,a.param2,a.param4,a.param1,CONVERT(varchar(20),  a.time, 120) as time,b.id,b.account_name,b.name,b.levels,b.mask0%1000000/100 as jingli from $this->table_record a left join $this->table_player b on a.id1=b.id $consql )
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            $list = $this->db->query($sql)->result_objects();
+            $time = $this->db->datetime('a.time');
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param2,a.param4,a.param1,$time as time,b.id,b.account_name,b.name,b.levels,b.mask0%1000000/100 as jingli")
+                           ->from("$this->table_record a left join $this->table_player b on a.id1=b.id")
+                           ->where($consql)
+                           ->order_by('a.time desc')
+                           ->limit($page->start,$page->limit,'a.time desc')
+                            ->get()->result_objects();
 
-            $this -> db -> select_db($this->db_static);
+            $items = Datacache::getStaticItems($this->db);
+            $this->db->close();
 
             include BASEPATH.'/Common/event.php';
+
             foreach($list as &$obj){
-                $sql = "select name from $this->table_item where id = $obj->param1";
-                $item = $this->db->query($sql)->result_object();
-                $obj->itemname = isset($item->name) ? $item->name : '/';
+                $obj->itemname = empty(fetch_object_by_key('id',$obj->param1,$items) -> name) ? '未知' : fetch_object_by_key('id',$obj->param1,$items) -> name;
                 $obj->detail = empty($gameevent[$obj->param4]) ? '未知' : $gameevent[$obj->param4];
                 if($obj->type==1){
                     $obj->typename = '消耗';
@@ -52,8 +55,8 @@ class ItemLogService extends ServerDBChooser
 
     public function num_rows($condition){
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
+        $consql = $this->getCondition($condition);
         $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_player b on  a.id1=b.id $consql";
         return $this->db->query($sql)->result_object()->num;
 
@@ -74,8 +77,8 @@ class ItemLogService extends ServerDBChooser
             if(!empty($starttime) && !empty($endtime)){
                 $starttime .= ' 00:00:00';
                 $endtime .= ' 23:59:59';
-
-                $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+                $time = $this->db->cast('a.time');
+                $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
             }
 
             if(!empty($account_name)){
@@ -150,7 +153,7 @@ class ItemLogService extends ServerDBChooser
             }
 
             if(empty($sql)) return '';
-            return $sql = " where  ".$sql;
+            return $sql = " where  1=1 and ".$sql;
         }
 
 

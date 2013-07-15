@@ -13,19 +13,10 @@ class Service
 
      function service(){
          //初始化DB
-
-         $dbtype = DB_TYPE;
          $db = null;
 
-         switch($dbtype){
-             case 'Mssql':  $db = new Mssql();
-                            $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-
-                            break;
-             case '' :
-                            break;
-             default:break;
-         }
+         $db = new DB();
+         $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
 
          $this -> db = $db;
      }

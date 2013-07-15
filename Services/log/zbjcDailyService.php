@@ -23,16 +23,17 @@ class ZbjcDailyService extends ServerDBChooser{
         $this->arr_str=implode(',',$list);
         $this->table_record='fr2_record';
         $this->table_user='fr_user';
-
+        $this->table_dynamicitem = 'fr_dynamicitem';
     }
     public function num_rows($condition){
+        return 0;
         $server = $condition->server;
-        $consql = $this->getCondition($condition);
         $this -> dbConnect($server,$server->dynamic_dbname);
-        $sql = "select count(a.id1) as num  from $this->table_record a left join  $this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1=c.id
- $consql";
-        return $this->db->query($sql)->result_object()->num;
-
+        $consql = $this->getCondition($condition);
+        return   $this->db->select("count(id1) as num")
+            ->from("$this->table_record a ,$this->table_user b")
+            ->where('a.id1=b.id')
+            ->where('and'.$consql)->get()->result_object()->num;
     }
     public function getCondition($condition){
         $starttime = $condition->starttime;
@@ -49,8 +50,8 @@ class ZbjcDailyService extends ServerDBChooser{
         if(!empty($starttime) && !empty($endtime)){
             $starttime .= ' 00:00:00';
             $endtime .= ' 23:59:59';
-
-            $cond1 = " cast(a.time as datetime) >= '$starttime' and cast(a.time as datetime) <= '$endtime'";
+            $time = $this->db->cast('a.time');
+            $cond1 = " $time >= '$starttime' and $time <= '$endtime'";
         }
 
         if(!empty($account_name)){
@@ -125,31 +126,38 @@ class ZbjcDailyService extends ServerDBChooser{
         }
 
         if(empty($sql))
-
-            return " where a.param4 in ($this->arr_str) and  a.param1>='20000000' and a.param1<'30000000' and c.id in (select itemid from fr_dynamicitem where a.param1=itemid)";
-        return $sql = " where a.param4 in ($this->arr_str) and and  a.param1>='20000000' and a.param1<'30000000' and c.id in (select itemid from fr_dynamicitem where a.param1=itemid ".$sql;
+        return " where a.param4 in ($this->arr_str) ";
+        return " where a.param4 in ($this->arr_str) and ".$sql;
 
     }
     public function lists($page,$condition){
+        return array();
         $server=$condition->server;
         if(!empty($server)){
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
-            $sql="select * from (select row_number() over (order by a.time desc) as rownumber,
-a.id1,a.type,a.str as action,a.param2,a.param1,a.param3,a.param4,CONVERT(varchar(20),  a.time, 120)
-as time,b.id,b.account_name,b.name,b.levels,c.name as zbname from $this->table_record a left join  $this->table_user b on a.id1=b.id  LEFT JOIN MMO2D_StaticLJZM.dbo.fr_item c on a.param1 = c.id $consql)
-                    as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-            $list = $this->db->query($sql)->result_objects();
+            $time = $this->db->datetime('a.time');
+            $list = $this->db->select("a.id1,a.type,a.str as action,a.param2,a.param1,a.param3,a.param4,$time
+                                        as time,b.id,b.account_name,b.name,b.levels")
+                ->from("$this->table_record a ,$this->table_user b")
+                ->where('a.id1=b.id')
+                ->where('and'.$consql)
+                ->order_by('a.time desc')
+                ->limit($page->start,$page->limit,'a.time')
+                ->get()->result_objects();
+
+            $items = Datacache::getStaticItems($this->db);
+            $this->db->close();
             foreach($list as &$obj){
                 $obj->detail = empty($this->gameevent[$obj->param4]) ? '未知' : $this->gameevent[$obj->param4];
-
+                $obj->zbname = fetch_object_by_key('id',$obj->param1,$items) -> name;
                 if($obj->type==1){
                     $obj->typename = '损失';
-                    $obj->zbjcchange = '-'.$obj->param2;
+                    $obj->zbname .= ' -'.$obj->param2;
                 }
                 else {
                     $obj->typename = '收益';
-                    $obj->zbjcchange = '+'.$obj->param2;
+                    $obj->zbname .= ' +'.$obj->param2;
                 }
 
                 $obj->servername = $server->name;

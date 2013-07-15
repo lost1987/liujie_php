@@ -80,8 +80,14 @@ class AdminService extends Service implements IService
   }
 
   public function lists($page,$condition=null){
-    $sql = "select * from (select row_number() over (order by a.id asc) as rownumber, a.id,a.admin,a.bid,a.flagname,b.name from $this->table_admin a left join $this->table_buissnesser b on a.bid = b.id where  a.id <> 1) as t where t.rownumber > $page->start and t.rownumber <= $page->limit";
-    $res = $this->db->query($sql)->result_objects();
+    $res = $this -> db -> select(" a.id,a.admin,a.bid,a.flagname,b.name ")
+           -> from("$this->table_admin a left join $this->table_buissnesser b")
+           -> on("a.bid = b.id")
+           -> where("a.id <> 1")
+           -> limit($page->start,$page->limit,'a.id asc')
+           -> get()
+           -> result_objects();
+
     foreach($res as &$obj){
         if($obj -> bid == -1){
             $obj -> name = '无限制';
