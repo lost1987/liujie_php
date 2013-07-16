@@ -29,12 +29,27 @@ class RechargeOrderService extends ServerDBChooser
 
 
                 //查询玩家充值的元宝
-                $sql = "
+            /*    $sql = "
                 select a.*,b.account_name,b.name,b.levels,b.profession from(
                 select * from (select row_number() over (order by sum(param2) desc) as rownumber, id1 as pid,sum(param2) as recharge_yuanbao from $this->table_record  where type=0 and param1 = 90000001 and param4 = 44 and id2 <> null and  time > '$starttime' and time < '$endtime' and left(str2,6) <> 'REWARD' group by id1 )as t where t.rownumber > 0 and t.rownumber <= 50
                 ) as a left join $this->table_player b on a.pid = b.id";
 
-                $templist_recharge = $this -> db -> query($sql) -> result_objects();
+                $templist_recharge = $this -> db -> query($sql) -> result_objects();*/
+
+                //AR模式
+                $sql = $this->db->select("id1 as pid,sum(param2) as recharge_yuanbao")
+                                   ->from("$this->table_record")
+                                   ->where("type=0 and param1 = 90000001 and param4 = 44 and id2 <> null and  time > '$starttime' and time < '$endtime' and left(str2,6) <> 'REWARD'")
+                                   ->group_by('id1')
+                                   ->limit(0,50,'sum(param2) desc')
+                                   ->fetch();
+
+                $templist_recharge = $this->db->select("a.*,b.account_name,b.name,b.levels,b.profession")
+                                                ->from("($sql) as a left join $this->table_player as b")
+                                                ->on("a.pid = b.id")
+                                                ->get()
+                                                ->result_objects();
+
 
                 foreach($templist_recharge as $recharge){
                     //查询玩家消耗的总元宝

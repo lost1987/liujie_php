@@ -134,7 +134,7 @@ class Mssql
             return $this;
         }
 
-       public function get(){
+       public function get($flush=TRUE){
            error_log($this->_limit_pre.
                $this->_sql.
                $this->_table.
@@ -154,8 +154,22 @@ class Mssql
                 $this->_order_by
                ,$this->link);
 
-            $this->flush();
+            if($flush)$this->flush();
             return $this;
+       }
+
+       public function fetch($flush=TRUE){
+            $sql = $this->_limit_pre.
+                   $this->_sql.
+                   $this->_table.
+                   $this->_on_condition.
+                   $this->_condition.
+                   $this->_group_by.
+                   $this->_limit_after.
+                   $this->_order_by;
+
+            if($flush)$this->flush();
+            return $sql;
        }
 
        private function flush(){

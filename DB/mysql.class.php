@@ -113,6 +113,8 @@ class Mysql
 
     public function limit($start,$limit,$order=null){
         $this->_limit = " limit $start,$limit ";
+        if(empty($this->_order_by) && !empty($order))
+        $this->order_by($order);
         return $this;
     }
 
@@ -128,7 +130,8 @@ class Mysql
         return $this;
     }
 
-    public function get(){
+    //执行查询
+    public function get($flush=TRUE){
         error_log( $this->_sql.
             $this->_table.
             $this->_on_condition.
@@ -146,10 +149,26 @@ class Mysql
             $this->_order_by.
             $this->_limit
             ,$this->link);
-        $this->flush();
+
+        if($flush)$this->flush();
         return $this;
     }
 
+    //返回当前的sql语句
+    public function fetch($flush=TRUE){
+        $sql =  $this->_sql.
+                $this->_table.
+                $this->_on_condition.
+                $this->_condition.
+                $this->_group_by.
+                $this->_order_by.
+                $this->_limit;
+
+        if($flush)$this->flush();
+        return $sql;
+    }
+
+    //清空所有变量
     private function flush(){
         $this -> _sql = '';
         $this -> _limit = '';
