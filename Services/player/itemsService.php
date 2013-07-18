@@ -45,7 +45,7 @@ class ItemsService extends  ServerDBChooser
 
                 $fw_ids = array();
                 //计算装备的符文
-                for($i=1; $i < 6 ; $i++){
+                for($i=1; $i < 7 ; $i++){
                     if(!empty($item->{'fw'.$i})){
                         $fw_ids[] = $item->{'fw'.$i};
                     }

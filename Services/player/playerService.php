@@ -80,6 +80,18 @@ class PlayerService extends ServerDBChooser
          212 => '水牢'
      );
 
+    private $jingyingfuben = array(
+        0 => '人界',
+        1 => '鬼界',
+        2 => '魔界',
+        3 => '神界',
+        4 => '妖界',
+        5 => '仙界',
+        6 => '天界',
+        7 => '煞界',
+        8 => '异界'
+    );
+
      function PlayerService(){
             $this -> table_player = $this->prefix_1.'user';
             $this -> table_base = $this->prefix_2.'base';
@@ -87,6 +99,8 @@ class PlayerService extends ServerDBChooser
             $this -> table_playerrank = $this->prefix_2.'playerrank';
             $this -> table_userother = $this->prefix_1.'userothervalue';
             $this -> table_map = $this->prefix_1.'map';
+            $this -> table_tianshen = $this->prefix_2.'usertianshen';
+            $this -> table_jingying = $this->prefix_2.'userjingying';
 
             $this -> db_base = 'mmo2d_baseljzm';
             $this -> db_static = 'mmo2d_staticljzm';
@@ -170,9 +184,10 @@ class PlayerService extends ServerDBChooser
         $lastlogout = $this->db->datetime('a.last_logout');
         $sql = "select a.id,a.account_name,a.name,a.defencecap,a.state,$createdate as createdate,$lastlogin as last_login,a.last_ip,a.onlinetime,a.loginday,
                 $lastlogout as last_logout,a.camp,a.levels,a.profession,a.yuanbao,a.money,a.mask0,a.partyname,a.account_id,
-                a.partyjob,a.banggong,a.rongyu,a.lingqi,a.mask18,a.recordmap_id,a.recordx,a.recordy,b.pvalue,c.rankid,c.rankpt
+                a.partyjob,a.banggong,a.rongyu,a.lingqi,a.mask18,a.recordmap_id,a.recordx,a.recordy,b.pvalue,c.rankid,c.rankpt,d.lev,d.exp,e.CurLayer,e.CurRound
                 from $this->table_player a left join $this->table_userother b on a.id = b.id and b.pindex=0 left join
-                $this->table_playerrank c on a.id = c.pid where a.id = $id";
+                $this->table_playerrank c on a.id = c.pid left join $this->table_tianshen d on a.id = d.pid
+                left join $this->table_jingying e on a.id=e.uid where a.id = $id";
 
         $player = $this -> db -> query($sql) -> result_object();
 
@@ -183,6 +198,7 @@ class PlayerService extends ServerDBChooser
        $player -> yuanbaototal  = $base -> yuanbaototal/10;
        $player -> yuanbaonum = $base -> yuanbaonum;
        $player -> rightcode = $this->_rightcode[$base->rightcode];
+       $player -> jingyingname = $this->jingyingfuben[$player->CurLayer];
 
 
        $this -> db -> select_db($this->db_static);

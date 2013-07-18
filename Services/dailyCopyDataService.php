@@ -25,13 +25,22 @@ class DailyCopyDataService extends Service
         $date = $this->db->cast('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
-        $sql = "select * from (select row_number() over (order by copyname asc) as rownumber,
+       /* $sql = "select * from (select row_number() over (order by copyname asc) as rownumber,
                 copyname,copylevel,sum(loginlevel) as loginlevel,sum(jioncopyperson) as jioncopyperson,
                 sum(jioncopynum) as jioncopynum,sum(completecopynum) as completecopynum
                  from $this->table_dailycopy where sid in ($server_ids) and $timecondition group by copyname,copylevel) as t";
 
 
-        $list = $this -> db -> query($sql) -> result_objects();
+        $list = $this -> db -> query($sql) -> result_objects();*/
+
+        $list = $this->db->select("copyname,copylevel,sum(loginlevel) as loginlevel,sum(jioncopyperson) as jioncopyperson,
+                                    sum(jioncopynum) as jioncopynum,sum(completecopynum) as completecopynum")
+                         ->from("$this->table_dailycopy")
+                         ->where(" sid in ($server_ids) and $timecondition")
+                         ->group_by('copyname,copylevel')
+                         ->order_by('copyname asc')
+                         ->get()
+                         ->result_objects();
 
         foreach($list as &$obj){
             $obj -> completecopypercent = $obj -> jioncopynum == 0 ? '0%' : number_format($obj->completecopynum/$obj->jioncopynum,4)*100 . '%';

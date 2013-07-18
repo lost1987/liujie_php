@@ -105,15 +105,15 @@ Class complexDataService extends  Service {
         $sql = "select overyuanbao72,overyuanbao from $this->table_complex where $date = '$endtime'";
         $temp = $this->db->query($sql)->result_object();
 
-        $obj->overyuanbao72 =  isNan($temp -> overyuanbao72) ? 'N/A' : $temp->overyuanbao72;
-        $obj->overyuanbao =  isNan($temp -> overyuanbao) ? 'N/A' : $temp->overyuanbao;
-        $obj -> aveonline = isNan($avecount) ? 'N/A' : round($obj->aveonline/$avecount);
+        $obj->overyuanbao72 =  empty($temp -> overyuanbao72) ? 'N/A' : $temp->overyuanbao72;
+        $obj->overyuanbao =  empty($temp -> overyuanbao) ? 'N/A' : $temp->overyuanbao;
+        $obj -> aveonline = empty($avecount) ? 'N/A' : round($obj->aveonline/$avecount);
         if(gettype($obj->arpu) == 'double')
-            $obj->arpu = isNan($obj->newrechargeperson) ? 0 : number_format($obj->recharge/$obj->newrechargeperson/10,2);
+            $obj->arpu = empty($obj->newrechargeperson) ? 0 : number_format($obj->recharge/$obj->newrechargeperson/10,2);
         if(gettype($obj->newarpu) == 'double')
-            $obj->newarpu = isNan($obj->newrechargeperson) ? 0 : number_format($obj->newrecharge/$obj->newrechargeperson/10,2);
+            $obj->newarpu = empty($obj->newrechargeperson) ? 0 : number_format($obj->newrecharge/$obj->newrechargeperson/10,2);
         if(gettype($obj->rechargeratio) == 'double')
-            $obj->rechargeratio = isNan($obj->registernum) ? 0  : number_format($obj->newrechargeperson/$obj->registernum);
+            $obj->rechargeratio = empty($obj->registernum) ? 0  : number_format($obj->newrechargeperson/$obj->registernum);
 
          return $obj;
     }

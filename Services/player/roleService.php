@@ -21,7 +21,7 @@ class RoleService extends ServerDBChooser
          b.liliang,b.jingu,b.shenfa,b.lingli,b.conghui,b.wugong,b.wufang,
          b.fagong,b.fafang,b.shanbi,b.mingzhong,b.chuantou,b.baoji,b.jianren,
          b.gedang,a.fightcap from $this->table_player a left join $this->table_role b
-         on a.id = b.pid where a.id = $pid";
+         on a.id = b.pid   where a.id = $pid";
 
         $role = $this -> db -> query($sql) -> result_object();
         $role->mask8 = $role->mask8>60000000 ? 60000000 : $role->mask8;
