@@ -93,7 +93,7 @@ class ServerService extends Service implements IService
     }
 
     public function getServer($bid){
-        $sql = "select * from $this->table_servers where bid = $bid and stat=1";
+        $sql = "select id,name,status,bid,dynamic_dbname from $this->table_servers where bid = $bid and stat=1";
         $result = $this -> db -> query($sql) -> result_objects();
         foreach($result as &$res){
             switch($res->status){
@@ -112,7 +112,7 @@ class ServerService extends Service implements IService
         }
 
         $ids = substr($ids,0,strlen($ids) - 1);
-        $sql = "select * from $this->table_servers where bid in ($ids) and stat=1";
+        $sql = "select id,name,status,bid,dynamic_dbname from $this->table_servers where bid in ($ids) and stat=1";
         $result = $this -> db -> query($sql) -> result_objects();
         foreach($result as &$res){
             switch($res->status){

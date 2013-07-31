@@ -118,6 +118,11 @@ class Mysql
         return $this;
     }
 
+    public  function one(){
+        $this->_limit = ' limit 1 ';
+        return $this;
+    }
+
     public function order_by($order){
         if(strpos($order,'order') > -1)$order = str_replace('order','',$order);
         if(strpos($order,'by') > -1)$order = str_replace('by','',$order);

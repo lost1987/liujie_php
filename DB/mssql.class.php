@@ -104,6 +104,10 @@ class Mssql
            return $this;
        }
 
+       public function one(){
+           return $this;
+       }
+
         public function where($condition){
             if(empty($condition))return $this;
 

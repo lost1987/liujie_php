@@ -15,8 +15,15 @@ abstract class ServerDBChooser
     protected  $prefix_3 = 'ht_';
 
     protected  function dbConnect($server,$dbname='',$newlink=FALSE){
+        //查询服务器详细
+        $server_db = new DB;
+        $server_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+        $server_db -> select_db(DB_NAME);
+        $serverinfo = $server_db -> query("select * from ljzm_servers where id = {$server->id}") -> result_object();
+        $server_db -> close();
+        unset($server_db);
         $this -> db = new DB();
-        $this -> db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,$newlink);
+        $this -> db -> connect($serverinfo->ip.':'.$serverinfo->port,$serverinfo->dbuser,$serverinfo->dbpwd,$newlink);
         if(!empty($dbname))
         $this -> db -> select_db($dbname);
     }
