@@ -95,10 +95,12 @@ class Mysql
     public function where($condition){
         if(empty($condition))return $this;
 
-        if(strpos($condition,'where') > -1)
-        $condition = str_replace('where','',$condition);
-        if(strpos($this->_condition,'where') > -1)
-        $this -> _condition = str_replace('where','',$this->_condition);
+        $testCondition = trim($condition);
+
+        if(strtolower(substr($testCondition,0,5)) == 'where')
+            $condition = preg_replace('/^where(.*)/','$1',$condition);
+        if(strtolower(substr($this->_condition,0,5)) == 'where')
+            $this -> _condition = preg_replace('/\s*where(.*)/','$1',$this->_condition);
 
         $this -> _condition = " where $this->_condition $condition ";
         return $this;
@@ -114,7 +116,7 @@ class Mysql
     public function limit($start,$limit,$order=null){
         $this->_limit = " limit $start,$limit ";
         if(empty($this->_order_by) && !empty($order))
-        $this->order_by($order);
+            $this->order_by($order);
         return $this;
     }
 
@@ -137,22 +139,22 @@ class Mysql
 
     //执行查询
     public function get($flush=TRUE){
-        error_log( $this->_sql.
-            $this->_table.
-            $this->_on_condition.
-            $this->_condition.
-            $this->_group_by.
-            $this->_order_by.
-            $this->_limit);
+        /*  error_log( $this->_sql.
+              $this->_table.
+              $this->_on_condition.
+              $this->_condition.
+              $this->_group_by.
+              $this->_order_by.
+              $this->_limit);*/
 
-      $this->queryState =  mysql_query(
+        $this->queryState =  mysql_query(
             $this->_sql.
-            $this->_table.
-            $this->_on_condition.
-            $this->_condition.
-            $this->_group_by.
-            $this->_order_by.
-            $this->_limit
+                $this->_table.
+                $this->_on_condition.
+                $this->_condition.
+                $this->_group_by.
+                $this->_order_by.
+                $this->_limit
             ,$this->link);
 
         if($flush)$this->flush();
@@ -162,12 +164,12 @@ class Mysql
     //返回当前的sql语句
     public function fetch($flush=TRUE){
         $sql =  $this->_sql.
-                $this->_table.
-                $this->_on_condition.
-                $this->_condition.
-                $this->_group_by.
-                $this->_order_by.
-                $this->_limit;
+            $this->_table.
+            $this->_on_condition.
+            $this->_condition.
+            $this->_group_by.
+            $this->_order_by.
+            $this->_limit;
 
         if($flush)$this->flush();
         return $sql;
@@ -207,5 +209,9 @@ class Mysql
         mysql_query('rollback',$this->link);
         mysql_query('end',$this->link);
         mysql_query('set autocommit = 1',$this->link);
+    }
+
+    public function timestamp($columnName){
+        return " unix_timestamp($columnName) ";
     }
 }
