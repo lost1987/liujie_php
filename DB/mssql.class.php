@@ -35,14 +35,14 @@ class Mssql
 
     public function connect($DB_HOST,$DB_USER,$DBPWD,$NEWLINK=FALSE){
         $this->link = mssql_connect($DB_HOST,$DB_USER,$DBPWD,$NEWLINK);
+        return $this->link;
     }
 
     public function charset($charset){
     }
 
     public function select_db($dbname){
-        mssql_select_db($dbname,$this->link);
-        return $this;
+        return mssql_select_db($dbname,$this->link);
     }
 
     public function query($sql){
@@ -211,6 +211,10 @@ class Mssql
     }
 
     public function timestamp($columnName){
+        return '';
+    }
+
+    public function fromunixtime($columnName,$format='%Y-%m-%d %H:%i:%S'){
         return '';
     }
 }

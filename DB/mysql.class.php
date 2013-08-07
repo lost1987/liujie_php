@@ -33,14 +33,14 @@ class Mysql
 
     public function connect($DB_HOST,$DB_USER,$DBPWD,$NEWLINK=FALSE){
         $this->link = mysql_connect($DB_HOST,$DB_USER,$DBPWD,$NEWLINK);
+        return $this->link;
     }
 
     public function charset($charset){
     }
 
     public function select_db($dbname){
-        mysql_select_db($dbname,$this->link);
-        return $this;
+        return   mysql_select_db($dbname,$this->link);
     }
 
     public function query($sql){
@@ -213,5 +213,9 @@ class Mysql
 
     public function timestamp($columnName){
         return " unix_timestamp($columnName) ";
+    }
+
+    public function fromunixtime($columnName,$format='%Y-%m-%d %H:%i:%S'){
+        return " from_unixtime($columnName,'$format')";
     }
 }
