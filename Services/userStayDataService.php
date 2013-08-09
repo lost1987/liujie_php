@@ -31,10 +31,10 @@ class UserStayDataService extends Service
         }
 
         $list = $this -> db -> select("*") -> from($this->table_userStay)
-                 ->where("sid in ($server_ids) and $timecondition")
-                 ->order_by("date desc")
-                 ->limit($page->start,$page->limit,'date desc')
-                 -> get() -> result_objects();
+            ->where("sid in ($server_ids) and $timecondition")
+            ->order_by("date desc")
+            ->limit($page->start,$page->limit,'date desc')
+            -> get() -> result_objects();
 
         $this -> db -> close();
 

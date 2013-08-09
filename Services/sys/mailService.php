@@ -27,7 +27,7 @@ class MailService extends ServerDBChooser
                 foreach($servers as $server){
                     $db = new DB();//连接分发数据库
                     $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-                    $db -> select_db('MMO2D_admin');
+                    $db -> select_db(DB_NAME);
                     $dtime = $db -> datetime('donetime');
                     $sql =  "select *,$dtime as dtime from $this->table_syslog where server_id=$server->id and (type=2 or type=10) order by donetime desc";
                     $loglist = $db->query($sql)->result_objects();
@@ -73,9 +73,9 @@ class MailService extends ServerDBChooser
          if(!empty($servers)){
              $db = new DB();//连接分发数据库
              $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-             $db -> select_db('MMO2D_admin');
+             $db -> select_db(DB_NAME);
              foreach($servers as $server){
-                 $sql = "select count(id) as num from $this->table_syslog where server_id=$server->id and type=2 ";
+                 $sql = "select count(id) as num from $this->table_syslog where server_id=$server->id and (type=2 or type=10)";
                  $num = $db -> query($sql) -> result_object() -> num;
                  $nums += $num;
 
@@ -240,6 +240,7 @@ class MailService extends ServerDBChooser
             $dbs[$db_flag]['db'] = new DB();
             $dbs[$db_flag]['db'] -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
             $dbs[$db_flag]['dynamic_dbname'] = $server->dynamic_dbname;
+            $dbs[$db_flag]['server'] = $server;
             $db_flag++;
         }
 
@@ -248,6 +249,7 @@ class MailService extends ServerDBChooser
                 $db = $dbs[$t]['db'];
                 $dynamic_dbname=$dbs[$t]['dynamic_dbname'];
                 $code = time();//每个服务器一个时间标识
+                $server = $dbs[$t]['server'];//当前服务器
 
                 $db -> select_db($this->db_static);
 
@@ -300,30 +302,30 @@ class MailService extends ServerDBChooser
 
                         $cur++;
                     }
-                }
 
-                $log = new stdClass();
-                $log -> aid = $mail -> admin -> id;
-                $log -> admin = $mail -> admin -> admin;
-                $log -> flagname = $mail -> admin -> flagname;
-                $log -> type = 2;
-                $log -> typename = $log_action_type[2];
-                $log -> donetime = date('Y-m-d H:i:s');
-                $log -> server_id = $servers[$t]->id;
-                $log -> server_name = $servers[$t]->name;
-                $log -> refer_id = $code;
-                $log -> refer_name = 'code';
-                $log -> item_id = $item_id;
-                $log -> item_num = $item_num;
-                $log -> content = $mail->context;
-                $log -> title = $mail->title;
-                $slog = new Syslog();
-                $log_db = new DB();
-                $logdbs[] = $log_db;
-                $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
-                $log_db -> select_db(DB_NAME);
-                $log_db -> trans_begin();
-                $slog -> setlog($log) -> tran_save($log_db) -> tran_saveMailPlayers($plist,$log_db);
+                    $log = new stdClass();
+                    $log -> aid = $mail -> admin -> id;
+                    $log -> admin = $mail -> admin -> admin;
+                    $log -> flagname = $mail -> admin -> flagname;
+                    $log -> type = 2;
+                    $log -> typename = $log_action_type[2];
+                    $log -> donetime = date('Y-m-d H:i:s');
+                    $log -> server_id = $servers[$t]->id;
+                    $log -> server_name = $servers[$t]->name;
+                    $log -> refer_id = $code;
+                    $log -> refer_name = 'code';
+                    $log -> item_id = $item_id;
+                    $log -> item_num = $item_num;
+                    $log -> content = $mail->context;
+                    $log -> title = $mail->title;
+                    $slog = new Syslog();
+                    $log_db = new DB();
+                    $logdbs[] = $log_db;
+                    $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
+                    $log_db -> select_db(DB_NAME);
+                    $log_db -> trans_begin();
+                    $slog -> setlog($log) -> tran_save($log_db) -> tran_saveMailPlayers($plist,$log_db);
+                }
             }
 
             //执行完成 提交
@@ -372,7 +374,7 @@ class MailService extends ServerDBChooser
         if(!empty($server)){
             $db = new DB();//连接分发数据库
             $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-            $db -> select_db('mmo2d_admin');
+            $db -> select_db(DB_NAME);
 
             $list = $db -> query("select playername from $this->table_mail_record where lid=$lid") -> result_objects();
             $db -> close();
