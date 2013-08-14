@@ -9,6 +9,8 @@
 class Mysql
 {
 
+    public static $debug=FALSE;
+
     public $link;
 
     public $queryState;
@@ -97,10 +99,10 @@ class Mysql
 
         $testCondition = trim($condition);
 
-        if(strtolower(substr($testCondition,0,5)) == 'where')
-            $condition = preg_replace('/^where(.*)/','$1',$condition);
-        if(strtolower(substr($this->_condition,0,5)) == 'where')
-            $this -> _condition = preg_replace('/\s*where(.*)/','$1',$this->_condition);
+        if(preg_match('/[ ]*where(.*)/i',$testCondition))
+            $condition = preg_replace('/[ ]*where(.*)/','$1',$condition);
+        if(preg_match('/[ ]*where(.*)/i',$this->_condition))
+            $this -> _condition = preg_replace('/[ ]*where(.*)/','$1',$this->_condition);
 
         $this -> _condition = " where $this->_condition $condition ";
         return $this;
@@ -139,13 +141,14 @@ class Mysql
 
     //执行查询
     public function get($flush=TRUE){
-        /*  error_log( $this->_sql.
-              $this->_table.
-              $this->_on_condition.
-              $this->_condition.
-              $this->_group_by.
-              $this->_order_by.
-              $this->_limit);*/
+        if(self::$debug)
+            error_log( $this->_sql.
+                $this->_table.
+                $this->_on_condition.
+                $this->_condition.
+                $this->_group_by.
+                $this->_order_by.
+                $this->_limit);
 
         $this->queryState =  mysql_query(
             $this->_sql.
