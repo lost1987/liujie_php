@@ -151,15 +151,15 @@ class MailService extends ServerDBChooser
                      foreach($players as $player){
                          if($cur%$pernum == 0){
                              $db->query($sql);
-                             $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
-                         }else if($cur%$pernum == 1){
+                             $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code)  select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                         }else if($cur == 1){
                              $sql .=  " select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
                          }
                          else{
                              $sql .= " union all select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
                          }
 
-                         if($total == $cur && $cur%$pernum !=0 ){
+                         if($total == $cur){
                              $db->query($sql);
                          }
 
@@ -286,15 +286,15 @@ class MailService extends ServerDBChooser
                             if(!$db->query($sql)){
                                 break;
                             }
-                            $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code) ";
-                        }else if($cur%$pernum == 1){
+                            $sql = "insert into $this->table_mail (pid,itemid,itemnum,theme,contents,code)  select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
+                        }else if($cur == 1){
                             $sql .=  " select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
                         }
                         else{
                             $sql .= " union all select $player->id,$item_id,$item_num,'$mail->title','$mail->context',$code ";
                         }
 
-                        if($total == $cur && $cur%$pernum !=0 ){
+                        if($total == $cur){
                             if(!$db->query($sql)){
                                 break;
                             }
