@@ -68,6 +68,12 @@ class ActivecodeService extends  ServerDBChooser
         require BASEPATH.'/Common/log.php';
         //通过生成时间和服务器ID关联操作人
         $servers = $activecode -> servers;
+        $server_ids = array();
+        foreach($servers as $server){
+            $server_ids[] = $server->id;
+        }
+        $server_ids = implode(',',$server_ids);
+        $servers = $this->getServers($server_ids);
         $ctime = date('Y-m-d H:i:s');
         $ctime = substr($ctime,0,strlen($ctime)-2).'00';//smalldatetime
         for($i = 1; $i< 9 ; $i++){
@@ -120,7 +126,7 @@ class ActivecodeService extends  ServerDBChooser
                 for($i =0 ; $i < $nums;$i++){
                     $acode  =  date('YmdHis').make_rand_str();
                     if($cur%$pernum == 0){
-                        $db->query($sql);
+                        if(!$db->query($sql)->queryState)throw new Exception('activecode write data error!');
                         $sql = "insert into $this->table_activecode (acode,name,astate,ctime,amask,itemid0,nums0,itemid1,nums1,itemid2,nums2,itemid3,nums3,itemid4,nums4,itemid5,nums5,itemid6,nums6,itemid7,nums7,aid,sid )  ";
                         $sql .=  " select '$acode','$activecode->name',$activecode->astate,'$ctime',
                                     $activecode->amask,$activecode->id1,$activecode->num1,$activecode->id2,
@@ -145,9 +151,8 @@ class ActivecodeService extends  ServerDBChooser
                                     $activecode->num8 ,0, {$servers[$t]->id} ";
                     }
 
-
                     if($cur == $nums){
-                        $db->query($sql);
+                        if(!$db->query($sql)->queryState)throw new Exception('activecode write data error!');
                     }
 
                     $cur++;
@@ -171,7 +176,7 @@ class ActivecodeService extends  ServerDBChooser
                 $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                 $log_db -> select_db(DB_NAME);
                 $log_db -> trans_begin();
-                $slog -> setlog($log) -> tran_save($log_db);
+                if(!$slog -> setlog($log) -> tran_save($log_db))throw new Exception('activecode write data error!');
             }
 
             //执行完成 提交
@@ -184,7 +189,6 @@ class ActivecodeService extends  ServerDBChooser
                 $logdbs[$i] -> commit();
                 $logdbs[$i] -> close();
             }
-
             return 0;
         }catch (Exception $e){
             for($i = 0 ; $i < count($executed_dbs) ; $i++){

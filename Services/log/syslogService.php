@@ -32,6 +32,7 @@ class SyslogService extends Service
                $this->db->trans_begin();
                $sql = "update ljzm_syslog set state = $state,refer_name='$refername',optime=$optime where id = $logid";
                $res = $this -> db -> query($sql) -> queryState;
+               if(!$res) throw new Exception('log-pay error!');
                if($state == 2 && $res){//批准
                    //如果批准的话 直接调用支付接口
                    $sid = $log -> server_id;
@@ -58,16 +59,11 @@ class SyslogService extends Service
                    $payapi =  new Payapi(PAYHOST,$uname,$ukey,$utime,$aid,$realServerId,$goldmoney,$eventid);
                    $result = $payapi -> pay();
 
-                   if($result == 1){//成功
-                       $this-> db ->commit();
-                       $this -> db -> close();
-                       return TRUE;
-                   }else{//失败
-                       $this -> db -> rollback();
-                       $this -> db -> close();
-                   }
+                   if($result != 1)throw new Exception('pay error!');
 
-                   return FALSE;
+                   $this-> db ->commit();
+                   $this -> db -> close();
+                   return TRUE;
                }else if($res){//拒绝
                    $this->db->commit();
                    $this -> db -> close();

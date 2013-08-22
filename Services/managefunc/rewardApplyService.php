@@ -147,7 +147,8 @@ class RewardApplyService extends ServerDBChooser
                     $logdb = new DB();
                     $logdb -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                     $logdb -> select_db(DB_NAME);
-                    $slog -> setlog($log) -> tran_save($logdb) -> tran_saveRewardPlayers($res,$logdb);
+                    if(!$slog -> setlog($log) -> tran_save($logdb))throw new Exception('reward write data error');
+                    if($slog -> tran_saveRewardPlayers($res,$logdb))throw new Exception('reward write data error');
                 }
             }
 

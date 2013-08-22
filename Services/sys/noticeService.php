@@ -111,7 +111,7 @@ class NoticeService extends ServerDBChooser
                 $executed_dbs[] = $db;
                 $sql = "insert into $this->table_notice (id,context,time,starttime,endtime,starthour,startmin,endhour,endmin)
                     values ($id,'$context',$time,'$starttime','$endtime',$starthour,$startmin,$endhour,$endmin)";
-                $db -> query($sql);
+                if(!$db -> query($sql)->queryState)throw new Exception('notice write data error!');
 
                 $log = new stdClass();
                 $log -> aid = $notice -> admin -> id;
@@ -131,7 +131,7 @@ class NoticeService extends ServerDBChooser
                 $log_db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                 $log_db -> select_db(DB_NAME);
                 $log_db -> trans_begin();
-                $slog -> setlog($log) -> tran_save($log_db);
+                if(!$slog -> setlog($log) -> tran_save($log_db))throw new Exception('log-notice write data error!');
             }
 
             //执行完成 提交
