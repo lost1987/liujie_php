@@ -55,16 +55,25 @@
       <file leaf-file-name="noticeService.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/sys/noticeService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="5" selection-start="304" selection-end="304" vertical-scroll-proportion="-0.71875">
+            <state line="13" column="5" selection-start="304" selection-end="304" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mysql.class.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="mysql.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="86" column="21" selection-start="0" selection-end="9439" vertical-scroll-proportion="-1.3153014">
+            <state line="86" column="21" selection-start="0" selection-end="9439" vertical-scroll-proportion="-0.71875">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mssql.class.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DB/mssql.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="0" selection-start="373" selection-end="373" vertical-scroll-proportion="0.071097374">
               <folding />
             </state>
           </provider>
@@ -92,10 +101,10 @@
         <option value="$PROJECT_DIR$/Services/userStayDataService.php" />
         <option value="$PROJECT_DIR$/../test.php" />
         <option value="$PROJECT_DIR$/flexhtml/phpinfo.php" />
-        <option value="$PROJECT_DIR$/DB/mssql.class.php" />
         <option value="$PROJECT_DIR$/Services/sys/mailService.php" />
         <option value="$PROJECT_DIR$/Services/sys/activecodeService.php" />
         <option value="$PROJECT_DIR$/DB/mysql.class.php" />
+        <option value="$PROJECT_DIR$/DB/mssql.class.php" />
       </list>
     </option>
   </component>
@@ -131,7 +140,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -240,17 +248,18 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.PHP" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -347,10 +356,9 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32866043" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298585" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23601148" sideWeight="0.6725544" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27977043" sideWeight="0.6713881" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2840746" sideWeight="0.6713881" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32577905" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -359,6 +367,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32866043" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -456,9 +465,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Conf/db.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="17" selection-start="683" selection-end="683" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="30" column="17" selection-start="683" selection-end="683" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/loginService.php">
@@ -466,16 +473,9 @@
         <state line="24" column="69" selection-start="670" selection-end="670" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DB/mssql.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="21" selection-start="441" selection-end="441" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Services/serverService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="27" selection-start="1813" selection-end="1859" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="52" column="27" selection-start="1813" selection-end="1859" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/sys/mailService.php">
@@ -501,14 +501,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/sys/noticeService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="5" selection-start="304" selection-end="304" vertical-scroll-proportion="-0.71875">
+        <state line="13" column="5" selection-start="304" selection-end="304" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="86" column="21" selection-start="0" selection-end="9439" vertical-scroll-proportion="-1.3153014">
+        <state line="86" column="21" selection-start="0" selection-end="9439" vertical-scroll-proportion="-0.71875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/mssql.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="0" selection-start="373" selection-end="373" vertical-scroll-proportion="0.071097374">
           <folding />
         </state>
       </provider>
