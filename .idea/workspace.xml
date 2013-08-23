@@ -28,7 +28,7 @@
       <file leaf-file-name="service.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lib/service.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -37,7 +37,7 @@
       <file leaf-file-name="serverdbchooser.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lib/serverdbchooser.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="-0.71875">
+            <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -46,7 +46,7 @@
       <file leaf-file-name="adminApplyManageService.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/adminfunc/adminApplyManageService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="33.65625">
+            <state line="18" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -55,7 +55,7 @@
       <file leaf-file-name="manageApplyService.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/managefunc/manageApplyService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="31.1875">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -64,7 +64,7 @@
       <file leaf-file-name="playerService.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/player/playerService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="29" selection-start="390" selection-end="390" vertical-scroll-proportion="110.6875">
+            <state line="18" column="29" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -73,25 +73,25 @@
       <file leaf-file-name="itemService.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/sys/itemService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="20" selection-start="675" selection-end="675" vertical-scroll-proportion="-12.625">
+            <state line="23" column="20" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="syslogService.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="syslogService.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/log/syslogService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="90" selection-start="792" selection-end="792" vertical-scroll-proportion="0.4362745">
+            <state line="32" column="90" selection-start="792" selection-end="792" vertical-scroll-proportion="-0.71875">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="datacache.class.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Lib/datacache.class.php">
+      <file leaf-file-name="mysql.class.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="27" selection-start="868" selection-end="868" vertical-scroll-proportion="-0.71875">
+            <state line="18" column="0" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0464">
               <folding />
             </state>
           </provider>
@@ -100,7 +100,7 @@
       <file leaf-file-name="color.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lib/color.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -109,7 +109,7 @@
       <file leaf-file-name="autoload.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lib/autoload.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,13 +134,13 @@
         <option value="$PROJECT_DIR$/DB/mssql.class.php" />
         <option value="$PROJECT_DIR$/Conf/db.inc.php" />
         <option value="$PROJECT_DIR$/Lib/serverdbchooser.class.php" />
-        <option value="$PROJECT_DIR$/DB/mysql.class.php" />
         <option value="$PROJECT_DIR$/Services/sys/mailService.php" />
         <option value="$PROJECT_DIR$/Services/sys/activecodeService.php" />
         <option value="$PROJECT_DIR$/Lib/syslog.class.php" />
         <option value="$PROJECT_DIR$/Services/sys/noticeService.php" />
         <option value="$PROJECT_DIR$/Services/managefunc/rewardApplyService.php" />
         <option value="$PROJECT_DIR$/Services/log/syslogService.php" />
+        <option value="$PROJECT_DIR$/DB/mysql.class.php" />
       </list>
     </option>
   </component>
@@ -362,12 +362,12 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.PHP" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.PHP" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FullScreen" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -459,14 +459,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="827" extended-state="0" />
+    <frame x="0" y="22" width="1440" height="827" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298585" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23601148" sideWeight="0.6725544" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2840746" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28837878" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32577905" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -536,51 +536,34 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Services/managefunc/rewardApplyService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="51" selection-start="305" selection-end="305" vertical-scroll-proportion="52.03125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Services/player/hunwuService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/player/itemsService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="32.34375">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="32.34375" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Lib/payapi.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.59375">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.59375" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Lib/memcaches.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Lib/iservice.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Lib/datacache.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="27" selection-start="868" selection-end="868" vertical-scroll-proportion="-0.71875">
+        <state line="28" column="27" selection-start="868" selection-end="868" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -608,42 +591,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Lib/serverdbchooser.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="-0.71875">
+        <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/adminfunc/adminApplyManageService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="33.65625">
+        <state line="18" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/managefunc/manageApplyService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="31.1875">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/player/playerService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="29" selection-start="390" selection-end="390" vertical-scroll-proportion="110.6875">
+        <state line="18" column="29" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/sys/itemService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="20" selection-start="675" selection-end="675" vertical-scroll-proportion="-12.625">
+        <state line="23" column="20" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/log/syslogService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="90" selection-start="792" selection-end="792" vertical-scroll-proportion="0.4362745">
+        <state line="32" column="90" selection-start="792" selection-end="792" vertical-scroll-proportion="-0.71875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0464">
           <folding />
         </state>
       </provider>
