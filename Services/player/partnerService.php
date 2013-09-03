@@ -14,7 +14,7 @@ class PartnerService extends ServerDBChooser
         $this -> table_dynamic_item = $this -> prefix_1 . 'dynamicitem';
         $this -> table_item = $this -> prefix_1.'item';
         $this -> table_huoban = $this -> prefix_2.'huobans';
-        $this -> db_static = 'MMO2D_StaticLJZM';
+        $this -> db_static = 'mmo2d_staticljzm';
     }
 
     public function detail($pid,$server){

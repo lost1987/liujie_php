@@ -25,10 +25,19 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="service.class.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Lib/service.class.php">
+      <file leaf-file-name="itemsService.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Services/player/itemsService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="28" column="0" selection-start="1024" selection-end="1024" vertical-scroll-proportion="0.54901963">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="phpinfo.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/flexhtml/phpinfo.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
@@ -37,25 +46,25 @@
       <file leaf-file-name="serverdbchooser.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Lib/serverdbchooser.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="0.0">
+            <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="2.15625">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="adminApplyManageService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/adminfunc/adminApplyManageService.php">
+      <file leaf-file-name="facilityService.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/player/facilityService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0">
+            <state line="14" column="46" selection-start="403" selection-end="403" vertical-scroll-proportion="-10.0625">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manageApplyService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/managefunc/manageApplyService.php">
+      <file leaf-file-name="bagService.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/player/bagService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="18" column="44" selection-start="631" selection-end="631" vertical-scroll-proportion="-12.9375">
               <folding />
             </state>
           </provider>
@@ -64,52 +73,43 @@
       <file leaf-file-name="playerService.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Services/player/playerService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="29" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
+            <state line="210" column="51" selection-start="7548" selection-end="7548" vertical-scroll-proportion="-76.1875">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="itemService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/sys/itemService.php">
+      <file leaf-file-name="roleService.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/player/roleService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="20" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="syslogService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/log/syslogService.php">
+      <file leaf-file-name="shenbingService.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/player/shenbingService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="90" selection-start="792" selection-end="792" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mysql.class.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
+      <file leaf-file-name="skillService.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/player/skillService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="5" selection-start="499" selection-end="499" vertical-scroll-proportion="0.184">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="adminService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/adminService.php">
+      <file leaf-file-name="xiuweiService.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Services/player/xiuweiService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="92" selection-start="951" selection-end="951" vertical-scroll-proportion="-0.71875">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="autoload.class.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Lib/autoload.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="18" column="5" selection-start="519" selection-end="519" vertical-scroll-proportion="-12.9375">
               <folding />
             </state>
           </provider>
@@ -125,22 +125,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Services/loginService.php" />
-        <option value="$PROJECT_DIR$/Services/serverService.php" />
-        <option value="$PROJECT_DIR$/Lib/datacache.class.php" />
+        <option value="$PROJECT_DIR$/Services/rechargeOrderService.php" />
         <option value="$PROJECT_DIR$/Services/userStayDataService.php" />
-        <option value="$PROJECT_DIR$/../test.php" />
-        <option value="$PROJECT_DIR$/flexhtml/phpinfo.php" />
-        <option value="$PROJECT_DIR$/DB/mssql.class.php" />
-        <option value="$PROJECT_DIR$/Conf/db.inc.php" />
-        <option value="$PROJECT_DIR$/Lib/serverdbchooser.class.php" />
-        <option value="$PROJECT_DIR$/Services/sys/mailService.php" />
-        <option value="$PROJECT_DIR$/Services/sys/activecodeService.php" />
-        <option value="$PROJECT_DIR$/Lib/syslog.class.php" />
-        <option value="$PROJECT_DIR$/Services/sys/noticeService.php" />
-        <option value="$PROJECT_DIR$/Services/managefunc/rewardApplyService.php" />
-        <option value="$PROJECT_DIR$/Services/log/syslogService.php" />
-        <option value="$PROJECT_DIR$/DB/mysql.class.php" />
+        <option value="$PROJECT_DIR$/Services/userTurnOverDataService.php" />
+        <option value="$PROJECT_DIR$/Services/turnoverDataService.php" />
+        <option value="$PROJECT_DIR$/Services/createDataService.php" />
+        <option value="$PROJECT_DIR$/Services/loginDataService.php" />
+        <option value="$PROJECT_DIR$/Services/rechargeDataService.php" />
+        <option value="$PROJECT_DIR$/Services/player/playerService.php" />
+        <option value="$PROJECT_DIR$/Services/log/payService.php" />
+        <option value="$PROJECT_DIR$/Services/singleArpuService.php" />
+        <option value="$PROJECT_DIR$/Services/player/partnerService.php" />
+        <option value="$PROJECT_DIR$/Services/player/mjcService.php" />
+        <option value="$PROJECT_DIR$/Services/player/facilityService.php" />
+        <option value="$PROJECT_DIR$/Services/player/bagService.php" />
+        <option value="$PROJECT_DIR$/Services/player/xiuweiService.php" />
+        <option value="$PROJECT_DIR$/Services/player/itemsService.php" />
       </list>
     </option>
   </component>
@@ -176,7 +176,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -205,169 +204,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="TestCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="player" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="managefunc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="log" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adminfunc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="Lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DB" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conf" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.PHP" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -460,13 +314,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="827" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298585" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23601148" sideWeight="0.6725544" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2969871" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30129126" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32577905" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -536,104 +390,114 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Services/player/itemsService.php">
+    <entry file="file://$PROJECT_DIR$/Services/turnoverDataService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="32.34375" />
+        <state line="112" column="57" selection-start="5039" selection-end="5039" vertical-scroll-proportion="-79.0625">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/payapi.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/userStayDataService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.59375" />
+        <state line="89" column="36" selection-start="3802" selection-end="3802" vertical-scroll-proportion="3.59375">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/memcaches.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/complexDataService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="25" column="52" selection-start="725" selection-end="725" vertical-scroll-proportion="-12.9375">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/iservice.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/player/partnerService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+        <state line="16" column="46" selection-start="520" selection-end="536" vertical-scroll-proportion="-10.0625">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/datacache.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/player/mjcService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="27" selection-start="868" selection-end="868" vertical-scroll-proportion="0.0" />
+        <state line="17" column="44" selection-start="450" selection-end="450" vertical-scroll-proportion="10.78125">
+          <folding />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/color.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/player/hunwuService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="11.5">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Services/player/facilityService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="46" selection-start="403" selection-end="403" vertical-scroll-proportion="-10.0625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Services/player/bagService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="44" selection-start="631" selection-end="631" vertical-scroll-proportion="-12.9375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Services/player/roleService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/autoload.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/player/shenbingService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/service.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/player/skillService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/serverdbchooser.class.php">
+    <entry file="file://$PROJECT_DIR$/Services/player/xiuweiService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/adminfunc/adminApplyManageService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/managefunc/manageApplyService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="18" column="5" selection-start="519" selection-end="519" vertical-scroll-proportion="-12.9375">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Services/player/playerService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="29" selection-start="390" selection-end="390" vertical-scroll-proportion="0.0">
+        <state line="210" column="51" selection-start="7548" selection-end="7548" vertical-scroll-proportion="-76.1875">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/sys/itemService.php">
+    <entry file="file://$PROJECT_DIR$/Lib/serverdbchooser.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="20" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
+        <state line="16" column="49" selection-start="360" selection-end="367" vertical-scroll-proportion="2.15625">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/syslogService.php">
+    <entry file="file://$PROJECT_DIR$/flexhtml/phpinfo.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="90" selection-start="792" selection-end="792" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/adminService.php">
+    <entry file="file://$PROJECT_DIR$/Services/player/itemsService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="92" selection-start="951" selection-end="951" vertical-scroll-proportion="-0.71875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="5" selection-start="499" selection-end="499" vertical-scroll-proportion="0.184">
+        <state line="28" column="0" selection-start="1024" selection-end="1024" vertical-scroll-proportion="0.54901963">
           <folding />
         </state>
       </provider>

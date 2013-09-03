@@ -10,7 +10,7 @@ class LevelDataService extends Service
 {
     function LevelDataService(){
         parent::__construct();
-        $this -> table_level = 'LevelData';
+        $this -> table_level = 'leveldata';
         $this -> db -> select_db('mmo2d_recordljzm');
     }
 

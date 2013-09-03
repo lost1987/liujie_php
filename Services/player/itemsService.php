@@ -14,7 +14,7 @@ class ItemsService extends  ServerDBChooser
         $this -> table_dynamicItem = $this->prefix_1.'dynamicitem';
         $this -> table_staticitem = $this->prefix_1.'item';
 
-        $this -> db_static = 'MMO2D_StaticLJZM';
+        $this -> db_static = 'mmo2d_staticljzm';
     }
 
     public function detail($pid,$server){

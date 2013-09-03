@@ -11,20 +11,20 @@ class TurnoverDataService extends Service
 {
     function TurnoverDataService(){
         parent::__construct();
-        $this -> table_turnover = 'TurnoverData';
+        $this -> table_turnover = 'turnoverdata';
         $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
         $list = array();
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $datetime = $this->db->datetime('date',10,120);
         if(substr($starttime,0,10) == substr($endtime,0,10)){
-            $date_time_array = $this -> getDayTime($starttime);
+            $date_time_array = $this -> getDayTime($condition->starttime.' 00:00:00');
 
             $sql = '';
             $this->db->select("*");
@@ -84,10 +84,11 @@ class TurnoverDataService extends Service
         if(substr($starttime,0,10) == substr($endtime,0,10)){
             return count($this -> getDayTime($starttime));
         }else{
-            $date = $this->db->cast('date');
-            $datetime = $this->db->datetime($date,10,120);
+            $date = $this->db->timestamp('date');
+            $starttime = strtotime($condition->starttime.' 00:00:00');
+            $endtime = strtotime($condition->endtime.' 23:59:59');
             $timecondition = " $date  >= '$starttime' and $date <= '$endtime' ";
-            $sql = "select count(  distinct   ($datetime )   ) as num from $this->table_turnover where sid in ($server_ids) and $timecondition group by $datetime";
+            $sql = "select count(  distinct   (date )   ) as num from $this->table_turnover where sid in ($server_ids) and $timecondition";
             $obj = $this -> db -> query($sql) -> result_object();
             if(!empty($obj))
             return $obj -> num;
@@ -115,7 +116,7 @@ class TurnoverDataService extends Service
            $hour = 60 * 60;
            for($i=1;$i<24;$i++){
                $sourcetime = strtotime($sourcedate.' 00:00:00');
-               $tempdate = date('Y-m-d H:i:s',$sourcetime+$hour*$i);
+               $tempdate =$sourcetime+$hour*$i;
                $date_time_array[] = $tempdate;
            }
 

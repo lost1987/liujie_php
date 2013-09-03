@@ -11,18 +11,18 @@ class DailyCopyDataService extends Service
 {
     function DailyCopyDataService(){
         parent::__construct();
-        $this -> table_dailycopy = 'DailyCopy';
+        $this -> table_dailycopy = 'dailycopy';
         $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
         $list = array();
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
        /* $sql = "select * from (select row_number() over (order by copyname asc) as rownumber,
@@ -53,10 +53,10 @@ class DailyCopyDataService extends Service
 
     public function num_rows($condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = "select copyname from $this->table_dailycopy where sid in ($server_ids) and $timecondition group by copyname,copylevel";
         $obj = $this -> db -> query($sql) -> result_objects();

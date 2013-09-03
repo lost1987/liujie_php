@@ -11,18 +11,18 @@ class userTurnOverDataService extends  Service
 {
      function userTurnOverDataService(){
           parent::__construct();
-          $this -> table_userTurnOver = 'UserTurnOver';
+          $this -> table_userTurnOver = 'userturnover';
           $this -> db -> select_db('mmo2d_recordljzm');
      }
 
     public function lists($page,$condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
         $list = array();
 
-        $date = $this->db -> cast('date');
+        $date = $this->db -> timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
         $list = $this->db->select("*")
@@ -47,10 +47,10 @@ class userTurnOverDataService extends  Service
 
     public function num_rows($condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = "select count(date) as num from $this->table_userTurnOver where sid in ($server_ids) and $timecondition ";
         $obj = $this -> db -> query($sql) -> result_object();
@@ -59,9 +59,9 @@ class userTurnOverDataService extends  Service
 
     public function total($condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
-        $date = $this->db->cast('date');
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
         $sql = "select

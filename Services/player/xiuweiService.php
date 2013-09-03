@@ -12,7 +12,7 @@ class XiuweiService extends  ServerDBChooser
     function XiuweiService(){
         $this -> table_userxiuwei = $this->prefix_2.'userxiuwei';
         $this -> table_xiuweilevel = $this -> prefix_2.'xiuwei';
-        $this -> db_static = 'MMO2D_StaticLJZM';
+        $this -> db_static = 'mmo2d_staticljzm';
 
         require BASEPATH.'/Common/itemeffect.php';
         $this -> item_effect = $item_effect;

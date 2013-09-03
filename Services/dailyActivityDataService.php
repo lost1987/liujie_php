@@ -11,18 +11,18 @@ class DailyActivityDataService extends Service
 {
     function DailyActivityDataService(){
         parent::__construct();
-        $this -> table_dailyactivity = 'DailyActivity';
+        $this -> table_dailyactivity = 'dailyactivity';
         $this -> db -> select_db('MMO2D_RecordLJZM');
     }
 
     public function lists($page,$condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
         $list = array();
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
         $list = $this->db->select("activityname,
@@ -47,10 +47,10 @@ class DailyActivityDataService extends Service
 
     public function num_rows($condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = "select activityname  from $this->table_dailyactivity where sid in ($server_ids) and $timecondition group by activityname";
         $obj = $this -> db -> query($sql) -> result_objects();

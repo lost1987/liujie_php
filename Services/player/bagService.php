@@ -16,7 +16,7 @@ class BagService extends ServerDBChooser
         $this->table_lieming = $this->prefix_2.'userlieming';
         $this->table_fabao = $this->prefix_2.'fabao';
         $this->table_qiankun = $this->prefix_1.'usercj';
-        $this->db_static = 'MMO2D_StaticLJZM';
+        $this->db_static = 'mmo2d_staticljzm';
     }
 
     public function detail($pid,$server,$type){

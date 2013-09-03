@@ -12,7 +12,7 @@ class FacilityService extends ServerDBChooser
         $this -> table_sw = $this->prefix_2.'sw';
         $this -> table_facility = $this->prefix_2.'userfacility';
 
-        $this -> db_static = 'MMO2D_StaticLJZM';
+        $this -> db_static = 'mmo2d_staticljzm';
     }
 
     public function detail($pid,$server){

@@ -12,16 +12,16 @@ Class complexDataService extends  Service {
 
     function complexDataService(){
         parent::__construct();
-        $this -> table_complex = 'ComplexData';
+        $this -> table_complex = 'complexdata';
         $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime;
-        $endtime = $condition->endtime;
+        $starttime = strtotime($condition->starttime);
+        $endtime = strtotime($condition->endtime);
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         if($starttime == $endtime){
             $timecondition = " $date='$starttime' ";
         }else{
@@ -64,10 +64,10 @@ Class complexDataService extends  Service {
 
     public function num_rows($condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime;
-        $endtime = $condition->endtime;
+        $starttime = strtotime($condition->starttime);
+        $endtime = strtotime($condition->endtime);
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         if($starttime == $endtime){
             $timecondition = " $date='$starttime' ";
         }else{
@@ -80,11 +80,11 @@ Class complexDataService extends  Service {
 
     public function total($condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime;
-        $endtime = $condition->endtime;
+        $starttime = strtotime($condition->starttime);
+        $endtime = strtotime($condition->endtime);
         $avecount = (strtotime($endtime) - strtotime($starttime)) / (3600*24);
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         if($starttime == $endtime){
             $timecondition = " $date='$starttime' ";
         }else{

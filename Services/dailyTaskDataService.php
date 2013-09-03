@@ -11,18 +11,18 @@ class DailyTaskDataService extends Service
 {
     function DailyTaskDataService(){
         parent::__construct();
-        $this -> table_dailytask = 'DailyTask';
+        $this -> table_dailytask = 'dailytask';
         $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
         $list = array();
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
 
         $list = $this->db->select("taskname, sum(jiontasknum) as jiontasknum,
@@ -47,10 +47,10 @@ class DailyTaskDataService extends Service
 
     public function num_rows($condition){
         $server_ids = $condition -> server_ids;
-        $starttime = $condition->starttime.' 00:00:00';
-        $endtime = $condition->endtime.' 23:59:59';
+        $starttime = strtotime($condition->starttime.' 00:00:00');
+        $endtime = strtotime($condition->endtime.' 23:59:59');
 
-        $date = $this->db->cast('date');
+        $date = $this->db->timestamp('date');
         $timecondition = " $date >= '$starttime' and $date <= '$endtime' ";
         $sql = "select taskname as num from $this->table_dailytask where sid in ($server_ids) and $timecondition group by taskname,tasklevel";
         $obj = $this -> db -> query($sql) -> result_objects();

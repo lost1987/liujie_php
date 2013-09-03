@@ -15,7 +15,7 @@ class MjcService extends ServerDBChooser
         $this->table_cards = $this->prefix_2.'cards';
         $this->table_user_card = $this->prefix_2.'usercard';
 
-        $this->db_static = 'MMO2D_staticLJZM';
+        $this->db_static = 'mmo2d_staticljzm';
     }
 
     public function detail($pid,$server){
