@@ -24,7 +24,7 @@ class ExcelMaker extends Input
     private function ExcelMaker(){
         parent::__construct();
         $this -> table_servers =  DB_PREFIX.'servers';
-        $this -> dbname = 'MMO2D_admin';//管理服务器等信息的后台数据库名
+        $this -> dbname = 'mmo2d_admin';//管理服务器等信息的后台数据库名
     }
 
 
@@ -88,18 +88,18 @@ class ExcelMaker extends Input
                 break;
             case 1:
                 //查询服务器 组成数组
-                $mssql =  new Mssql();
-                $mssql -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-                $mssql -> select_db($this->dbname);
-                $servers = $mssql -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
+                $db =  new Mssql();
+                $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+                $db -> select_db($this->dbname);
+                $servers = $db -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
                 $condition->servers = $servers;
                 $this -> results = call_user_func(array($service,$this->params['method']),$page,$condition);
                 break;
             case 2:
-                $mssql =  new Mssql();
-                $mssql -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-                $mssql -> select_db($this->dbname);
-                $servers = $mssql -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
+                $db =  new Mssql();
+                $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+                $db -> select_db($this->dbname);
+                $servers = $db -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
                 $condition->servers = $servers;
                 $this -> results = call_user_func(array($service,$this->params['method']),$condition);
                 break;
@@ -107,10 +107,10 @@ class ExcelMaker extends Input
                 $this -> results = call_user_func(array($service,$this->params['method']),$condition);
                 break;
             case 4:
-                $mssql = new Mssql();
-                $mssql -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
-                $mssql -> select_db($this->dbname);
-                $server = $mssql -> query("select * from $this->table_servers where id = $condition->server_ids")->result_object();
+                $db = new Mssql();
+                $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
+                $db -> select_db($this->dbname);
+                $server = $db -> query("select * from $this->table_servers where id = $condition->server_ids")->result_object();
                 $condition -> server = $server;
                 $condition -> account_name = $this->post('account_name');
                 $condition -> level_start = $this->post('level_start');

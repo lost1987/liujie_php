@@ -27,5 +27,5 @@ require BASEPATH.'Excel/PHPExcel/Writer/Excel2007.php';
 require BASEPATH.'Excel/PHPExcel/IOFactory.php';
 
 ExcelMaker::register_auto_load();
-
+Engine::createDBClass();
 ExcelMaker::getInstance() -> output();
