@@ -12,7 +12,7 @@ class DailyActivityDataService extends Service
     function DailyActivityDataService(){
         parent::__construct();
         $this -> table_dailyactivity = 'dailyactivity';
-        $this -> db -> select_db('MMO2D_RecordLJZM');
+        $this -> db -> select_db('mmo2d_recordljzm');
     }
 
     public function lists($page,$condition){
