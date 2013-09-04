@@ -25,6 +25,14 @@ require BASEPATH . '/Conf/config.inc.php';
 require BASEPATH . '/Lib/autoload.class.php';
 require BASEPATH . '/Common/common.php';
 
+if(ENVIRMENT == 'develop'){
+    ini_set('display_errors','On');
+    ini_set('log_errors','On');
+}else{
+    ini_set('display_errors','Off');
+    ini_set('log_errors','Off');
+}
+
 spl_autoload_register(array('Autoload','_autoload'));
 
 Engine::createDBClass();
