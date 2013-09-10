@@ -10,7 +10,7 @@ class ItemService extends ServerDBChooser
 {
    function ItemService(){
         $this -> table_items = $this->prefix_1.'item';
-        $this -> db_items = 'MMO2D_StaticLJZM';
+        $this -> db_items = 'mmo2d_staticljzm';
    }
 
    public function lists($server){

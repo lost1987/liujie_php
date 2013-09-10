@@ -12,6 +12,7 @@ define('__QQWRY__' ,BASEPATH."/Lib/QQWry.Dat");
 define('PAYHOST','http://58.49.56.147/web/');
 //define('PAYHOST','192.168.20.160');
 define("DEF_PLATFORM_KEY", "265g");//充值key
+define("ENVIRMENT","develop"); //develop,product
 
 $service_paths = array(
     BASEPATH.'/Services/',

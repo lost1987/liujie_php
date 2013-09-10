@@ -88,6 +88,15 @@ class NoticeService extends ServerDBChooser
         //日志数据库连接
         $logdbs = array();
 
+        if(count($servers) < 1) return 2;
+
+        $server_ids = array();
+        foreach($servers as $server){
+            $server_ids[] = $server->id;
+        }
+        $server_ids = implode(',',$server_ids);
+        $servers = $this->getServers($server_ids);
+
         //创建多个数据库连接
         $db_flag  = 0;
         $dbs = array();

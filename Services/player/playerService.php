@@ -197,13 +197,16 @@ class PlayerService extends ServerDBChooser
        $base = $this -> db -> query($sql) -> result_object();
        $player -> yuanbaototal  = $base -> yuanbaototal/10;
        $player -> yuanbaonum = $base -> yuanbaonum;
-       $player -> rightcode = $this->_rightcode[$base->rightcode];
-       $player -> jingyingname = $this->jingyingfuben[$player->CurLayer];
+       $player -> rightcode =  empty($this->_rightcode[$base->rightcode]) ? '/' : $this->_rightcode[$base->rightcode];
+       $player -> jingyingname = empty($this->jingyingfuben[$player->CurLayer]) ? '/' : $this->jingyingfuben[$player->CurLayer];
 
 
        $this -> db -> select_db($this->db_static);
 
        //查询军衔
+       $player->rankpt = '';
+       $player->rankname='';
+       $player->ranklimit = '';
        if(!empty($player->rankid)){
            $sql = "select a.name,a.rankpt as ranklimit from $this->table_rank a where a.rankid = $player->rankid";
            $rank = $this -> db -> query($sql) -> result_object();
@@ -238,7 +241,7 @@ class PlayerService extends ServerDBChooser
         //查询IP地理位置
         $QQWry = new QQWry;
         $QQWry->QQWry($player->last_ip);
-        $player -> location = DB_TYPE=='Mssql' ? iconv('GBK','UTF-8',$QQWry->Country.$QQWry->Local) : $QQWry->Country.$QQWry->Local;
+        $player -> location =  $QQWry->Country.$QQWry->Local;
 
        return $player;
     }

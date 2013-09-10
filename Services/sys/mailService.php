@@ -16,7 +16,7 @@ class MailService extends ServerDBChooser
            $this -> table_item = $this->prefix_1.'item';
            $this -> table_syslog = 'ljzm_syslog';
            $this -> table_mail_record = 'ljzm_mail_records';
-           $this -> db_static = 'MMO2D_StaticLJZM';
+           $this -> db_static = 'mmo2d_staticljzm';
      }
 
      public function lists($page,$condition){

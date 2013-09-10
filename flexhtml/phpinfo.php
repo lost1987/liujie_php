@@ -1,9 +1,11 @@
 <?
 define('INFO_PWD','bdijltvwxzBCDEFGIJLMOQTVWXZ12357');
-$time = time();
+
 $clinetKey = $_GET['key'];
+list($key,$time) = explode('|',$clinetKey);
+$time = substr($time,0,10);
 $myKey = md5($time.INFO_PWD);
-if($myKey != $clinetKey){
+if($myKey != $key){
     exit('no access!');
 }
 

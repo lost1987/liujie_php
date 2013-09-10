@@ -113,7 +113,7 @@ class ServerService extends Service implements IService
         }
 
         $ids = substr($ids,0,strlen($ids) - 1);
-        $sql = "select id,name,status,bid,dynamic_dbname from $this->table_servers where bid in ($ids) and stat=1";
+        $sql = "select id,name,status,bid,dynamic_dbname,server_ip,server_port from $this->table_servers where bid in ($ids) and stat=1";
         $result = $this -> db -> query($sql) -> result_objects();
         foreach($result as &$res){
             switch($res->status){
