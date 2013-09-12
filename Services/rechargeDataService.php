@@ -30,8 +30,8 @@ class RechargeDataService extends Service
                     break;
             //24小时
             case 2:
-                    $sql = "select  date,sum(rechargeperson) as rechargeperson,sum(newrechargeperson) as newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition
-                            group by date order by date asc";
+                    $sql = "select  left(date,10) as date ,sum(rechargeperson) as rechargeperson,sum(newrechargeperson) as newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition
+                            group by left(date,10) order by date asc";
         }
 
         $list = $this -> db -> query($sql) -> result_objects();
@@ -42,6 +42,10 @@ class RechargeDataService extends Service
                 $date = explode('/',$dateCollection[0]);
                 $time = explode(':',$dateCollection[1]);
                 $obj->date = implode('|',array($date[0],$date[1],$date[2],$time[0],$time[1],$time[2]));
+            }
+        }else{
+            foreach($list as &$obj){
+                $obj->date = date('Y-m-d',strtotime($obj->date));
             }
         }
 
