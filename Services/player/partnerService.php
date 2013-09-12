@@ -14,6 +14,7 @@ class PartnerService extends ServerDBChooser
         $this -> table_dynamic_item = $this -> prefix_1 . 'dynamicitem';
         $this -> table_item = $this -> prefix_1.'item';
         $this -> table_huoban = $this -> prefix_2.'huobans';
+        $this -> table_fabao = $this->prefix_2 . 'fabao';
         $this -> db_static = 'mmo2d_staticljzm';
     }
 
@@ -50,6 +51,24 @@ class PartnerService extends ServerDBChooser
                         $huoban -> {'zbcolor'.($i+1)} = Color::getColor(substr($ditems[$i]->itemid,-1,1));
                     }
                 }
+
+                //每个伙伴有8个法宝
+                $this->db->select_db($this->db_static);
+                for($i = 1 ; $i < 9 ; $i++){
+                    if(!empty($huoban -> {'fabao'.$i})){
+                        $fabao_type = intval($huoban -> {'fabao'.$i} % 10000 / 100);
+                        $fabao_color = intval($huoban -> {'fabao'.$i} % 100 / 10);
+                        $fabao_name = $this->db->query("select name from $this->table_fabao where type = $fabao_type and color=$fabao_color") ->result_object() ->name;
+                        $huoban -> {'fabao_name'.$i} = $fabao_name;
+                        $huoban -> {'fabao_color'.$i} = $this->getColor($fabao_color);
+                        $huoban -> {'fabao_level'.$i} = intval($huoban -> {'fabao'.$i} % 10 + 1);
+                    }else{
+                        $huoban -> {'fabao_name'.$i} = '';
+                        $huoban -> {'fabao_color'.$i} = '';
+                        $huoban -> {'fabao_level'.$i} = '';
+                    }
+                }
+                $this->db->select_db($server->dynamic_dbname);
             }
 
             return $huoban_list;
