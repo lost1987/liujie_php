@@ -110,7 +110,7 @@ class RewardApplyService extends ServerDBChooser
     public function sendRewardsWithPlayer($reward){
         //通过随机验证码关联操作人
         require BASEPATH.'/Common/log.php';
-        $playername = $reward -> playername;
+        $platformID = $reward -> platformID;
         $server = $reward -> server;
         $item_num = empty($reward->item_num) ? 0 : $reward->item_num;
 
@@ -148,13 +148,13 @@ class RewardApplyService extends ServerDBChooser
                     $logdb -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD,TRUE);
                     $logdb -> select_db(DB_NAME);
                     if(!$slog -> setlog($log) -> tran_save($logdb))throw new Exception('reward write data error');
-                    if($slog -> tran_saveRewardPlayers($res,$logdb))throw new Exception('reward write data error');
+                    if(!$slog -> tran_saveRewardPlayers($res,$logdb))throw new Exception('reward write data error');
+
+                    $this->db->commit();
+                    $logdb->commit();
+                    return 0;
                 }
             }
-
-            $this->db->commit();
-            $logdb->commit();
-            return 0;
         }catch(Exception $e){
             $this->db->rollback();
             $logdb->rollback();

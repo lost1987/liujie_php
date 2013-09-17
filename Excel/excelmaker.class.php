@@ -40,13 +40,16 @@ class ExcelMaker extends Input
     }
 
     public static function _autoload($className){
-        $classname = lcfirst($className);
         $folders = $GLOBALS['autoload_folders'];
         foreach($folders as $foldername){
-            if(strpos($foldername,'Services') > -1)
+            if(strpos($foldername,'Services') > -1){
+                $classname = lcfirst($className);
                 $classfile = $classname.'.php';
-            else
+            }
+            else{
+                $classname = strtolower($className);
                 $classfile = $classname.'.class.php';
+            }
 
             $path = BASEPATH.$foldername.DIRECTORY_SEPARATOR.$classfile;
             if(file_exists($path)){
@@ -78,7 +81,7 @@ class ExcelMaker extends Input
 
         $page = new stdClass();
         $page -> start = 0;
-        $page -> limit = 99999;
+        $page -> limit = 1000;
 
         $service = new $this->params['service']();
 
@@ -88,7 +91,7 @@ class ExcelMaker extends Input
                 break;
             case 1:
                 //查询服务器 组成数组
-                $db =  new Mssql();
+                $db =  new DB();
                 $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
                 $db -> select_db($this->dbname);
                 $servers = $db -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
@@ -96,7 +99,7 @@ class ExcelMaker extends Input
                 $this -> results = call_user_func(array($service,$this->params['method']),$page,$condition);
                 break;
             case 2:
-                $db =  new Mssql();
+                $db =  new DB();
                 $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
                 $db -> select_db($this->dbname);
                 $servers = $db -> query("select * from $this->table_servers where id in ($condition->server_ids)")->result_objects();
@@ -107,10 +110,10 @@ class ExcelMaker extends Input
                 $this -> results = call_user_func(array($service,$this->params['method']),$condition);
                 break;
             case 4:
-                $db = new Mssql();
+                $db = new DB();
                 $db -> connect(DB_HOST.':'.DB_PORT,DB_USER,DB_PWD);
                 $db -> select_db($this->dbname);
-                $server = $db -> query("select * from $this->table_servers where id = $condition->server_ids")->result_object();
+                $server = $db -> query("select id,dynamic_dbname,name from $this->table_servers where id = $condition->server_ids")->result_object();
                 $condition -> server = $server;
                 $condition -> account_name = $this->post('account_name');
                 $condition -> level_start = $this->post('level_start');

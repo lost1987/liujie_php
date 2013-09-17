@@ -18,11 +18,13 @@ class RechargeOrderService extends ServerDBChooser
     }
 
     public function lists($condition){
+        set_time_limit(0);
         $servers = $condition->servers;
         $starttime = $condition -> starttime.' 00:00:00';
         $endtime = $condition -> endtime .' 23:59:59';
         $list = array();
-        $flag = 1;
+
+        $num_per_server = 50/count($servers) < 1 ? 1 : floor(50/count($servers));
         if(count($servers)>0){
             foreach($servers as $server){
                  $this->dbConnect($server,$server->dynamic_dbname);
@@ -35,50 +37,110 @@ class RechargeOrderService extends ServerDBChooser
                 ) as a left join $this->table_player b on a.pid = b.id";
 
                 $templist_recharge = $this -> db -> query($sql) -> result_objects();*/
-
                 //AR模式
                 $sql = $this->db->select("id1 as pid,sum(param2) as recharge_yuanbao")
                                    ->from("$this->table_record")
-                                   ->where("type=0 and param1 = 90000001 and param4 = 44 and id2 <> null and  time > '$starttime' and time < '$endtime' and left(str2,6) <> 'REWARD'")
+                                   ->where("type=0 and param1 = 90000001 and param4 = 44 and id2=0 and  time > '$starttime' and time < '$endtime' and left(str2,6) <> 'REWARD'")
                                    ->group_by('id1')
-                                   ->limit(0,50,'sum(param2) desc')
+                                   ->order_by('sum(param2) desc')
+                                   ->limit(0,$num_per_server,'sum(param2) desc')
                                    ->fetch();
 
                 $templist_recharge = $this->db->select("a.*,b.account_name,b.name,b.levels,b.profession")
-                                                ->from("($sql) as a left join $this->table_player as b")
-                                                ->on("a.pid = b.id")
+                                                ->from("($sql) as a , $this->table_player as b")
+                                                ->where("a.pid = b.id")
                                                 ->get()
                                                 ->result_objects();
 
 
+                $pids = array();
                 foreach($templist_recharge as $recharge){
-                    //查询玩家消耗的总元宝
-                    $sql = "select sum(param2) as used_yuanbao from $this->table_record where type = 1 and  param1=90000001 and time > '$starttime' and time < '$endtime' and id1=$recharge->pid";
-                    $recharge -> used_yuanbao = $this->db -> query($sql) -> result_object() -> used_yuanbao;
+                     $pids[] = $recharge->pid;
+                }
+                $pids = implode(',',$pids);
 
-                    //玩家非充值获得的元宝
-                    $sql = "select sum(param2) as unrecharge_yuanbao from $this->table_record where ( (type = 0 and param4 <> 44) or left(str2,6) = 'REWARD' ) and  param1=90000001 and time > '$starttime' and time < '$endtime' and id1=$recharge->pid ";
-                    $recharge -> unrecharge_yuanbao = $this->db -> query($sql) -> result_object() -> unrecharge_yuanbao;
+                $templist_used_yuanbao = $this->db->select("sum(param2) as used_yuanbao,id1 as pid ")
+                                                        -> from($this->table_record)
+                                                        -> where("type=1 AND param1=90000001 and time>'$starttime' and time < '$endtime' and id1 in ($pids)")
+                                                        ->group_by('id1')
+                                                        -> get()
+                                                        -> result_objects();
+
+                $templist_unrecharge = $this->db->select("sum(param2) as unrecharge_yuanbao,id1 as pid")
+                                                        ->from($this->table_record)
+                                                        ->where("type = 0 and param4 <> 44 and str2 IS NULL and param1=90000001  and time >'$starttime' and time < '$endtime' and id1 in ($pids)")
+                                                        ->group_by('id1')
+                                                        -> get()
+                                                        -> result_objects();
+
+                $templist_shengyu = $this->db->select("yuanbao,id as pid")
+                                                ->from($this->table_player)
+                                                ->where("id in ($pids)")
+                                                ->get()
+                                                ->result_objects();
+
+
+                /*$templist_reward = $this->db->select("sum(param2) as reward_yuanbao,id1 as pid")
+                                                ->from($this->table_record)
+                                                ->where("type=0 and id2=0 and param4=44 and left(str2,6) = 'REWARD' and param1=90000001 and time >'$starttime' and time < '$endtime' and id1 in ($pids)")
+                                                ->group_by('id1')
+                                                -> get()
+                                                -> result_objects();*/
+
+                foreach($templist_recharge as $recharge){
+
+                    foreach($templist_used_yuanbao as $used_yuanbao){
+                        if($recharge -> pid == $used_yuanbao->pid){
+                            $recharge->used_yuanbao = $used_yuanbao->used_yuanbao ;
+                            break;
+                        }else{
+                             $recharge->used_yuanbao = 0;
+                        }
+                    }
+
+                    foreach($templist_unrecharge as $unrecharge){
+                         if($recharge -> pid == $unrecharge -> pid){
+                             $recharge->unrecharge_yuanbao =  $unrecharge->unrecharge_yuanbao;
+                             break;
+                         }else{
+                             $recharge->unrecharge_yuanbao = 0;
+                         }
+                    }
+
+                    foreach($templist_shengyu as $sy){
+                        if($recharge -> pid == $sy -> pid){
+                            $recharge->shengyu_yuanbao =  $sy->yuanbao;
+                            break;
+                        }else{
+                            $recharge->shengyu_yuanbao = 0;
+                        }
+                    }
+
+                    /*foreach($templist_reward as $reward){
+                        if($recharge -> pid == $reward -> pid){
+                            $recharge->reward_yuanbao =  $reward->reward_yuanbao;
+                            break;
+                        }else{
+                            $recharge->reward_yuanbao = 0;
+                        }
+                    }*/
 
                     $recharge -> servername = $server->name;
-                    $flag++;
-
                     $recharge -> profession = $this -> _profession[$recharge->profession];
-
-                    $recharge -> shengyu_yuanbao = ( $recharge -> unrecharge_yuanbao + $recharge -> recharge_yuanbao) - $recharge -> used_yuanbao;
-
+                   // $recharge -> shengyu_yuanbao = ( $recharge -> unrecharge_yuanbao + $recharge -> recharge_yuanbao + $recharge->reward_yuanbao) - $recharge -> used_yuanbao;
                     $list[] = $recharge;
                 }
 
             }
 
-            for($i=0;$i<count($list) ; $i++){
-                if($i+1 < count($list)){
-                    if($list[$i]->recharge_yuanbao < $list[$i+1]->recharge_yuanbao){
-                        $temp = $list[$i+1];
-                        $list[$i+1] = $list[$i];
-                        $list[$i] = $temp;
-                    }
+
+            for($i=0 ; $i < count($list) - 1; $i++){
+                for($j = 0; $j < count($list)-$i-1; $j++){
+                     if($list[$j] ->recharge_yuanbao < $list[$j+1] ->recharge_yuanbao){
+                            $tmp = $list[$j];
+                            $list[$j] = $list[$j+1];
+                            $list[$j+1] = $tmp;
+                     }
                 }
             }
 

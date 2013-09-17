@@ -33,7 +33,6 @@ class RechargeDataService extends Service
                     $sql = "select  left(date,10) as date ,sum(rechargeperson) as rechargeperson,sum(newrechargeperson) as newrechargeperson from $this->table_rechargeData where sid in ($server_ids) and $timecondition
                             group by left(date,10) order by date asc";
         }
-
         $list = $this -> db -> query($sql) -> result_objects();
 
         if($timediff == 1){//因flex端无法识别 YYYY/MM/DD HH:NN:SS的格式所以这里做下处理
@@ -48,7 +47,6 @@ class RechargeDataService extends Service
                 $obj->date = date('Y-m-d',strtotime($obj->date));
             }
         }
-
         return $list;
     }
 }

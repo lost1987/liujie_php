@@ -37,6 +37,8 @@ class YuanbaoService extends ServerDBChooser
 
                     include BASEPATH.'/Common/event.php';
 
+                    if($list == FALSE)return;
+
                     foreach($list as &$obj){
                         $obj->detail = empty($gameevent[$obj->param4]) ? '未知' : $gameevent[$obj->param4];
 
@@ -62,7 +64,9 @@ class YuanbaoService extends ServerDBChooser
             $this -> dbConnect($server,$server->dynamic_dbname);
             $consql = $this->getCondition($condition);
             $sql = "select count(a.id1) as num  from $this->table_record a left join $this->table_user b on  a.id1=b.id $consql";
-            return $this->db->query($sql)->result_object()->num;
+            $res = $this->db->query($sql)->result_object();
+            if($res) return $res->num;
+            return 0;
         }
 
 
@@ -156,7 +160,7 @@ class YuanbaoService extends ServerDBChooser
                 }
             }
 
-            if(empty($sql)) return " where a.param1 = $this->item_yuanbao_id";
-            return $sql = " where a.param1 = $this->item_yuanbao_id and ".$sql;
+            if(empty($sql)) return " where a.param1 = $this->item_yuanbao_id and str2 IS NULL";
+            return $sql = " where a.param1 = $this->item_yuanbao_id and str2 IS NULL and ".$sql;
         }
 }

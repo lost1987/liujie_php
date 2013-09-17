@@ -114,7 +114,7 @@ class PayService extends ServerDBChooser
             }
         }
 
-        if(empty($sql)) return ' where a.param4 = 44 and str2 <> null ';
-        return $sql = ' where a.param4 = 44 and  str2 <> null and '.$sql;
+        if(empty($sql)) return ' where a.param4 = 44 and id2=0 and param1=90000001 ';
+        return $sql = ' where a.param4 = 44 and  id2=0 and param1=90000001 and '.$sql;
     }
 }

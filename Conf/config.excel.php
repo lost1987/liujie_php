@@ -13,6 +13,7 @@ $GLOBALS['excel_keys'] = array(
       * 1表示service继承ServerDBChooser(传入$condition对象[需传入server对象数组],$page对象),
       * 2表示service继承ServerDBChooser(只需传入$condition对象)
       * 3表示service继承Service(只需传入$condition对象)
+      * 4表示service继承ServerDBChooser($page对象,传入$condition对象[需传入server对象数组]),
       */
     /***综合数据****/
     'synthesis_list' => 'complexDataService|lists|0',
@@ -27,7 +28,7 @@ $GLOBALS['excel_keys'] = array(
     'dailyActivityData_list' => 'dailyActivityDataService|lists|0',
 
     /*****日志*******/
-    'pay_list' => 'payService|lists|4',
+    'yuanbao_list' => 'yuanbaoService|lists|4',
 );
 
 $GLOBALS['autoload_folders'] = array(

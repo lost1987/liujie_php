@@ -101,6 +101,7 @@ class PlayerService extends ServerDBChooser
             $this -> table_map = $this->prefix_1.'map';
             $this -> table_tianshen = $this->prefix_2.'usertianshen';
             $this -> table_jingying = $this->prefix_2.'userjingying';
+            $this -> table_limit = $this->prefix_3.'limit';
 
             $this -> db_base = 'mmo2d_baseljzm';
             $this -> db_static = 'mmo2d_staticljzm';
@@ -269,46 +270,7 @@ class PlayerService extends ServerDBChooser
         }
     }
 
-    /**
-     * 封号
-     */
-    public function kill($players,$server){
-        if(!empty($server)){
-            $this -> dbConnect($server,$this->db_base);
-            //获取要封禁的玩家ID
-            $aids = array();
-            foreach($players as $player){
-                $aids[] = $player -> account_id;
-            }
-            $aids = implode(',',$aids);
-            $this-> db -> query("begin tran t1");
-            $sql1 = "update $this->table_base set state = 1 where aountid in ($aids)";
 
-
-            $db = new DB();
-            $db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
-            $db -> select_db($server->dynamic_dbname);
-            $db -> query("begin tran t2");
-            $sql2 = "update $this->table_player set state = 1 where account_id in ($aids)";
-
-
-            if(!$this->db->query($sql1)->queryState || !$db -> query($sql2) -> queryState){
-                $this -> db -> query("rollback tran t1");
-                $db -> query("rollback tran t2");
-                $this -> db -> close();
-                $db -> close();
-                return FALSE;
-            }else{
-                $this -> db -> query("commit tran t1");
-                $db -> query("commit tran t2");
-                $this -> db -> close();
-                $db -> close();
-                return TRUE;
-            }
-
-
-        }
-    }
 
 
     public function playerSearch($servers,$condition){
@@ -333,6 +295,47 @@ class PlayerService extends ServerDBChooser
                $this->dbClose();
            }
            return $list;
+    }
+
+    public function GMOperation($players,$server,$code){
+          if(empty($code) && $code!=0)return -1;//操作失败
+          $this->dbConnect($server,$server->dynamic_dbname);
+
+        $update_ids = array();
+        $insert_ids = array();
+        foreach($players as $player){
+                //判断PID有没有 然后判断是执行insert 还是 update
+                $flag = $this -> db -> select("count(pid) as num") -> from($this->table_limit) -> where("pid = $player->id") ->get()->result_object()->num;
+                if($flag > 0)$update_ids[]=$player->id;
+                else $insert_ids[]=$player->id;
+          }
+
+        $this -> db -> trans_begin();
+
+        try{
+
+             if(count($update_ids) > 0){
+                    $update_ids = implode(',',$update_ids);
+                    if(!$this -> db ->query("update $this->table_limit set state=$code where pid in ($update_ids)"))
+                    throw new Exception('更新数据失败');
+             }
+
+            if(count($insert_ids) > 0){
+                $values = '';
+                foreach($insert_ids as $pid){
+                    $values .= "($pid,$code),";
+                }
+                $values = substr($values,0,strlen($values)-1);
+
+                if(!$this -> db ->query("insert into  $this->table_limit (pid,state) values  $values"))
+                    throw new Exception('写入数据失败');
+            }
+            $this->db->commit();
+            return 1;
+        }catch (Exception $e){
+            $this -> db -> rollback();
+            return -1;
+        }
     }
 
 }

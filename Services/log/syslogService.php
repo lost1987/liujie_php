@@ -26,6 +26,7 @@ class SyslogService extends Service
      *
      */
     public function updateLogState($log,$state,$refername){
+          $result = 0;
            try{
                $logid = $log->id;
                $optime = time();
@@ -39,17 +40,17 @@ class SyslogService extends Service
                    $sql = "select bid,ip,port,dbuser,dbpwd,dynamic_dbname from ljzm_servers where id = $sid";
                    $server = $this -> db -> query($sql) -> result_object();
 
-
                    $db = new DB();
                    $db -> connect($server->ip.':'.$server->port,$server->dbuser,$server->dbpwd,TRUE);
                    $db -> select_db($server->dynamic_dbname);
 
                    $sql = "select account_name from $this->table_player where name = '$log->playername'";
-                   $player = $db -> query($sql) -> result_object();
+                   $uname = $db -> query($sql) -> result_object() -> account_name;
+
+                   if(empty($uname))return 0;
                    $db -> close();
                    unset($db);
 
-                   $uname = $player -> account_name;
                    $utime = time();
                    $aid = $server -> bid;//运营商ID
                    $goldmoney = $log -> itemnum;
@@ -63,18 +64,18 @@ class SyslogService extends Service
 
                    $this-> db ->commit();
                    $this -> db -> close();
-                   return TRUE;
+                   return 1;
                }else if($res){//拒绝
                    $this->db->commit();
                    $this -> db -> close();
-                   return TRUE;
+                   return 1;
                }
 
-               return FALSE;
+               return intval($result);
            }catch (Exception $e){
                 $this->db->rollback();
                 $this->db->close();
-                return FALSE;
+                return intval($result);
            }
     }
 
