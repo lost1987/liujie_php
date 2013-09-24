@@ -45,4 +45,87 @@ function isNan($param){
      return FALSE;
 }
 
+/**
+ * @param $start  开始时间  毫秒数
+ * @param $end     结束时间  毫秒数
+ * @param $tick    时间间隔  毫秒数
+ * @param $format
+ * @param $desc   TRUE:按时间倒序排列 FALSE : 正常排序
+ * @return array   返回包含开始时间和结束时间的间隔时间数组的时间点
+ */
+function timeTickArrayPoint($start,$end,$tick,$format=null,$desc=FALSE){
+    if(gettype($start) == 'string')
+        $start = strtotime($start);
+    if(gettype($end) == 'string')
+        $end = strtotime($end);
+
+    $timepoint = array();
+    if(!$desc){
+        while($start < $end){
+            if(empty($format))
+                $timepoint[] = $start;
+            else{
+                $format_time = date($format,$start);
+                $timepoint[] = $format_time;
+            }
+            $start += $tick;
+        }
+        $timepoint[] = $end;
+    }else{
+        while($start < $end){
+            if(empty($format))
+                $timepoint[] = $end;
+            else{
+                $format_time = date($format,$end);
+                $timepoint[] = $format_time;
+            }
+            $end -= $tick;
+        }
+        $timepoint[] = $start;
+    }
+    return $timepoint;
+}
+
+/**
+ * 读取CSV
+ * @param $filename
+ * @return array
+ */
+function getCSVdata($filename)
+{
+    $row = 1;//第一行开始
+    if(($handle = fopen($filename, "r")) !== false)
+    {
+        while(($dataSrc = fgetcsv($handle)) !== false)
+        {
+            $num = count($dataSrc);
+            for ($c=0; $c < $num; $c++)//列 column
+            {
+                if($row === 1)//第一行作为字段
+                {
+                    $dataName[] = $dataSrc[$c];//字段名称
+                }
+                else
+                {
+                    foreach ($dataName as $k=>$v)
+                    {
+                        if($k == $c)//对应的字段
+                        {
+                            $data[$v] = $dataSrc[$c];
+                        }
+                    }
+                }
+            }
+            if(!empty($data))
+            {
+                $dataRtn[] = $data;
+                unset($data);
+            }
+            $row++;
+        }
+        fclose($handle);
+        return $dataRtn;
+    }
+}
+
 ?>

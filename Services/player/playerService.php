@@ -141,26 +141,29 @@ class PlayerService extends ServerDBChooser
 
     protected  function getCondition($condition){
         $account_or_name = str_replace(' ','',$condition -> account_or_name);
+        $opstate = intval($condition->opstate);
         $condition_sql = '';
 
         if($condition->onlinestatus == 1){
-            $condition_sql .= '   defencecap = 1 and state = 0 '.$condition_sql;
+            $condition_sql .= "   defencecap = 1 and state = $opstate ";
         }else if($condition->onlinestatus == 2){
-            $condition_sql .= ' defencecap <> 1 or state <>0 '.$condition_sql;
+            $condition_sql .= ' defencecap <> 1 or state <>0 ';
+        }else{
+            $condition_sql .= " state = $opstate "  ;
         }
 
         if(!empty($account_or_name)){
             if(empty($condition_sql)){
-                 $condition_sql .= "  (account_name like '$account_or_name%' or name like '$account_or_name%') and state = 0";
+                 $condition_sql .= "  (account_name like '$account_or_name%' or name like '$account_or_name%')";
             }else{
-                $condition_sql .= "and  (account_name like '$account_or_name%' or name like '$account_or_name%') and state = 0";
+                $condition_sql .= "and  (account_name like '$account_or_name%' or name like '$account_or_name%')";
             }
         }
 
         if(!empty($condition_sql))
-        $condition_sql = ' where '.$condition_sql;
+            $condition_sql = ' where '.$condition_sql;
         else
-           $condition_sql = ' where state = 0';
+            $condition_sql = " where state = $opstate";
         return $condition_sql;
     }
 
@@ -316,7 +319,7 @@ class PlayerService extends ServerDBChooser
 
              if(count($update_ids) > 0){
                     $update_ids = implode(',',$update_ids);
-                    if(!$this -> db ->query("update $this->table_limit set state=$code where pid in ($update_ids)"))
+                    if(!$this -> db ->query("update $this->table_limit set state=$code where pid in ($update_ids)")->queryState)
                     throw new Exception('更新数据失败');
              }
 
@@ -327,7 +330,7 @@ class PlayerService extends ServerDBChooser
                 }
                 $values = substr($values,0,strlen($values)-1);
 
-                if(!$this -> db ->query("insert into  $this->table_limit (pid,state) values  $values"))
+                if(!$this -> db ->query("insert into  $this->table_limit (pid,state) values  $values")->queryState)
                     throw new Exception('写入数据失败');
             }
             $this->db->commit();

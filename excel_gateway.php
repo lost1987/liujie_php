@@ -10,6 +10,7 @@
 ini_set('display_errors','On');
 ini_set('max_execution_time',0);
 ini_set('memory_limit','1024M');
+set_time_limit(0);
 
 define('BASEPATH',dirname(__FILE__).DIRECTORY_SEPARATOR);
 require BASEPATH.'Conf/db.inc.php';

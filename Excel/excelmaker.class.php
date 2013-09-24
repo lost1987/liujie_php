@@ -81,7 +81,7 @@ class ExcelMaker extends Input
 
         $page = new stdClass();
         $page -> start = 0;
-        $page -> limit = 1000;
+        $page -> limit = 3000;
 
         $service = new $this->params['service']();
 

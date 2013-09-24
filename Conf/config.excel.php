@@ -29,6 +29,7 @@ $GLOBALS['excel_keys'] = array(
 
     /*****日志*******/
     'yuanbao_list' => 'yuanbaoService|lists|4',
+    'pay_list' => 'payService|lists|4',
 );
 
 $GLOBALS['autoload_folders'] = array(
