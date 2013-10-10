@@ -26,6 +26,7 @@ $GLOBALS['excel_keys'] = array(
     'dailyTaskData_list' => 'dailyTaskDataService|lists|0',
     'dailyCopyData_list' => 'dailyCopyDataService|lists|0',
     'dailyActivityData_list' => 'dailyActivityDataService|lists|0',
+    'userAnalysisData_list' => 'userAnalysisDataService|lists|2',
 
     /*****日志*******/
     'yuanbao_list' => 'yuanbaoService|lists|4',

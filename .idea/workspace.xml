@@ -25,30 +25,50 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="userAnalysisDataService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/userAnalysisDataService.php">
+      <file leaf-file-name="api.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/product/1/js/api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="17" selection-start="4137" selection-end="4137" vertical-scroll-proportion="24.03125">
-              <folding>
-                <element signature="e#6#181#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="excelmaker.class.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Excel/excelmaker.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="150" column="39" selection-start="6121" selection-end="6121" vertical-scroll-proportion="-78.03125">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gateway.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/gateway.php">
+      <file leaf-file-name="api_login.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$USER_HOME$/Desktop/product/1/api_login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="15" selection-start="1176" selection-end="1176" vertical-scroll-proportion="0.63722396">
+            <state line="176" column="34" selection-start="6010" selection-end="6010" vertical-scroll-proportion="4.246732">
+              <folding>
+                <marker date="1381376962000" expanded="true" signature="3097:3218" placeholder="..." />
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="api.inc.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/api.inc.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="20" selection-start="241" selection-end="241" vertical-scroll-proportion="-5.03125">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/product/1/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="64" column="202" selection-start="2075" selection-end="2075" vertical-scroll-proportion="-13.375">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="api.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="54" selection-start="894" selection-end="894" vertical-scroll-proportion="-15.09375">
               <folding />
             </state>
           </provider>
@@ -57,34 +77,43 @@
       <file leaf-file-name="excel_gateway.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/excel_gateway.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="46" selection-start="542" selection-end="542" vertical-scroll-proportion="-7.28125">
+            <state line="14" column="57" selection-start="337" selection-end="337" vertical-scroll-proportion="-5.75">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db.inc.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Conf/db.inc.php">
+      <file leaf-file-name="user.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/user.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="25" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0">
+            <state line="18" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="-2.875">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="common.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Common/common.php">
+      <file leaf-file-name="baseapi.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Api/baseapi.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="27" selection-start="1422" selection-end="1440" vertical-scroll-proportion="0.0">
+            <state line="43" column="35" selection-start="1455" selection-end="1460" vertical-scroll-proportion="-24.4375">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="payService.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Services/log/payService.php">
+      <file leaf-file-name="mysql.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="116" column="82" selection-start="3867" selection-end="3910" vertical-scroll-proportion="0.0">
+            <state line="287" column="79" selection-start="7332" selection-end="7391" vertical-scroll-proportion="-0.71875">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="external_interface.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/product/1/js/external_interface.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="49" column="10" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -100,22 +129,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/Lib/payapi.class.php" />
-        <option value="$PROJECT_DIR$/../test.php" />
+        <option value="$PROJECT_DIR$/../extjs/index.html" />
+        <option value="$PROJECT_DIR$/../extjs/js/app.js" />
+        <option value="$PROJECT_DIR$/../extjs/app/controller/users.js" />
+        <option value="$PROJECT_DIR$/../js_flash/external_interface.js" />
+        <option value="$PROJECT_DIR$/../js_flash/index.html" />
+        <option value="$PROJECT_DIR$/Api/api.inc.php" />
+        <option value="$PROJECT_DIR$/Api/baseapi.class.php" />
+        <option value="$PROJECT_DIR$/Api/user.class.php" />
+        <option value="$USER_HOME$/Desktop/product/1/js/nav.js" />
+        <option value="$USER_HOME$/Desktop/product/1/index.php" />
         <option value="$USER_HOME$/Desktop/product/1/testbh.php" />
-        <option value="$PROJECT_DIR$/Conf/config.excel.php" />
+        <option value="$PROJECT_DIR$/api.php" />
         <option value="$PROJECT_DIR$/excel_gateway.php" />
-        <option value="$PROJECT_DIR$/Excel/excelmaker.class.php" />
-        <option value="$PROJECT_DIR$/Services/player/playerService.php" />
-        <option value="$PROJECT_DIR$/Common/common.php" />
-        <option value="$PROJECT_DIR$/deamon/client.php" />
-        <option value="$PROJECT_DIR$/deamon/deamon.php" />
-        <option value="$PROJECT_DIR$/deamon/main.php" />
-        <option value="$PROJECT_DIR$/deamon/loginvalidate.php" />
-        <option value="$PROJECT_DIR$/deamon/deamon_manage.php" />
-        <option value="$PROJECT_DIR$/deamon/stop_deamon_day.php" />
-        <option value="$PROJECT_DIR$/deamon/deamon_day.php" />
-        <option value="$PROJECT_DIR$/Services/userAnalysisDataService.php" />
+        <option value="$USER_HOME$/Desktop/product/1/js/external_interface.js" />
+        <option value="$USER_HOME$/Desktop/product/1/js/api.js" />
+        <option value="$USER_HOME$/Desktop/product/1/api_login.php" />
       </list>
     </option>
   </component>
@@ -151,7 +180,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -180,140 +208,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sys" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="player" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="managefunc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Services" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="log" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Excel" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="liujie" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Common" />
+              <option name="myItemId" value="Api" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -416,14 +317,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="827" extended-state="0" />
+    <frame x="0" y="22" width="1440" height="827" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23601148" sideWeight="0.6725544" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1743185" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19153515" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32577905" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -489,100 +390,110 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <option name="time" value="9" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Services/userAnalysisDataService.php">
+    <entry file="file://$PROJECT_DIR$/../js_flash/external_interface.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="13" selection-start="3548" selection-end="3548" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#6#181#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="45" column="38" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.7597598" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/payService.php">
+    <entry file="file://$PROJECT_DIR$/../js_flash/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="82" selection-start="3867" selection-end="3910" vertical-scroll-proportion="0.0">
+        <state line="28" column="10" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.90694004" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Services/serverService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="19" selection-start="1812" selection-end="1812" vertical-scroll-proportion="0.5866013" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/product/1/js/nav.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="21" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Common/common.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="27" selection-start="1422" selection-end="1440" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Conf/db.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="25" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Lib/serverdbchooser.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="34" selection-start="1120" selection-end="1120" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/player/playerService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="18" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Conf/db.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="25" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/log/payService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="82" selection-start="3867" selection-end="3910" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Common/common.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="27" selection-start="1422" selection-end="1440" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Services/userAnalysisDataService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="17" selection-start="4137" selection-end="4137" vertical-scroll-proportion="24.03125">
-          <folding>
-            <element signature="e#6#181#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Excel/excelmaker.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="39" selection-start="6121" selection-end="6121" vertical-scroll-proportion="-78.03125">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.0048">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/excel_gateway.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="46" selection-start="542" selection-end="542" vertical-scroll-proportion="-7.28125">
+        <state line="14" column="57" selection-start="337" selection-end="337" vertical-scroll-proportion="-5.75">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gateway.php">
+    <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="15" selection-start="1176" selection-end="1176" vertical-scroll-proportion="0.63722396">
+        <state line="287" column="79" selection-start="7332" selection-end="7391" vertical-scroll-proportion="-0.71875">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/product/1/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="202" selection-start="2075" selection-end="2075" vertical-scroll-proportion="-13.375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/product/1/js/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/api.inc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="20" selection-start="241" selection-end="241" vertical-scroll-proportion="-5.03125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/baseapi.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="35" selection-start="1455" selection-end="1460" vertical-scroll-proportion="-24.4375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/user.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="-2.875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="54" selection-start="894" selection-end="894" vertical-scroll-proportion="-15.09375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/product/1/js/external_interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="10" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/product/1/api_login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="176" column="34" selection-start="6010" selection-end="6010" vertical-scroll-proportion="4.246732">
+          <folding>
+            <marker date="1381376962000" expanded="true" signature="3097:3218" placeholder="..." />
+            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

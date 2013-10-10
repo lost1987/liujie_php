@@ -16,10 +16,10 @@ define('BASEPATH',dirname(__FILE__).DIRECTORY_SEPARATOR);
 require BASEPATH.'Conf/db.inc.php';
 require BASEPATH.'Common/common.php';
 require BASEPATH.'Conf/config.excel.php';
-require BASEPATH.'Excel/input.class.php';
+require BASEPATH.'Lib/input.class.php';
 require BASEPATH.'Excel/excelmaker.class.php';
-require BASEPATH.'Excel/security.class.php';
-require BASEPATH.'Excel/utf8.class.php';
+require BASEPATH.'Lib/security.class.php';
+require BASEPATH.'Lib/utf8.class.php';
 
 
 require BASEPATH.'Excel/PHPExcel.php';
