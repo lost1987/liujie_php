@@ -286,6 +286,7 @@ class Mysql
      * @return bool
      */
     public function insert_multi(Array $columns,$tableName,$num_per_time = 100){
+        $exec_result = TRUE;
         if(!is_array($columns) || !is_array($columns[0]) || empty($tableName))
             return FALSE;
         $cur = 1; //定义游标
@@ -308,7 +309,8 @@ class Mysql
 
             if($cur%$num_per_time == 0){
                 $sql = substr($sql,0,strlen($sql)-1);//减去末尾的逗号
-                if(!$this->query($sql)){
+                if(!$this->query($sql)->queryState){
+                    $exec_result = FALSE;
                     break;
                 }
                 $sql = $sql_pre.'('.implode(',',$valuefields).'),';
@@ -319,14 +321,15 @@ class Mysql
 
             if($total == $cur){
                 $sql = substr($sql,0,strlen($sql)-1);//减去末尾的逗号
-                if(!$this->query($sql)){
+                if(!$this->query($sql)->queryState){
+                    $exec_result = FALSE;
                     break;
                 }
             }
 
             $cur++;
         }
-        return TRUE;
+        return $exec_result;
     }
 
     public function insert($tablename , $array){

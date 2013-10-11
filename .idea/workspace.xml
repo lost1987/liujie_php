@@ -25,59 +25,55 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
+      <file leaf-file-name="db.inc.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/db.inc.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="23" selection-start="314" selection-end="319" vertical-scroll-proportion="-4.3125">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="api.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/product/1/js/api.js">
+        <entry file="file://$USER_HOME$/Desktop/api.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="69" column="0" selection-start="2723" selection-end="2723" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api_login.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$USER_HOME$/Desktop/product/1/api_login.php">
+      <file leaf-file-name="engine.class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/DB/engine.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="176" column="34" selection-start="6010" selection-end="6010" vertical-scroll-proportion="4.246732">
-              <folding>
-                <marker date="1381376962000" expanded="true" signature="3097:3218" placeholder="..." />
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="api.inc.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Api/api.inc.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="20" selection-start="241" selection-end="241" vertical-scroll-proportion="-5.03125">
+            <state line="9" column="1" selection-start="174" selection-end="174" vertical-scroll-proportion="-6.46875">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/product/1/index.php">
+      <file leaf-file-name="mysql.class.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="202" selection-start="2075" selection-end="2075" vertical-scroll-proportion="-13.375">
+            <state line="322" column="62" selection-start="8656" selection-end="8656" vertical-scroll-proportion="0.3312">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api.php">
+      <file leaf-file-name="external_interface.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/external_interface.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="54" selection-start="894" selection-end="894" vertical-scroll-proportion="-15.09375">
+            <state line="37" column="24" selection-start="1255" selection-end="1255" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="excel_gateway.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/excel_gateway.php">
+      <file leaf-file-name="api_login.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Desktop/api_login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="57" selection-start="337" selection-end="337" vertical-scroll-proportion="-5.75">
+            <state line="87" column="44" selection-start="2278" selection-end="2278" vertical-scroll-proportion="-8.625">
               <folding />
             </state>
           </provider>
@@ -86,7 +82,7 @@
       <file leaf-file-name="user.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Api/user.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="-2.875">
+            <state line="30" column="26" selection-start="807" selection-end="807" vertical-scroll-proportion="-10.46875">
               <folding />
             </state>
           </provider>
@@ -95,25 +91,7 @@
       <file leaf-file-name="baseapi.class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Api/baseapi.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="35" selection-start="1455" selection-end="1460" vertical-scroll-proportion="-24.4375">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mysql.class.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="287" column="79" selection-start="7332" selection-end="7391" vertical-scroll-proportion="-0.71875">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="external_interface.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/product/1/js/external_interface.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="10" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.0">
+            <state line="35" column="43" selection-start="1256" selection-end="1263" vertical-scroll-proportion="-7.1875">
               <folding />
             </state>
           </provider>
@@ -129,22 +107,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../extjs/index.html" />
-        <option value="$PROJECT_DIR$/../extjs/js/app.js" />
-        <option value="$PROJECT_DIR$/../extjs/app/controller/users.js" />
-        <option value="$PROJECT_DIR$/../js_flash/external_interface.js" />
-        <option value="$PROJECT_DIR$/../js_flash/index.html" />
-        <option value="$PROJECT_DIR$/Api/api.inc.php" />
         <option value="$PROJECT_DIR$/Api/baseapi.class.php" />
         <option value="$PROJECT_DIR$/Api/user.class.php" />
-        <option value="$USER_HOME$/Desktop/product/1/js/nav.js" />
         <option value="$USER_HOME$/Desktop/product/1/index.php" />
         <option value="$USER_HOME$/Desktop/product/1/testbh.php" />
         <option value="$PROJECT_DIR$/api.php" />
         <option value="$PROJECT_DIR$/excel_gateway.php" />
-        <option value="$USER_HOME$/Desktop/product/1/js/external_interface.js" />
-        <option value="$USER_HOME$/Desktop/product/1/js/api.js" />
+        <option value="$USER_HOME$/Desktop/product/1/js/nav.js" />
         <option value="$USER_HOME$/Desktop/product/1/api_login.php" />
+        <option value="$USER_HOME$/Desktop/1/api_login.php" />
+        <option value="$PROJECT_DIR$/../js_flash/external_interface.js" />
+        <option value="$USER_HOME$/Desktop/product/1/js/external_interface.js" />
+        <option value="$USER_HOME$/Desktop/api_login.php" />
+        <option value="$USER_HOME$/Desktop/external_interface.js" />
+        <option value="$USER_HOME$/Desktop/product/1/js/api.js" />
+        <option value="$USER_HOME$/Desktop/api.js" />
+        <option value="$PROJECT_DIR$/DB/mysql.class.php" />
       </list>
     </option>
   </component>
@@ -180,6 +158,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -208,24 +187,37 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="DB" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="liujie" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Api" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.PHP" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../custom event" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -324,7 +316,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23601148" sideWeight="0.6725544" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19153515" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19440459" sideWeight="0.674221" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32577905" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
@@ -390,110 +382,111 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="9" />
+      <option name="time" value="10" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../js_flash/external_interface.js">
+    <entry file="file://$USER_HOME$/Documents/php OAUTH2.0/server/oauth2-server-php-develop/test/OAuth2/ServerTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="38" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.7597598" />
+        <state line="13" column="80" selection-start="296" selection-end="356" vertical-scroll-proportion="-9.132353" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../js_flash/index.html">
+    <entry file="file://$USER_HOME$/Documents/php OAUTH2.0/server/oauth2-server-php-develop/test/OAuth2/GrantType/ClientCredentialsTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="10" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.90694004" />
+        <state line="129" column="34" selection-start="5332" selection-end="5345" vertical-scroll-proportion="4.6798105" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Services/serverService.php">
+    <entry file="file://$USER_HOME$/Desktop/product/1/api_login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="19" selection-start="1812" selection-end="1812" vertical-scroll-proportion="0.5866013" />
+        <state line="121" column="42" selection-start="3387" selection-end="3387" vertical-scroll-proportion="3.4575164" />
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/product/1/js/nav.js">
+    <entry file="file://$USER_HOME$/Desktop/1/api_login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="21" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Common/common.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.0048">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/excel_gateway.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="57" selection-start="337" selection-end="337" vertical-scroll-proportion="-5.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="287" column="79" selection-start="7332" selection-end="7391" vertical-scroll-proportion="-0.71875">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/product/1/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="202" selection-start="2075" selection-end="2075" vertical-scroll-proportion="-13.375">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/product/1/js/api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/api.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="20" selection-start="241" selection-end="241" vertical-scroll-proportion="-5.03125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/baseapi.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="35" selection-start="1455" selection-end="1460" vertical-scroll-proportion="-24.4375">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Api/user.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="372" selection-end="372" vertical-scroll-proportion="-2.875">
-          <folding />
-        </state>
+        <state line="116" column="90" selection-start="3152" selection-end="3231" vertical-scroll-proportion="0.27760252" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="54" selection-start="894" selection-end="894" vertical-scroll-proportion="-15.09375">
+        <state line="30" column="28" selection-start="959" selection-end="959" vertical-scroll-proportion="0.57341576">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../js_flash/external_interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="93" selection-start="1819" selection-end="1901" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Desktop/product/1/js/external_interface.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="10" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.0">
+        <state line="50" column="0" selection-start="1641" selection-end="1641" vertical-scroll-proportion="0.17117117">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/product/1/api_login.php">
+    <entry file="file://$USER_HOME$/Desktop/db.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="176" column="34" selection-start="6010" selection-end="6010" vertical-scroll-proportion="4.246732">
-          <folding>
-            <marker date="1381376962000" expanded="true" signature="3097:3218" placeholder="..." />
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state line="15" column="23" selection-start="314" selection-end="319" vertical-scroll-proportion="-4.3125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/api_login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="44" selection-start="2278" selection-end="2278" vertical-scroll-proportion="-8.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/external_interface.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="24" selection-start="1255" selection-end="1255" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/baseapi.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="43" selection-start="1256" selection-end="1263" vertical-scroll-proportion="-7.1875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Api/user.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="26" selection-start="807" selection-end="807" vertical-scroll-proportion="-10.46875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/product/1/js/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="67" column="1" selection-start="2347" selection-end="2347" vertical-scroll-proportion="2.313814">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/api.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="0" selection-start="2723" selection-end="2723" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/engine.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="1" selection-start="174" selection-end="174" vertical-scroll-proportion="-6.46875">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DB/mysql.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="322" column="62" selection-start="8656" selection-end="8656" vertical-scroll-proportion="0.3312">
+          <folding />
         </state>
       </provider>
     </entry>
